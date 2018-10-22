@@ -12,10 +12,6 @@
 				"items": "lsst.alert.diaSource"}, "null" ], "default": null},
 		{"name": "diaObject", "type": ["lsst.diaObject", "null"], "default": null},
 		{"name": "ssObject", "type": ["lsst.ssObject", "null"], "default": null},
-		{"name": "diaObjectL2", "type": ["lsst.diaObject", "null"], "default": null},
-		{"name": "diaSourcesL2", "type": [{
-				"type": "array",
-				"items": "lsst.alert.diaSource"}, "null"], "default": null},
 		{"name": "cutoutDifference", "type": ["lsst.alert.cutout", "null"], "default": null},
 		{"name": "cutoutTemplate", "type": ["lsst.alert.cutout", "null"], "default": null}
 			]
