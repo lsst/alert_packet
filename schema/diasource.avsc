@@ -10,6 +10,7 @@
 		{"name": "parentDiaSourceId", "type": ["long", "null"], "default": null},
 		{"name": "midPointTai", "type": "double"},
 		{"name": "filterName", "type": "string"},
+		{"name": "programId", "type": "int"},
 		{"name": "ra", "type": "double"},
 		{"name": "decl", "type": "double"},
 		{"name": "ra_decl_Cov", "type": [{"type": "record",
