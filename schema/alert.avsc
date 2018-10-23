@@ -2,14 +2,19 @@
 	"namespace": "lsst",
 	"type": "record",
 	"name": "alert",
-	"doc": "sample avro alert schema v1.0",
+	"doc": "sample avro alert schema v1.1",
 	"fields": [
-		{"name": "alertId", "type": "long", "doc": "add descriptions like this"},
-		{"name": "l1dbId", "type": "long"},
+		{"name": "alertId", "type": "long", "doc": "unique alert identifer"},
 		{"name": "diaSource", "type": "lsst.alert.diaSource"},
-		{"name": "prv_diaSources", "type": [{
+		{"name": "prvDiaSources", "type": [{
 				"type": "array",
 				"items": "lsst.alert.diaSource"}, "null" ], "default": null},
+		{"name": "prvDiaForcedSources", "type": [{
+				"type": "array",
+				"items": "lsst.alert.diaForcedSource"}, "null" ], "default": null},
+		{"name": "prvDiaNondetectionLimits", "type": [{
+				"type": "array",
+				"items": "lsst.alert.diaNondetectionLimit"}, "null" ], "default": null},
 		{"name": "diaObject", "type": ["lsst.diaObject", "null"], "default": null},
 		{"name": "ssObject", "type": ["lsst.ssObject", "null"], "default": null},
 		{"name": "cutoutDifference", "type": ["lsst.alert.cutout", "null"], "default": null},
