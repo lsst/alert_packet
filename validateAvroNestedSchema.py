@@ -20,7 +20,12 @@ def combine_schemas(schema_files):
 
     for s in schema_files:
         schema = load_single_avsc(s, known_schemas)
-    return schema.to_json()
+    # using schema.to_json() doesn't fully propagate the nested schemas
+    # work around as below
+    props = dict(schema.props)
+    fields_json = [field.to_json() for field in props['fields']]
+    props['fields'] = fields_json
+    return props
 
 
 def load_single_avsc(file_path, names):
