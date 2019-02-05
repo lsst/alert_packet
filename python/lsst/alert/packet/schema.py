@@ -20,12 +20,9 @@ class Schema(object):
     schema_definition : `dict` or `list`
         An Avro schema definition as returned by e.g.
         `fastavro.schema.load_schema`.
-    root_name : `str`, optional
-        The root element of the schema.
     """
-    def __init__(self, schema_definition, root_name="lsst.alert"):
+    def __init__(self, schema_definition):
         self.definition = schema_definition
-        self.root_name = root_name
 
     def serialize(self, record):
         """Create an Avro representation of data following this schema.
@@ -112,23 +109,28 @@ class Schema(object):
         return retrieve_alerts(fp, reader_schema=self)
 
     def __eq__(self, other):
-        """Compare `Schema`s for equality.
+        """Compare schemata for equality.
 
-        Schemas are regarded as equal if their fully-resolved definitions are
+        Schemata are regarded as equal if their fully-resolved definitions are
         the same.
         """
-        return self.resolved.definition == other.resolved.definition
+        return self.definition == other.definition
 
-    @property
-    def resolved(self):
-        """Return a copy of this Schema with nested types resolved.
+    @staticmethod
+    def resolve(schema):
+        """Fully resolve complex types within a schema.
 
         That is, if this schema is defined in terms of complex types,
         substitute the definitions of those types into the returned copy.
 
+        Parameters
+        ----------
+        schema : `list`
+            The output of `fastavro.schema.load_schema`.
+
         Returns
         -------
-        resolved_schema : `lsst.alert.Schema`
+        resolved_schema : `dict`
             The fully-resolved schema.
         """
         def expand_types(input_data, data_types):
@@ -159,12 +161,12 @@ class Schema(object):
 
             return output
 
-        schema_types = {entry['name'] : entry for entry in self.definition}
+        schema_types = {entry['name'] : entry for entry in schema}
         schema_root = schema_types.pop('lsst.alert')
-        return Schema(expand_types(schema_root, schema_types), root_name=self.root_name)
+        return expand_types(schema_root, schema_types)
 
     @classmethod
-    def from_file(cls, filename=None, root_name="lsst.alert"):
+    def from_file(cls, filename=None):
         """Instantiate a `Schema` by reading its definition from the filesystem.
 
         Parameters
@@ -173,9 +175,29 @@ class Schema(object):
             Path to the schema root. Will recursively load referenced schemas,
             assuming they can be found; otherwise, will raise. If `None` (the
             default), will load the latest schema defined in this package.
-        root_name : `str`, optional
-            The name of the root element of the schema.
+
+        Notes
+        -----
+        The interaction with `fastavro` here needs some explanation.
+
+        When `fastavro` loads a schema, it parses each of the types contained
+        within that schema and remembers them for future use. So that if, for
+        example, your schema defines a type ``lsst.alert.diaSource``,
+        `fastavro` will remember that type and use it when referring to your
+        schema.
+
+        However, it uses a single lookup table by type for these. Thus, if you
+        load another schema which defines an ``lsst.alert.diaSource`` type
+        which is not the same as the first, then it will clobber the earlier
+        definition, and confusion will reign.
+
+        We avoid this here by fully resolving everything (ie, all schemas are
+        defined in terms of primitive types) and then clearing the `fastavro`
+        cache after loading.
         """
         if filename is None:
             filename = os.path.join(get_schema_root(), "latest", "lsst.alert.avsc")
-        return cls(fastavro.schema.load_schema(filename), root_name)
+        initial_schema = fastavro.schema.load_schema(filename)
+        resolved_schema = cls.resolve(initial_schema)
+        fastavro.schema._schema.SCHEMA_DEFS.clear()
+        return cls(resolved_schema)

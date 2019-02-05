@@ -88,9 +88,6 @@ def simulate_alert(schema, keepNull=None, arrayCount=None):
     This is sufficient because our schemas have unique keys but is
     not fully general.
 
-    The `argument does not take an `lsst.alert.Schema`, but rather its fully
-    resolved definition (ie, ``schema.resolved.definition``).
-
     Todo
     ----
     This should accept an instance of `lsst.alert.Schema` and do whatever

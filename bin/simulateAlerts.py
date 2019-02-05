@@ -24,7 +24,7 @@ if __name__ == '__main__':
     arrayCount = {'prvDiaSources': args.visits_per_year,
                   'prvDiaForcedSources': args.visits_per_year//12,
                   'prvDiaNondetectionLimits': 0}
-    alerts = [lsst.alert.packet.simulate_alert(schema.resolved.definition,
+    alerts = [lsst.alert.packet.simulate_alert(schema.definition,
                                         keepNull=['ssObject'],
                                         arrayCount=arrayCount)
               for _ in range(args.num_alerts)]
