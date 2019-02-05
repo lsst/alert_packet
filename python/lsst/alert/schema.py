@@ -1,13 +1,11 @@
-"""Utilities for working with LSST Avro alerts.
+"""Routines for working with Avro schemata.
 """
 
-import io
 import os.path
 
 import fastavro
 
-__all__ = ["get_schema_root", "load_schema", "write_avro_data",
-           "read_avro_data", "load_stamp", "resolve_schema"]
+__all__ = ["get_schema_root", "load_schema", "resolve_schema"]
 
 def get_schema_root():
     """Return the root of the directory within which schemata are stored."""
@@ -25,7 +23,7 @@ def load_schema(filename=None):
 
     Returns
     -------
-    schema : `dict`
+    schema : `list`
         Parsed schema information.
 
     Todo
@@ -36,53 +34,6 @@ def load_schema(filename=None):
     if filename is None:
         filename = os.path.join(get_schema_root(), "latest", "lsst.alert.avsc")
     return fastavro.schema.load_schema(filename)
-
-def load_stamp(file_path):
-    """Load a cutout postage stamp file to include in alert.
-    """
-    _, fileoutname = os.path.split(file_path)
-    with open(file_path, mode='rb') as f:
-        cutout_data = f.read()
-        cutout_dict = {"fileName": fileoutname, "stampData": cutout_data}
-    return cutout_dict
-
-def write_avro_data(data, schema):
-    """Create an Avro representation of data following a given schema.
-
-    Parameters
-    ----------
-    data : `dict`
-        The data to be serialized to Avro.
-    schema : `dict`
-        The schema according to which the data will be written.
-
-    Returns
-    -------
-    avro_data : `bytes`
-        An Avro serialization of the input data.
-    """
-    bytes_io = io.BytesIO()
-    fastavro.schemaless_writer(bytes_io, schema, data)
-    return bytes_io.getvalue()
-
-def read_avro_data(data, schema):
-    """Deserialize an Avro packet.
-
-    Parameters
-    ----------
-    data : `bytes`
-        The data to be deserialized.
-    schema : `dict`
-        A schema describing the Avro packet.
-
-    Returns
-    -------
-    alert_data : `dict`
-        Deserialized packet contents.
-    """
-    bytes_io = io.BytesIO(data)
-    message = fastavro.schemaless_reader(bytes_io, schema)
-    return message
 
 def resolve_schema(schema, root_name='lsst.alert'):
     """Expand nested types within a schema.

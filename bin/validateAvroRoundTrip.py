@@ -76,8 +76,8 @@ def main(args):
         json_data['cutoutTemplate'] = cutout_template
 
     # Demonstrate round-trip through Avro serialization
-    avro_bytes = lsst.alert.write_avro_data(json_data, alert_schema)
-    message = lsst.alert.read_avro_data(avro_bytes, alert_schema)
+    avro_bytes = lsst.alert.serialize_alert(alert_schema, json_data)
+    message = lsst.alert.deserialize_alert(alert_schema, avro_bytes)
 
     # Check that postage stamps were preserved through (de)serialization
     if args.cutout_difference:
