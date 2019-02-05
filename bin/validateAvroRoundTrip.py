@@ -57,8 +57,8 @@ def main(args):
         schema_root = os.path.join(lsst.alert.get_schema_root(),
                                    f"{schema_major}/{schema_minor}")
 
-    alert_schema = lsst.alert.load_schema(os.path.join(schema_root,
-                                                       SCHEMA_FILENAME))
+    alert_schema = lsst.alert.Schema.from_file(os.path.join(schema_root,
+                                                            SCHEMA_FILENAME))
     with open(os.path.join(schema_root, "sample_data", SAMPLE_FILENAME)) as f:
         json_data = json.load(f)
 
@@ -76,8 +76,8 @@ def main(args):
         json_data['cutoutTemplate'] = cutout_template
 
     # Demonstrate round-trip through Avro serialization
-    avro_bytes = lsst.alert.serialize_alert(alert_schema, json_data)
-    message = lsst.alert.deserialize_alert(alert_schema, avro_bytes)
+    avro_bytes = alert_schema.serialize(json_data)
+    message = alert_schema.deserialize(avro_bytes)
 
     # Check that postage stamps were preserved through (de)serialization
     if args.cutout_difference:

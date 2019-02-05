@@ -88,9 +88,13 @@ def simulate_alert(schema, keepNull=None, arrayCount=None):
     This is sufficient because our schemas have unique keys but is
     not fully general.
 
-    The `schema` argument does not directly take the output of
-    `~lsst.alert.load_schema`. Rather, the schema must be resolved first; see
-    `~lsst.alert.resolve_schema`.
+    The `argument does not take an `lsst.alert.Schema`, but rather its fully
+    resolved definition (ie, ``schema.resolved.definition``).
+
+    Todo
+    ----
+    This should accept an instance of `lsst.alert.Schema` and do whatever
+    resolution is necessary internally.
     """
 
     output = {}
