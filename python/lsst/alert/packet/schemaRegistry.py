@@ -92,7 +92,8 @@ class SchemaRegistry(object):
         """
         # Significant risk of collisions with more than a few schemata;
         # CRC32 is ok for prototyping but isn't sensible in production.
-        return zlib.crc32(json.dumps(schema.definition, sort_keys=True).encode('utf-8'))
+        return zlib.crc32(json.dumps(schema.resolved.definition,
+                                     sort_keys=True).encode('utf-8'))
 
     @classmethod
     def from_filesystem(cls, root=None, schema_root_file="lsst.alert.avsc"):
