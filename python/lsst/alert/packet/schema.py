@@ -10,7 +10,7 @@ __all__ = ["get_schema_root", "Schema"]
 
 def get_schema_root():
     """Return the root of the directory within which schemata are stored."""
-    return os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../schema"))
+    return os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../../schema"))
 
 class Schema(object):
     """An Avro schema.
@@ -89,7 +89,7 @@ class Schema(object):
         fastavro.writer(fp, self.definition, records)
 
     def retrieve_alerts(self, fp):
-        """Read alert packets from the given stream.
+        """Read alert packets from the given I/O stream.
 
         Parameters
         ----------

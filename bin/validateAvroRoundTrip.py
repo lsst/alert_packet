@@ -12,7 +12,7 @@ import os
 import sys
 import tempfile
 
-import lsst.alert
+import lsst.alert.packet
 
 # The default filename of the root of the alert schema.
 SCHEMA_FILENAME = "lsst.alert.avsc"
@@ -54,13 +54,13 @@ def parse_args():
 
 def main(args):
     if args.schema_version == "latest":
-        schema_root = os.path.join(lsst.alert.get_schema_root(), "latest")
+        schema_root = os.path.join(lsst.alert.packet.get_schema_root(), "latest")
     else:
         schema_major, schema_minor = args.schema_version.split(".")
-        schema_root = os.path.join(lsst.alert.get_schema_root(),
+        schema_root = os.path.join(lsst.alert.packet.get_schema_root(),
                                    f"{schema_major}/{schema_minor}")
 
-    alert_schema = lsst.alert.Schema.from_file(os.path.join(schema_root,
+    alert_schema = lsst.alert.packet.Schema.from_file(os.path.join(schema_root,
                                                             SCHEMA_FILENAME))
     if args.input_data:
         input_data = args.input_data
@@ -72,13 +72,13 @@ def main(args):
     # Load difference stamp if included
     stamp_size = 0
     if args.cutout_difference is not None:
-        cutout_difference = lsst.alert.load_stamp(args.cutout_difference)
+        cutout_difference = lsst.alert.packet.load_stamp(args.cutout_difference)
         stamp_size += len(cutout_difference['stampData'])
         json_data['cutoutDifference'] = cutout_difference
 
     # Load template stamp if included
     if args.cutout_template is not None:
-        cutout_template = lsst.alert.load_stamp(args.cutout_template)
+        cutout_template = lsst.alert.packet.load_stamp(args.cutout_template)
         stamp_size += len(cutout_template['stampData'])
         json_data['cutoutTemplate'] = cutout_template
 

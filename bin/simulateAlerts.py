@@ -4,7 +4,7 @@ import argparse
 
 import fastavro
 
-import lsst.alert
+import lsst.alert.packet
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -20,11 +20,11 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
 
-    schema = lsst.alert.Schema.from_file()
+    schema = lsst.alert.packet.Schema.from_file()
     arrayCount = {'prvDiaSources': args.visits_per_year,
                   'prvDiaForcedSources': args.visits_per_year//12,
                   'prvDiaNondetectionLimits': 0}
-    alerts = [lsst.alert.simulate_alert(schema.resolved.definition,
+    alerts = [lsst.alert.packet.simulate_alert(schema.resolved.definition,
                                         keepNull=['ssObject'],
                                         arrayCount=arrayCount)
               for _ in range(args.num_alerts)]
