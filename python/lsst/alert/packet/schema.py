@@ -108,9 +108,8 @@ class Schema(object):
         records : iterable of `dict`
             Alert records.
         """
-        reader = fastavro.reader(fp, reader_schema=self.definition)
-        records = [rec for rec in reader]
-        return Schema(reader.writer_schema), records
+        from .io import retrieve_alerts
+        return retrieve_alerts(fp, reader_schema=self)
 
     def __eq__(self, other):
         """Compare `Schema`s for equality.
