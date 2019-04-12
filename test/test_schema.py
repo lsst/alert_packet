@@ -1,9 +1,18 @@
+import os.path
 import unittest
 
 import fastavro
 import json
 
-from lsst.alert.packet import Schema
+from lsst.alert.packet import get_schema_root, Schema
+
+class SchemaRootTestCase(unittest.TestCase):
+    """Test for get_schema_root().
+    """
+
+    def test_get_schema_root(self):
+        self.assertTrue(os.path.isdir(get_schema_root()))
+
 
 class ResolveTestCase(unittest.TestCase):
     """Test for schema resolution.
