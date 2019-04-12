@@ -9,7 +9,8 @@ import fastavro
 __all__ = ["get_schema_root", "Schema"]
 
 def get_schema_root():
-    """Return the root of the directory within which schemas are stored."""
+    """Return the root of the directory within which schemas are stored.
+    """
     return os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../../schema"))
 
 class Schema(object):
@@ -116,8 +117,8 @@ class Schema(object):
         """
         return self.definition == other.definition
 
-    @staticmethod
-    def resolve(schema):
+    @classmethod
+    def resolve(cls, to_resolve):
         """Fully resolve complex types within a schema.
 
         That is, if this schema is defined in terms of complex types,
@@ -132,38 +133,43 @@ class Schema(object):
         -------
         resolved_schema : `dict`
             The fully-resolved schema.
+
+        Notes
+        -----
+        The schema is resolved in terms of the types which have been parsed
+        and stored by fastavro (ie, are found in
+        `fastavro.schema._schema.SCHEMA_DEFS`).
+
+        The resolved schemas are supplied with full names and no namespace
+        (ie, names of the form ``full.namespace.name``, rather than a
+        namespace of ``full.namespace`` and a name of ``name``).
         """
-        def expand_types(input_data, data_types):
-            """Recursively substitute `data_types` into `input_data`.
-            """
-            if isinstance(input_data, dict):
-                output = {}
-                for k, v in input_data.items():
-                    if k == "__fastavro_parsed":
-                        continue
-                    elif isinstance(v, list) or isinstance(v, dict):
-                        output[k] = expand_types(v, data_types)
-                    elif v in data_types.keys():
-                        output[k] = data_types[v]
-                    else:
-                        output[k] = v
-            elif isinstance(input_data, list):
-                output = []
-                for v in input_data:
-                    if isinstance(v, list) or isinstance(v, dict):
-                        output.append(expand_types(v, data_types))
-                    elif v in data_types.keys():
-                        output.append(data_types[v])
-                    else:
-                        output.append(v)
-            else:
-                raise Exception("Failed to parse.")
+        schema_defs = fastavro.schema._schema.SCHEMA_DEFS
 
-            return output
+        if isinstance(to_resolve, dict):
+            output = {}
+            for k, v in to_resolve.items():
+                if k == "__fastavro_parsed":
+                    continue
+                elif isinstance(v, list) or isinstance(v, dict):
+                    output[k] = Schema.resolve(v)
+                elif v in schema_defs and k != "name":
+                    output[k] = Schema.resolve(schema_defs[v])
+                else:
+                    output[k] = v
+        elif isinstance(to_resolve, list):
+            output = []
+            for v in to_resolve:
+                if isinstance(v, list) or isinstance(v, dict):
+                    output.append(Schema.resolve(v))
+                elif v in schema_defs:
+                    output.append(cls.resolve(schema_defs[v]))
+                else:
+                    output.append(v)
+        else:
+            raise Exception("Failed to parse.")
 
-        schema_types = {entry['name'] : entry for entry in schema}
-        schema_root = schema_types.pop('lsst.alert')
-        return expand_types(schema_root, schema_types)
+        return output
 
     @classmethod
     def from_file(cls, filename=None):
@@ -198,6 +204,7 @@ class Schema(object):
         if filename is None:
             filename = os.path.join(get_schema_root(), "latest", "lsst.alert.avsc")
         initial_schema = fastavro.schema.load_schema(filename)
-        resolved_schema = cls.resolve(initial_schema)
+        resolved_schema = cls.resolve(next(schema for schema in initial_schema
+                                           if schema['name'] == 'lsst.alert'))
         fastavro.schema._schema.SCHEMA_DEFS.clear()
         return cls(resolved_schema)
