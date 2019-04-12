@@ -1,4 +1,4 @@
-"""Routines for working with Avro schemata.
+"""Routines for working with Avro schemas.
 """
 
 import io
@@ -9,7 +9,7 @@ import fastavro
 __all__ = ["get_schema_root", "Schema"]
 
 def get_schema_root():
-    """Return the root of the directory within which schemata are stored."""
+    """Return the root of the directory within which schemas are stored."""
     return os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../../schema"))
 
 class Schema(object):
@@ -109,9 +109,9 @@ class Schema(object):
         return retrieve_alerts(fp, reader_schema=self)
 
     def __eq__(self, other):
-        """Compare schemata for equality.
+        """Compare schemas for equality.
 
-        Schemata are regarded as equal if their fully-resolved definitions are
+        Schemas are regarded as equal if their fully-resolved definitions are
         the same.
         """
         return self.definition == other.definition

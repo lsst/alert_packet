@@ -5,7 +5,7 @@ sample-avro-alert
 This package provides information about, and utilties for working with, LSST alerts in `Apache Avro`_ format.
 In particular, it includes:
 
-- Alert schemata;
+- Alert schemas;
 - Examples of alert contents;
 - Utilities code for working with alerts.
 
@@ -14,12 +14,12 @@ Refer to `DMTN-093`_ for more information on the LSST alert format.
 .. _Apache Avro: https://avro.apache.org
 .. _DMTN-093: https://dmtn-093.lsst.io
 
-Schemata
-========
+Schemas
+=======
 
-Alert schemata are located in the ``schema`` directory.
+Alert schemas are located in the ``schema`` directory.
 
-Schemata are filed according to their version number, following a ``MAJOR.MINOR`` scheme.
+Schemas are filed according to their version number, following a ``MAJOR.MINOR`` scheme.
 We maintain ``FORWARD_TRANSITIVE`` compatibility within a major version, per the `Confluent compatibility model`_.
 The latest version of the schema may always be found at ``schema/latest``.
 

@@ -1,4 +1,4 @@
-"""Provide a lookup table for alert schemata.
+"""Provide a lookup table for alert schemas.
 """
 
 import json
@@ -8,7 +8,7 @@ import zlib
 __all__ = ["SchemaRegistry"]
 
 class SchemaRegistry(object):
-    """A registry for alert schemata.
+    """A registry for alert schemas.
 
     When a schema is registered, the registry allocates it a “hash” value. We
     can subsequently retrieve the schema by either the hash or by a version
@@ -90,7 +90,7 @@ class SchemaRegistry(object):
         schema_hash : `int`
             The calculated hash.
         """
-        # Significant risk of collisions with more than a few schemata;
+        # Significant risk of collisions with more than a few schemas;
         # CRC32 is ok for prototyping but isn't sensible in production.
         return zlib.crc32(json.dumps(schema.definition,
                                      sort_keys=True).encode('utf-8'))
@@ -100,7 +100,7 @@ class SchemaRegistry(object):
         """Populate a schema registry based on the filesystem.
 
         Walk the directory tree from the root provided, locating files named
-        according to `schema_root_file`, and load the corresponding schemata
+        according to `schema_root_file`, and load the corresponding schemas
         into the registry.
         """
         from .schema import Schema
