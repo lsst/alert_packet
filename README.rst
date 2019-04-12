@@ -35,9 +35,36 @@ Utility Code
 
 All code is written in Python, and uses the `fastavro`_ library.
 Simulation code also requires `NumPy`_.
+Both of these may be installed using standard tooling (pip, Conda, etc).
 
 Although this package contains multiple versions of the alert schema, this library code is only written and tested using the latest version (``schema/latest``) at present.
 Future versions of this package should offer wider compatibility.
+
+Installation
+------------
+
+Using EUPS
+^^^^^^^^^^
+
+This package may be managed using `EUPS`_.
+Assuming EUPS is available on your system, simply::
+
+  $ git clone https://github.com/lsst-dm/sample-avro-alert.git
+  $ setup -r sample-avro-alert
+
+.. _EUPS: https://github.com/RobertLuptonTheGood/eups/
+
+By Modifying your Environment
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+After cloning, add the ``sample-avro-alert/python`` directory to your ``PYTHONPATH`` environment variable, and the ``sample-avro-alert/bin`` directory to your ``PATH`` environment variable.
+For example (using `Bash`_)::
+
+  $ git clone https://github.com/lsst-dm/sample-avro-alert.git
+  $ export PYTHONPATH=$(pwd)/sample-avro-alert/python${PYTHONPATH:+:${PYTHONPATH}}
+  $ export PATH=$(pwd)/sample-avro-alert/bin${PATH:+:${PATH}}
+
+.. _Bash: https://www.gnu.org/software/bash/
 
 Library
 -------
