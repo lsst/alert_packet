@@ -6,8 +6,6 @@ import fastavro
 
 import lsst.alert
 
-NUM_ALERTS=10
-
 def parse_args():
     parser = argparse.ArgumentParser()
     # Default value based on LSE-81

@@ -39,11 +39,14 @@ def check_file_round_trip(baseline, received_data):
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--schema-version', type=str,
-                        help='Schema version to test.', default="latest")
+                        help='Schema version to test (“latest” or MAJOR.MINOR)', default="latest")
+    parser.add_argument('--input-data', type=str,
+                        help='Path to a file containing schema-compliant JSON Data to serialize',
+                        default=None)
     parser.add_argument('--cutout-difference', type=str,
-                        help='File for difference image postage stamp.')
+                        help='File for difference image postage stamp')
     parser.add_argument('--cutout-template', type=str,
-                        help='File for template image postage stamp.')
+                        help='File for template image postage stamp')
     parser.add_argument('--print', action="store_true",
                         help='Pretty-print alert contents')
 
@@ -59,7 +62,11 @@ def main(args):
 
     alert_schema = lsst.alert.Schema.from_file(os.path.join(schema_root,
                                                             SCHEMA_FILENAME))
-    with open(os.path.join(schema_root, "sample_data", SAMPLE_FILENAME)) as f:
+    if args.input_data:
+        input_data = args.input_data
+    else:
+        input_data = os.path.join(schema_root, "sample_data", SAMPLE_FILENAME)
+    with open(input_data) as f:
         json_data = json.load(f)
 
     # Load difference stamp if included
