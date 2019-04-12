@@ -10,22 +10,21 @@ __all__ = ["SchemaRegistry"]
 class SchemaRegistry(object):
     """A registry for alert schemas.
 
-    When a schema is registered, the registry allocates it a “hash” value. We
-    can subsequently retrieve the schema by either the hash or by a version
-    number.
+    When a schema is registered, the registry allocates it an ID. We can
+    subsequently retrieve the schema by either the ID or by a version number.
     """
     def __init__(self):
-        self._version_to_hash = {}
-        self._hash_to_schema = {}
+        self._version_to_id = {}
+        self._id_to_schema = {}
 
     def register_schema(self, schema, version):
         """Register a new schema in the registry.
 
-        If an existing schema has the same hash, it is replaced.
+        If an existing schema has the same ID, it is replaced.
 
         If an existing schema has the same version, the new schema replaces
         the old one under that version, but the old schema can still be
-        accessed by hash.
+        accessed by ID.
 
         Parameters
         ----------
@@ -37,28 +36,28 @@ class SchemaRegistry(object):
 
         Returns
         -------
-        schema_hash : `int`
-            The hash that has been allocated to the schema.
+        schema_id : `int`
+            The ID that has been allocated to the schema.
         """
-        schema_hash = self.calculate_hash(schema)
-        self._version_to_hash[version] = schema_hash
-        self._hash_to_schema[schema_hash] = schema
-        return schema_hash
+        schema_id = self.calculate_id(schema)
+        self._version_to_id[version] = schema_id
+        self._id_to_schema[schema_id] = schema
+        return schema_id
 
-    def get_hash(self, schema_hash):
-        """Return the schema corresponding to the given hash.
+    def get_by_id(self, schema_id):
+        """Return the schema corresponding to the given ID.
 
         Paramters
         ---------
-        schema_hash : `int`
-            The hash by which to look up the schema.
+        schema_id : `int`
+            The ID by which to look up the schema.
 
         Returns
         -------
         schema : `lsst.alert.packet.Schema`
             The corresponding schema.
         """
-        return self._hash_to_schema[schema_hash]
+        return self._id_to_schema[schema_id]
 
     def get_by_version(self, version):
         """Return the schema corresponding to the given version.
@@ -74,21 +73,21 @@ class SchemaRegistry(object):
         schema : `lsst.alert.packet.Schema`
             The corresponding schema.
         """
-        return self._hash_to_schema[self._version_to_hash[version]]
+        return self._id_to_schema[self._version_to_id[version]]
 
     @staticmethod
-    def calculate_hash(schema):
-        """Calculate a hash for the given schema.
+    def calculate_id(schema):
+        """Calculate an ID for the given schema.
 
         Parameters
         ----------
         schema : `lsst.alert.packet.Schema`
-            Schema to be hashed.
+            Schema for which an ID will be derived.
 
         Returns
         -------
-        schema_hash : `int`
-            The calculated hash.
+        schema_id : `int`
+            The calculated ID.
         """
         # Significant risk of collisions with more than a few schemas;
         # CRC32 is ok for prototyping but isn't sensible in production.
