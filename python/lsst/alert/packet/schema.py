@@ -172,7 +172,7 @@ class Schema(object):
         return output
 
     @classmethod
-    def from_file(cls, filename=None):
+    def from_file(cls, filename=None, root_name="lsst.alert"):
         """Instantiate a `Schema` by reading its definition from the filesystem.
 
         Parameters
@@ -181,6 +181,8 @@ class Schema(object):
             Path to the schema root. Will recursively load referenced schemas,
             assuming they can be found; otherwise, will raise. If `None` (the
             default), will load the latest schema defined in this package.
+        root_name : `str`, optional
+            Name of the root of the alert schema.
 
         Notes
         -----
@@ -202,9 +204,16 @@ class Schema(object):
         cache after loading.
         """
         if filename is None:
-            filename = os.path.join(get_schema_root(), "latest", "lsst.alert.avsc")
+            filename = os.path.join(get_schema_root(), "latest",
+                                    root_name + ".avsc")
         initial_schema = fastavro.schema.load_schema(filename)
+
+        # fastavro gives a back a list if it recursively loaded more than one
+        # file, otherwise a dict.
+        if isinstance(initial_schema, dict):
+            initial_schema = [initial_schema]
+
         resolved_schema = cls.resolve(next(schema for schema in initial_schema
-                                           if schema['name'] == 'lsst.alert'))
+                                           if schema['name'] == root_name))
         fastavro.schema._schema.SCHEMA_DEFS.clear()
         return cls(resolved_schema)

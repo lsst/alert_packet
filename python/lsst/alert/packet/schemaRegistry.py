@@ -95,7 +95,7 @@ class SchemaRegistry(object):
                                      sort_keys=True).encode('utf-8'))
 
     @classmethod
-    def from_filesystem(cls, root=None, schema_root_file="lsst.alert.avsc"):
+    def from_filesystem(cls, root=None, schema_root="lsst.alert"):
         """Populate a schema registry based on the filesystem.
 
         Walk the directory tree from the root provided, locating files named
@@ -107,9 +107,11 @@ class SchemaRegistry(object):
         if not root:
             root = get_schema_root()
         registry = cls()
+        schema_root_file = schema_root + ".avsc"
         for root, dirs, files in os.walk(root, followlinks=False):
             if schema_root_file in files:
-                schema = Schema.from_file(os.path.join(root, schema_root_file))
+                schema = Schema.from_file(os.path.join(root, schema_root_file),
+                                          root_name=schema_root)
                 version = ".".join(root.split("/")[-2:])
                 registry.register_schema(schema, version)
         return registry
