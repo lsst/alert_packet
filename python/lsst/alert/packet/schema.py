@@ -13,17 +13,89 @@ def get_schema_root():
     """
     return os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../../schema"))
 
+def resolve_schema_definition(to_resolve):
+    """Fully resolve complex types within a schema definition.
+
+    That is, if this schema is defined in terms of complex types,
+    substitute the definitions of those types into the returned copy.
+
+    Parameters
+    ----------
+    schema : `list`
+        The output of `fastavro.schema.load_schema`.
+
+    Returns
+    -------
+    resolved_schema : `dict`
+        The fully-resolved schema definition.
+
+    Notes
+    -----
+    The schema is resolved in terms of the types which have been parsed
+    and stored by fastavro (ie, are found in
+    `fastavro.schema._schema.SCHEMA_DEFS`).
+
+    The resolved schemas are supplied with full names and no namespace
+    (ie, names of the form ``full.namespace.name``, rather than a
+    namespace of ``full.namespace`` and a name of ``name``).
+    """
+    schema_defs = fastavro.schema._schema.SCHEMA_DEFS
+
+    if isinstance(to_resolve, dict):
+        output = {}
+        for k, v in to_resolve.items():
+            if k == "__fastavro_parsed":
+                continue
+            elif isinstance(v, list) or isinstance(v, dict):
+                output[k] = resolve_schema_definition(v)
+            elif v in schema_defs and k != "name":
+                output[k] = resolve_schema_definition(schema_defs[v])
+            else:
+                output[k] = v
+    elif isinstance(to_resolve, list):
+        output = []
+        for v in to_resolve:
+            if isinstance(v, list) or isinstance(v, dict):
+                output.append(resolve_schema_definition(v))
+            elif v in schema_defs:
+                output.append(resolve_schema_definition(schema_defs[v]))
+            else:
+                output.append(v)
+    else:
+        raise Exception("Failed to parse.")
+
+    return output
+
 class Schema(object):
     """An Avro schema.
 
     Parameters
     ----------
-    schema_definition : `dict` or `list`
+    schema_definition : `dict`
         An Avro schema definition as returned by e.g.
         `fastavro.schema.load_schema`.
+
+    Notes
+    -----
+    The interaction with `fastavro` here needs some explanation.
+
+    When `fastavro` loads a schema, it parses each of the types contained
+    within that schema and remembers them for future use. So that if, for
+    example, your schema defines a type ``lsst.alert.diaSource``, `fastavro`
+    will remember that type and use it when referring to your schema.
+
+    However, it uses a single lookup table by type for these. Thus, if you
+    load another schema which defines an ``lsst.alert.diaSource`` type which
+    is not the same as the first, then it will clobber the earlier definition,
+    and confusion will reign.
+
+    We avoid this here by fully resolving everything (ie, all schemas are
+    defined in terms of primitive types) and then clearing the `fastavro`
+    cache after loading.
     """
     def __init__(self, schema_definition):
-        self.definition = schema_definition
+        self.definition = resolve_schema_definition(schema_definition)
+        fastavro.schema._schema.SCHEMA_DEFS.clear()
 
     def serialize(self, record):
         """Create an Avro representation of data following this schema.
@@ -118,60 +190,6 @@ class Schema(object):
         return self.definition == other.definition
 
     @classmethod
-    def resolve(cls, to_resolve):
-        """Fully resolve complex types within a schema.
-
-        That is, if this schema is defined in terms of complex types,
-        substitute the definitions of those types into the returned copy.
-
-        Parameters
-        ----------
-        schema : `list`
-            The output of `fastavro.schema.load_schema`.
-
-        Returns
-        -------
-        resolved_schema : `dict`
-            The fully-resolved schema.
-
-        Notes
-        -----
-        The schema is resolved in terms of the types which have been parsed
-        and stored by fastavro (ie, are found in
-        `fastavro.schema._schema.SCHEMA_DEFS`).
-
-        The resolved schemas are supplied with full names and no namespace
-        (ie, names of the form ``full.namespace.name``, rather than a
-        namespace of ``full.namespace`` and a name of ``name``).
-        """
-        schema_defs = fastavro.schema._schema.SCHEMA_DEFS
-
-        if isinstance(to_resolve, dict):
-            output = {}
-            for k, v in to_resolve.items():
-                if k == "__fastavro_parsed":
-                    continue
-                elif isinstance(v, list) or isinstance(v, dict):
-                    output[k] = Schema.resolve(v)
-                elif v in schema_defs and k != "name":
-                    output[k] = Schema.resolve(schema_defs[v])
-                else:
-                    output[k] = v
-        elif isinstance(to_resolve, list):
-            output = []
-            for v in to_resolve:
-                if isinstance(v, list) or isinstance(v, dict):
-                    output.append(Schema.resolve(v))
-                elif v in schema_defs:
-                    output.append(cls.resolve(schema_defs[v]))
-                else:
-                    output.append(v)
-        else:
-            raise Exception("Failed to parse.")
-
-        return output
-
-    @classmethod
     def from_file(cls, filename=None, root_name="lsst.alert"):
         """Instantiate a `Schema` by reading its definition from the filesystem.
 
@@ -183,37 +201,16 @@ class Schema(object):
             default), will load the latest schema defined in this package.
         root_name : `str`, optional
             Name of the root of the alert schema.
-
-        Notes
-        -----
-        The interaction with `fastavro` here needs some explanation.
-
-        When `fastavro` loads a schema, it parses each of the types contained
-        within that schema and remembers them for future use. So that if, for
-        example, your schema defines a type ``lsst.alert.diaSource``,
-        `fastavro` will remember that type and use it when referring to your
-        schema.
-
-        However, it uses a single lookup table by type for these. Thus, if you
-        load another schema which defines an ``lsst.alert.diaSource`` type
-        which is not the same as the first, then it will clobber the earlier
-        definition, and confusion will reign.
-
-        We avoid this here by fully resolving everything (ie, all schemas are
-        defined in terms of primitive types) and then clearing the `fastavro`
-        cache after loading.
         """
         if filename is None:
             filename = os.path.join(get_schema_root(), "latest",
                                     root_name + ".avsc")
-        initial_schema = fastavro.schema.load_schema(filename)
-
+        schema_definition = fastavro.schema.load_schema(filename)
         # fastavro gives a back a list if it recursively loaded more than one
         # file, otherwise a dict.
-        if isinstance(initial_schema, dict):
-            initial_schema = [initial_schema]
+        if isinstance(schema_definition, dict):
+            schema_definition = [schema_definition]
 
-        resolved_schema = cls.resolve(next(schema for schema in initial_schema
-                                           if schema['name'] == root_name))
-        fastavro.schema._schema.SCHEMA_DEFS.clear()
-        return cls(resolved_schema)
+        schema_definition = next(schema for schema in schema_definition
+                                 if schema['name'] == root_name)
+        return cls(schema_definition)

@@ -84,5 +84,5 @@ class ResolveTestCase(unittest.TestCase):
             ]
         }
 
-        resolved_schema = Schema.resolve(top_schema)
+        resolved_schema = Schema(top_schema).definition
         self.assertEqual(resolved_schema, model_resolved_schema)

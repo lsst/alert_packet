@@ -69,8 +69,7 @@ def simulate_alert(schema, keepNull=None, arrayCount=None):
     ----------
     schema : `dict`
         Schema to which to conform. Should be fully resolved (i.e., not
-        contain any references to special LSST types); see
-        `~lsst.alert.resolve_schema`.
+        contain any references to special LSST types).
     keepNull : {`list` of `str`, `None`}
         Schema keys for which to output null values.
     arrayCount : {`dict`, `None`}
