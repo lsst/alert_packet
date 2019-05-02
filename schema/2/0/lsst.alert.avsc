@@ -2,7 +2,7 @@
 	"namespace": "lsst",
 	"type": "record",
 	"name": "alert",
-	"doc": "sample avro alert schema v1.1",
+	"doc": "sample avro alert schema v2.0",
 	"fields": [
 		{"name": "alertId", "type": "long", "doc": "unique alert identifer"},
 		{"name": "diaSource", "type": "lsst.alert.diaSource"},
