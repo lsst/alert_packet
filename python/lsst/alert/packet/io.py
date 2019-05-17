@@ -36,7 +36,16 @@ def retrieve_alerts(fp, reader_schema=None):
         the schema being used for deserialization).
     records : iterable of `dict`
         Alert records.
+
+    Raises
+    ------
+    RuntimeError
+        Raised if alert data could not be read.
     """
-    reader = fastavro.reader(fp, reader_schema=reader_schema.definition if reader_schema else None)
+    try:
+        reader = fastavro.reader(fp, reader_schema=reader_schema.definition if reader_schema else None)
+    except Exception as e:
+        raise RuntimeError(f"failed to find alert data in "
+                           f"{fp.name if hasattr(fp, 'name') else 'stream'}") from e
     records = [rec for rec in reader]
     return Schema(reader.writer_schema), records
