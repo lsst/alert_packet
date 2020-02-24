@@ -97,16 +97,7 @@ class ResolveTestCase(unittest.TestCase):
                             },
                             {
                                 "name": "second_sub_field",
-                                "type": {
-                                    "type": "record",
-                                    "name": "lsst.subsub1",
-                                    "fields": [
-                                        {
-                                            "name": "sub_sub_field",
-                                            "type": "string"
-                                        }
-                                    ]
-                                }
+                                "type": "lsst.subsub"
                             }
                         ]
                     }
