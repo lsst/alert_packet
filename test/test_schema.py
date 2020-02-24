@@ -38,7 +38,6 @@ class SchemaRootTestCase(unittest.TestCase):
 class ResolveTestCase(unittest.TestCase):
     """Test for schema resolution.
     """
-
     def test_recursive_resolve(self):
         """Check that resolution of nested schemas gives the expected result.
         """
@@ -57,7 +56,8 @@ class ResolveTestCase(unittest.TestCase):
             "namespace": "lsst",
             "type": "record",
             "fields": [
-                {"name": "sub_field", "type": "lsst.subsub"}
+                {"name": "sub_field", "type": "lsst.subsub"},
+                {"name": "second_sub_field", "type": "lsst.subsub"}
             ]
         })
 
@@ -94,6 +94,10 @@ class ResolveTestCase(unittest.TestCase):
                                         }
                                     ]
                                 }
+                            },
+                            {
+                                "name": "second_sub_field",
+                                "type": "lsst.subsub"
                             }
                         ]
                     }

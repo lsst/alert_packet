@@ -34,7 +34,7 @@ def get_schema_root():
     """
     return os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../../schema"))
 
-def resolve_schema_definition(to_resolve):
+def resolve_schema_definition(to_resolve, seen_names=None):
     """Fully resolve complex types within a schema definition.
 
     That is, if this schema is defined in terms of complex types,
@@ -62,24 +62,38 @@ def resolve_schema_definition(to_resolve):
     """
     schema_defs = fastavro.schema._schema.SCHEMA_DEFS
 
+    # Names of records, enums, and fixeds can only be used once in the
+    # expanded schema. We'll re-use, rather than re-defining, names we have
+    # previously seen.
+    seen_names = seen_names or set()
+
     if isinstance(to_resolve, dict):
+        # Is this a record, enum, or fixed that we've already seen?
+        # If so, we return its name as a string and do not resolve further.
+        if to_resolve['type'] in ('record', 'enum', 'fixed'):
+            if to_resolve['name'] in seen_names:
+                return to_resolve['name']
+            else:
+                seen_names.add(to_resolve['name'])
         output = {}
         for k, v in to_resolve.items():
             if k == "__fastavro_parsed":
                 continue
             elif isinstance(v, list) or isinstance(v, dict):
-                output[k] = resolve_schema_definition(v)
+                output[k] = resolve_schema_definition(v, seen_names)
             elif v in schema_defs and k != "name":
-                output[k] = resolve_schema_definition(schema_defs[v])
+                output[k] = resolve_schema_definition(schema_defs[v],
+                                                      seen_names)
             else:
                 output[k] = v
     elif isinstance(to_resolve, list):
         output = []
         for v in to_resolve:
             if isinstance(v, list) or isinstance(v, dict):
-                output.append(resolve_schema_definition(v))
+                output.append(resolve_schema_definition(v, seen_names))
             elif v in schema_defs:
-                output.append(resolve_schema_definition(schema_defs[v]))
+                output.append(resolve_schema_definition(schema_defs[v],
+                                                        seen_names))
             else:
                 output.append(v)
     else:
