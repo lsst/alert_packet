@@ -1,5 +1,5 @@
 {
-	"namespace": "lsst.alert",
+	"namespace": "lsst",
 	"type": "record",
 	"name": "cutout",
 	"fields": [
