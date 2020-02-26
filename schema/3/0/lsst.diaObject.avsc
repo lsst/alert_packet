@@ -6,12 +6,7 @@
 		{"name": "diaObjectId", "type": "long"},
 		{"name": "ra", "type": "double"},
 		{"name": "decl", "type": "double"},
-		{"name": "ra_decl_Cov", "type": [{"type": "record",
-			"name": "ra_decl_Cov", "fields": [
-				{"name": "raSigma", "type": "float"},
-				{"name": "declSigma", "type": "float"},
-				{"name": "ra_decl_Cov", "type": "float"}
-				]}]},
+		{"name": "ra_decl_Cov", "type": "lsst.ra_decl_Cov"},
 		{"name": "radecTai", "type": "double"},
 		{"name": "pmRa", "type": "float"},
 		{"name": "pmDecl", "type": "float"},
