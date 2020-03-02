@@ -1,7 +1,7 @@
 {
-	"namespace": "lsst",
+	"namespace": "lsst.dia",
 	"type": "record",
-	"name": "cutout",
+	"name": "cutoutRecord",
 	"fields": [
 		{"name": "fileName", "type": "string"},
 		{"name": "stampData", "type": "bytes"}
