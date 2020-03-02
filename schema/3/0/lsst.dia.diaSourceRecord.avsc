@@ -1,6 +1,6 @@
 {
-	"namespace": "lsst",
-	"name": "diaSource",
+	"namespace": "lsst.dia",
+	"name": "diaSourceRecord",
 	"type": "record",
 	"fields": [
 		{"name": "diaSourceId", "type": "long"},

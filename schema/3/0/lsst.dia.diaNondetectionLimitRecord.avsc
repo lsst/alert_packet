@@ -1,6 +1,6 @@
 {
-	"namespace": "lsst",
-	"name": "diaNondetectionLimit",
+	"namespace": "lsst.dia",
+	"name": "diaNondetectionLimitRecord",
 	"type": "record",
 	"fields": [
 		{"name": "ccdVisitId",  "type": "long"},

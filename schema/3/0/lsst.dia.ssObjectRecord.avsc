@@ -1,6 +1,6 @@
 {
-	"namespace": "lsst",
-	"name": "ssObject",
+	"namespace": "lsst.dia",
+	"name": "ssObjectRecord",
 	"type": "record",
 	"fields": [
 		{"name": "ssObjectId", "type": "long"},
