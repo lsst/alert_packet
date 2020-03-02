@@ -29,7 +29,7 @@
 		"psFluxErr": 12.0,
 		"flags": 0
 	},
-	"prv_diaSources": [
+	"prvDiaSources": [
 		{
 			"diaSourceId": 281323062375219198,
 			"ccdVisitId": 111111,
