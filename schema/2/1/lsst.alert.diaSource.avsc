@@ -13,20 +13,20 @@
 		{"name": "programId", "type": "int"},
 		{"name": "ra", "type": "double"},
 		{"name": "decl", "type": "double"},
-		{"name": "ra_decl_Cov", "type": [{"type": "record",
+		{"name": "ra_decl_Cov", "type": ["null", {"type": "record",
 			"name": "ra_decl_Cov", "fields": [
 				{"name": "raSigma", "type": "float"},
 				{"name": "declSigma", "type": "float"},
 				{"name": "ra_decl_Cov", "type": "float"}
-				]}]},
+				]}], "default": null},
 		{"name": "x", "type": "float"},
 		{"name": "y", "type": "float"},
-		{"name": "x_y_Cov", "type": [{"type": "record",
+		{"name": "x_y_Cov", "type": ["null", {"type": "record",
 			"name": "x_y_Cov", "fields": [
 				{"name": "xSigma", "type": "float"},
 				{"name": "ySigma", "type": "float"},
 				{"name": "x_y_Cov", "type": "float"}
-				]}]},
+				]}], "default": null},
 		{"name": "apFlux", "type": "float"},
 		{"name": "apFluxErr", "type": "float"},
 		{"name": "snr", "type": "float"},
