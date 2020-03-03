@@ -178,8 +178,19 @@ class Schema(object):
         -------
         valid : `bool`
             Whether or not the data complies with the schema.
+
+        Notes
+        -----
+        Validating the against the schema requires that the fastavro cache
+        (``SCHEMA_DEFS``) be populated, but that can only be the case for one
+        version of the schema at once. Hence we populate, check for validity,
+        and flush the cache.
         """
-        return fastavro.validate(record, self.definition)
+        fastavro.parse_schema(self.definition)
+        try:
+            return fastavro.validate(record, self.definition)
+        finally:
+            fastavro.schema._schema.SCHEMA_DEFS.clear()
 
     def store_alerts(self, fp, records):
         """Store alert packets to the given I/O stream.
