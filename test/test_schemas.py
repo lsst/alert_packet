@@ -27,24 +27,30 @@ import json
 from lsst.alert.packet import get_schema_root, SchemaRegistry
 
 
+def path_to_sample_data(schema_root, version, filename):
+    return os.path.join(schema_root, *version.split("."),
+                        "sample_data", filename)
+
+
 class SchemaValidityTestCase(unittest.TestCase):
     def setUp(self):
         self.registry = SchemaRegistry.from_filesystem()
 
-    def test_schema_validity(self):
-        # Assumes that schemas have example data stored as
-        # "sample_data/alert.json". If that file doesn't exist, this test is
-        # skipped.
-        def load_sample_alert(schema_root, version, name="alert.json"):
-            try:
-                with open(os.path.join(schema_root, *version.split("."),
-                                       "sample_data", name), "r") as f:
-                    result = json.load(f)
-            except FileNotFoundError:
-                result = None
-            return result
-
+    def test_example_json(self):
         for version in self.registry.known_versions:
-            data = load_sample_alert(get_schema_root(), version)
-            if data:
+            path = path_to_sample_data(get_schema_root(), version, "alert.json")
+            if os.path.exists(path):
+                with open(path, "r") as f:
+                    data = json.load(f)
                 self.registry.get_by_version(version).validate(data)
+
+    def test_example_avro(self):
+        bad_versions = ("2.0",)  # This data is known not to parse.
+        for version in self.registry.known_versions:
+            if version in bad_versions:
+                continue
+            path = path_to_sample_data(get_schema_root(), version,
+                                       "fakeAlert.avro")
+            if os.path.exists(path):
+                with open(path, "rb") as f:
+                    self.registry.get_by_version(version).retrieve_alerts(f)
