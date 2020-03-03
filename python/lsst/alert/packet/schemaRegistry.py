@@ -96,6 +96,18 @@ class SchemaRegistry(object):
         """
         return self._id_to_schema[self._version_to_id[version]]
 
+    @property
+    def known_versions(self):
+        """Return all the schema versions tracked by this registry.
+
+        Returns
+        -------
+        schemas : `set` of `str`
+            Set of schema versions.
+        self.assertEqual(len(registry._id_to_schema), 3)
+        """
+        return set(self._version_to_id)
+
     @staticmethod
     def calculate_id(schema):
         """Calculate an ID for the given schema.
