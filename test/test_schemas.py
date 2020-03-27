@@ -33,24 +33,47 @@ def path_to_sample_data(schema_root, version, filename):
 
 
 class SchemaValidityTestCase(unittest.TestCase):
+    """Check that schemas can read and write sample alert data.
+    """
+
     def setUp(self):
         self.registry = SchemaRegistry.from_filesystem()
 
     def test_example_json(self):
+        """Test that example data in JSON format can be loaded by the schema.
+        """
+        no_data = ("1.0",)  # No example data is available.
+
         for version in self.registry.known_versions:
             path = path_to_sample_data(get_schema_root(), version, "alert.json")
-            if os.path.exists(path):
+            schema = self.registry.get_by_version(version)
+            if version in no_data:
+                self.assertFalse(os.path.exists(path))
+            else:
                 with open(path, "r") as f:
                     data = json.load(f)
-                self.registry.get_by_version(version).validate(data)
+                self.assertTrue(self.registry.get_by_version(version).validate(data))
 
     def test_example_avro(self):
+        """Test that example data in Avro format can be loaded by the schema.
+        """
+        no_data = ("1.0",)  # No example data is available.
         bad_versions = ("2.0",)  # This data is known not to parse.
+
         for version in self.registry.known_versions:
-            if version in bad_versions:
-                continue
             path = path_to_sample_data(get_schema_root(), version,
                                        "fakeAlert.avro")
-            if os.path.exists(path):
+            schema = self.registry.get_by_version(version)
+
+            if version in no_data:
+                self.assertFalse(os.path.exists(path))
+            else:
                 with open(path, "rb") as f:
-                    self.registry.get_by_version(version).retrieve_alerts(f)
+                    if version in bad_versions:
+                        with self.assertRaises(RuntimeError):
+                            schema.retrieve_alerts(f)
+                    else:
+                        retrieved_schema, alerts = schema.retrieve_alerts(f)
+                        self.assertEqual(retrieved_schema, schema)
+                        for alert in alerts:
+                            self.assertTrue(schema.validate(alert))
