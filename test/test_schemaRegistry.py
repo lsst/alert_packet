@@ -58,12 +58,17 @@ class FromFilesystemTestCase(unittest.TestCase):
     def test_from_filesystem(self):
         """Check priming a registry based on a simple filesystem hierarchy.
         """
+        versions = ("1.0", "2.0", "2.1")
+
         with TemporaryDirectory() as tempdir:
             create_filesystem_hierarchy(tempdir)
             registry = SchemaRegistry.from_filesystem(tempdir,
                                                       schema_root="lsst.example")
-            self.assertEqual(len(registry._id_to_schema), 3)
-            registry.get_by_version("1.0")
-            registry.get_by_version("2.0")
-            registry.get_by_version("2.1")
-            self.assertRaises(KeyError, registry.get_by_version, 2.2)
+
+        self.assertEqual(len(registry.known_versions), 3)
+        for version in versions:
+            self.assertIn(version, registry.known_versions)
+
+        for version in versions:
+            registry.get_by_version(version)
+        self.assertRaises(KeyError, registry.get_by_version, "2.2")
