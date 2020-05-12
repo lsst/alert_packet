@@ -1,5 +1,5 @@
 #################
-sample-avro-alert
+alert_packet
 #################
 
 This package provides information about, and utilties for working with, LSST alerts in `Apache Avro`_ format.
@@ -49,20 +49,20 @@ Using EUPS
 This package may be managed using `EUPS`_.
 Assuming EUPS is available on your system, simply::
 
-  $ git clone https://github.com/lsst-dm/sample-avro-alert.git
-  $ setup -r sample-avro-alert
+  $ git clone https://github.com/lsst/alert_packet.git
+  $ setup -r alert_packet
 
 .. _EUPS: https://github.com/RobertLuptonTheGood/eups/
 
 By Modifying your Environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-After cloning, add the ``sample-avro-alert/python`` directory to your ``PYTHONPATH`` environment variable, and the ``sample-avro-alert/bin`` directory to your ``PATH`` environment variable.
+After cloning, add the ``alert_packet/python`` directory to your ``PYTHONPATH`` environment variable, and the ``alert_packet/bin`` directory to your ``PATH`` environment variable.
 For example (using `Bash`_)::
 
-  $ git clone https://github.com/lsst-dm/sample-avro-alert.git
-  $ export PYTHONPATH=$(pwd)/sample-avro-alert/python${PYTHONPATH:+:${PYTHONPATH}}
-  $ export PATH=$(pwd)/sample-avro-alert/bin${PATH:+:${PATH}}
+  $ git clone https://github.com/lsst/alert_packet.git
+  $ export PYTHONPATH=$(pwd)/alert_packet/python${PYTHONPATH:+:${PYTHONPATH}}
+  $ export PATH=$(pwd)/alert_packet/bin${PATH:+:${PATH}}
 
 .. _Bash: https://www.gnu.org/software/bash/
 

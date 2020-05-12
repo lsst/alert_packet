@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# This file is part of sample-avro-alert.
+# This file is part of alert_packet.
 #
 # Developed for the LSST Data Management System.
 # This product includes software developed by the LSST Project
