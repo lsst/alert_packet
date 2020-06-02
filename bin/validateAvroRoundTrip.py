@@ -75,11 +75,10 @@ def parse_args():
 
 def main(args):
     if args.schema_version == "latest":
-        schema_root = os.path.join(lsst.alert.packet.get_schema_root(), "latest")
+        schema_major, schema_minor = lsst.alert.packet.get_latest_schema_version()
     else:
         schema_major, schema_minor = args.schema_version.split(".")
-        schema_root = os.path.join(lsst.alert.packet.get_schema_root(),
-                                   f"{schema_major}/{schema_minor}")
+    schema_root = lsst.alert.packet.get_schema_path(schema_major, schema_minor)
 
     alert_schema = lsst.alert.packet.Schema.from_file(os.path.join(schema_root,
                                                             SCHEMA_FILENAME))
