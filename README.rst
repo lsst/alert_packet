@@ -21,7 +21,7 @@ Alert schemas are located in the ``schema`` directory.
 
 Schemas are filed according to their version number, following a ``MAJOR.MINOR`` scheme.
 We maintain ``FORWARD_TRANSITIVE`` compatibility within a major version, per the `Confluent compatibility model`_.
-The latest version of the schema may always be found at ``schema/latest``.
+The latest version of the schema may always be found in ``schema/latest.txt``.
 
 .. _Confluent compatibility model: https://docs.confluent.io/current/schema-registry/docs/avro.html#forward-compatibility
 
@@ -42,6 +42,13 @@ Future versions of this package should offer wider compatibility.
 
 Installation
 ------------
+
+Using pip
+^^^^^^^^^
+
+The name of the package is `lsst-alert-packet`::
+
+  $ pip install lsst-alert-packet
 
 Using EUPS
 ^^^^^^^^^^
@@ -69,7 +76,7 @@ For example (using `Bash`_)::
 Library
 -------
 
-The ``lsst.alerts`` Python package provides a suite of routines for working with alerts in the Avro format.
+The ``lsst.alert.packets`` Python package provides a suite of routines for working with alerts in the Avro format.
 
 Command Line
 ------------
