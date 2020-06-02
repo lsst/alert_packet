@@ -25,6 +25,7 @@
 import io
 import os.path
 import pkg_resources
+import posixpath
 
 import fastavro
 
@@ -36,7 +37,7 @@ def get_schema_root():
     return pkg_resources.resource_filename(__name__, "schema")
 
 def get_latest_schema_version():
-    """Get the latest schema version..
+    """Get the latest schema version.
 
     Returns
     -------
@@ -44,6 +45,7 @@ def get_latest_schema_version():
         The major version number.
     minor : `int`
         The minor version number.
+
     """
     val = pkg_resources.resource_string(__name__, "schema/latest.txt")
     clean = val.strip()
@@ -52,7 +54,7 @@ def get_latest_schema_version():
 
 def get_schema_path(major, minor):
     """Get the path to a package resource directory housing alert schema
-    definitions
+    definitions.
 
     Parameters
     ----------
@@ -65,14 +67,16 @@ def get_schema_path(major, minor):
     -------
     path : `str`
         Path to the directory containing the schemas.
+
     """
 
-    path = "/".join(["schema", str(major), str(minor)])
+    # Note that posixpath is right here, not os.path, since pkg_resources always
+    # uses slash-delimited paths, even on Windows.
+    path = posixpath.join("schema", str(major), str(minor))
     return pkg_resources.resource_filename(__name__, path)
 
 
 def resolve_schema_definition(to_resolve, seen_names=None):
-
     """Fully resolve complex types within a schema definition.
 
     That is, if this schema is defined in terms of complex types,
