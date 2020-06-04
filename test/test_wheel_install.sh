@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Test that the project can be build as a wheel, and that the wheel can be
+# installed, and that validateAvroRoundTrip exits cleanly after installing the
+# wheel.
 set -e
 
 REPO_ROOT=$(git rev-parse --show-toplevel)
