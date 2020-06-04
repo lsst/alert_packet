@@ -24,15 +24,57 @@
 
 import io
 import os.path
+import pkg_resources
+import posixpath
 
 import fastavro
 
-__all__ = ["get_schema_root", "Schema"]
+__all__ = ["get_schema_root", "get_latest_schema_version", "get_schema_path", "Schema"]
 
 def get_schema_root():
     """Return the root of the directory within which schemas are stored.
     """
-    return os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "../../../../schema"))
+    return pkg_resources.resource_filename(__name__, "schema")
+
+def get_latest_schema_version():
+    """Get the latest schema version.
+
+    Returns
+    -------
+    major : `int`
+        The major version number.
+    minor : `int`
+        The minor version number.
+
+    """
+    val = pkg_resources.resource_string(__name__, "schema/latest.txt")
+    clean = val.strip()
+    major, minor = clean.split(b".", 1)
+    return int(major), int(minor)
+
+def get_schema_path(major, minor):
+    """Get the path to a package resource directory housing alert schema
+    definitions.
+
+    Parameters
+    ----------
+    major : `int`
+        Major version number for the schema.
+    minor : `int`
+        Minor version number for the schema.
+
+    Returns
+    -------
+    path : `str`
+        Path to the directory containing the schemas.
+
+    """
+
+    # Note that posixpath is right here, not os.path, since pkg_resources always
+    # uses slash-delimited paths, even on Windows.
+    path = posixpath.join("schema", str(major), str(minor))
+    return pkg_resources.resource_filename(__name__, path)
+
 
 def resolve_schema_definition(to_resolve, seen_names=None):
     """Fully resolve complex types within a schema definition.
@@ -249,8 +291,11 @@ class Schema(object):
             Name of the root of the alert schema.
         """
         if filename is None:
-            filename = os.path.join(get_schema_root(), "latest",
-                                    root_name + ".avsc")
+            major, minor = get_latest_schema_version()
+            filename = os.path.join(
+                get_schema_path(major, minor),
+                root_name + ".avsc",
+            )
         schema_definition = fastavro.schema.load_schema(filename)
         # fastavro gives a back a list if it recursively loaded more than one
         # file, otherwise a dict.

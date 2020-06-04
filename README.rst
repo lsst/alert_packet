@@ -21,7 +21,7 @@ Alert schemas are located in the ``schema`` directory.
 
 Schemas are filed according to their version number, following a ``MAJOR.MINOR`` scheme.
 We maintain ``FORWARD_TRANSITIVE`` compatibility within a major version, per the `Confluent compatibility model`_.
-The latest version of the schema may always be found at ``schema/latest``.
+The latest version of the schema may always be found in ``schema/latest.txt``.
 
 .. _Confluent compatibility model: https://docs.confluent.io/current/schema-registry/docs/avro.html#forward-compatibility
 
@@ -43,6 +43,13 @@ Future versions of this package should offer wider compatibility.
 Installation
 ------------
 
+Using pip
+^^^^^^^^^
+
+The name of the package is `lsst-alert-packet`::
+
+  $ pip install lsst-alert-packet
+
 Using EUPS
 ^^^^^^^^^^
 
@@ -54,41 +61,29 @@ Assuming EUPS is available on your system, simply::
 
 .. _EUPS: https://github.com/RobertLuptonTheGood/eups/
 
-By Modifying your Environment
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-After cloning, add the ``alert_packet/python`` directory to your ``PYTHONPATH`` environment variable, and the ``alert_packet/bin`` directory to your ``PATH`` environment variable.
-For example (using `Bash`_)::
-
-  $ git clone https://github.com/lsst/alert_packet.git
-  $ export PYTHONPATH=$(pwd)/alert_packet/python${PYTHONPATH:+:${PYTHONPATH}}
-  $ export PATH=$(pwd)/alert_packet/bin${PATH:+:${PATH}}
-
-.. _Bash: https://www.gnu.org/software/bash/
-
 Library
 -------
 
-The ``lsst.alerts`` Python package provides a suite of routines for working with alerts in the Avro format.
+The ``lsst.alert.packet`` Python package provides a suite of routines for working with alerts in the Avro format.
 
 Command Line
 ------------
 
-``bin/validateAvroRoundTrip.py`` demonstrates round-tripping a simple alert through the Avro system.
+``validateAvroRoundTrip.py`` demonstrates round-tripping a simple alert through the Avro system.
 Sample data is provided in the ``schema/latest/sample_data/alert.json`` file, or an alternative may be provided on the command line.
 Optionally, the path to binary data files to be included in the packet as “postage stamp” images may be provided.
 If the ``--print`` flag is given, the alert contents are printed to screen for sanity checking.
 The command will print a brief summary of the size of the data in various formats.
 Thus::
 
-   $ ./bin/validateAvroRoundTrip.py --input-data=./schema/latest/sample_data/alert.json --cutout-template=./examples/stamp-678.fits --cutout-difference=./examples/stamp-679.fits
+   $ validateAvroRoundTrip.py --input-data=./schema/latest/sample_data/alert.json --cutout-template=./examples/stamp-678.fits --cutout-difference=./examples/stamp-679.fits
 
-``bin/simulateAlerts.py`` writes simulated alert packets to disk in Avro format.
+``simulateAlerts.py`` writes simulated alert packets to disk in Avro format.
 The resultant data is schema compliant, but the simulations are not intended to be realistic: packets are populated with pseudorandom numbers.
 The number of visits per year (equivalent to the number of previous DIASources observed for each alert) and the number of alerts to simulate may be specified on the command line.
 Thus::
 
-   $ ./bin/simulateAlerts.py --visits-per-year=100 --num-alerts=10 ./output_file.avro
+   $ simulateAlerts.py --visits-per-year=100 --num-alerts=10 ./output_file.avro
 
 .. _fastavro: https://fastavro.readthedocs.io/en/latest/
 .. _NumPy: http://www.numpy.org
