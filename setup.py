@@ -1,13 +1,17 @@
 from setuptools import setup
 
 import os
+import posixpath
 
 package_files = []
 for dir, subdirs, files in os.walk("schema"):
+    # Note that posixpath is right here and os.path is wrong. setuptools expects
+    # slash-delimited paths even on windows.
     for d in subdirs:
-        package_files.append(dir + "/" + d)
+        package_files.append(posixpath.join(dir, d))
     for f in files:
-        package_files.append(dir + "/" + f)
+        package_files.append(posixpath.join(dir, f))
+
 
 setup(name='lsst-alert-packet',
       version="0.1.0",

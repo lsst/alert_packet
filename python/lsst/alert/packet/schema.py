@@ -25,6 +25,7 @@
 import io
 import os.path
 import pkg_resources
+import posixpath
 
 import fastavro
 
@@ -69,7 +70,9 @@ def get_schema_path(major, minor):
 
     """
 
-    path = "/".join(["schema", str(major), str(minor)])
+    # Note that posixpath is right here, not os.path, since pkg_resources always
+    # uses slash-delimited paths, even on Windows.
+    path = posixpath.join("schema", str(major), str(minor))
     return pkg_resources.resource_filename(__name__, path)
 
 
