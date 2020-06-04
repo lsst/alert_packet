@@ -1,0 +1,22 @@
+name: build
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Build and install wheel
+      run: |
+        pip install virtualenv
+        test/test_wheel_install.sh
+    # TODO: Add lint and test steps once we actually pass these tests. Crib from
+    # https://github.com/lsst/daf_butler/blob/master/.github/workflows/lint.yaml.
