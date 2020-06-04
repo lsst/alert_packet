@@ -17,6 +17,7 @@ jobs:
     - name: Build and install wheel
       run: |
         python -m pip install --upgrade pip
+        pip install virtualenv
         test/test_wheel_install.sh
     # TODO: Add lint and test steps once we actually pass these tests.
     # - name: Lint
