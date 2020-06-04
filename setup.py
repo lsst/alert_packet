@@ -28,5 +28,4 @@ setup(name='lsst-alert-packet',
       scripts=[
           'bin/simulateAlerts.py',
           'bin/validateAvroRoundTrip.py',
-      ],
-      zip_safe=False)
+      ])
