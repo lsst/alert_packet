@@ -61,18 +61,6 @@ Assuming EUPS is available on your system, simply::
 
 .. _EUPS: https://github.com/RobertLuptonTheGood/eups/
 
-By Modifying your Environment
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-After cloning, add the ``alert_packet/python`` directory to your ``PYTHONPATH`` environment variable, and the ``alert_packet/python/lsst/alert/packet/bin`` directory to your ``PATH`` environment variable.
-For example (using `Bash`_)::
-
-  $ git clone https://github.com/lsst/alert_packet.git
-  $ export PYTHONPATH=$(pwd)/alert_packet/python${PYTHONPATH:+:${PYTHONPATH}}
-  $ export PATH=$(pwd)/alert_packet/python/lsst/alert/packet/bin${PATH:+:${PATH}}
-
-.. _Bash: https://www.gnu.org/software/bash/
-
 Library
 -------
 
