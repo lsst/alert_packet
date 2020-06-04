@@ -73,7 +73,8 @@ def parse_args():
 
     return parser.parse_args()
 
-def main(args):
+def main():
+    args = parse_args()
     if args.schema_version == "latest":
         schema_major, schema_minor = lsst.alert.packet.get_latest_schema_version()
     else:
@@ -133,4 +134,4 @@ def main(args):
 
 
 if __name__ == "__main__":
-    main(parse_args())
+    main()
