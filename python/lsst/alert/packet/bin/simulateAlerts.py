@@ -27,6 +27,7 @@ import fastavro
 
 import lsst.alert.packet
 
+
 def parse_args():
     parser = argparse.ArgumentParser()
     # Default value based on LSE-81
@@ -38,7 +39,8 @@ def parse_args():
                         help="File to which to write alerts")
     return parser.parse_args()
 
-if __name__ == '__main__':
+
+def main():
     args = parse_args()
 
     schema = lsst.alert.packet.Schema.from_file()
@@ -62,3 +64,7 @@ if __name__ == '__main__':
     assert(schema == writer_schema)
     for a1, a2 in zip(alerts, loaded_alerts):
         assert(a1 == a2)
+
+
+if __name__ == '__main__':
+    main()
