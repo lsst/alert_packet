@@ -11,7 +11,7 @@ for dir, subdirs, files in os.walk("schema"):
 
 setup(name='lsst-alert-packet',
       version="0.1.0",
-      description='Code for interacting with Vera Rubin Observatory alert packets',
+      description='Code for interacting with Vera C. Rubin Observatory alert packets',
       url='https://github.com/lsst/alert_packet',
       classifiers=[
           'Programming Language :: Python :: 3',
