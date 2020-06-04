@@ -76,7 +76,7 @@ For example (using `Bash`_)::
 Library
 -------
 
-The ``lsst.alert.packets`` Python package provides a suite of routines for working with alerts in the Avro format.
+The ``lsst.alert.packet`` Python package provides a suite of routines for working with alerts in the Avro format.
 
 Command Line
 ------------
