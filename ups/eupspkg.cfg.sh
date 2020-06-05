@@ -6,7 +6,7 @@ install() {
     # Do not auto-detect the build system; use eupspkg's "just copy
     # everything" approach.
 
-    die_if_empty PRODUCT$
+    die_if_empty PRODUCT
     die_if_empty VERSION
 
     clean_old_install
