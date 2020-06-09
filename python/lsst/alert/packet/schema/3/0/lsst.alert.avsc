@@ -5,16 +5,16 @@
 	"doc": "sample avro alert schema v3.0",
 	"fields": [
 		{"name": "alertId", "type": "long", "doc": "unique alert identifer"},
-		{"name": "diaSource", "type": "lsst.alert.diaSource"},
+		{"name": "diaSource", "type": "lsst.diaSource"},
 		{"name": "prvDiaSources", "type": ["null", {
 				"type": "array",
-				"items": "lsst.alert.diaSource"}], "default": null},
+				"items": "lsst.diaSource"}], "default": null},
 		{"name": "prvDiaForcedSources", "type": ["null", {
 				"type": "array",
-				"items": "lsst.alert.diaForcedSource"}], "default": null},
+				"items": "lsst.diaForcedSource"}], "default": null},
 		{"name": "prvDiaNondetectionLimits", "type": ["null", {
 				"type": "array",
-				"items": "lsst.alert.diaNondetectionLimit"}], "default": null},
+				"items": "lsst.diaNondetectionLimit"}], "default": null},
 		{"name": "diaObject", "type": ["null", "lsst.diaObject"], "default": null},
 		{"name": "ssObject", "type": ["null", "lsst.ssObject"], "default": null},
 		{"name": "cutoutDifference", "type": ["null", "bytes"], "default": null},

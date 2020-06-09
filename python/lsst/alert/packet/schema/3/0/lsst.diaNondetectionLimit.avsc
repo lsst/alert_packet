@@ -1,5 +1,5 @@
 {
-	"namespace": "lsst.alert",
+	"namespace": "lsst",
 	"name": "diaNondetectionLimit",
 	"type": "record",
 	"fields": [

@@ -1,5 +1,5 @@
 {
-	"namespace": "lsst.alert",
+	"namespace": "lsst",
 	"name": "diaSource",
 	"type": "record",
 	"fields": [
