@@ -28,7 +28,6 @@
 		{"name": "psFluxErr", "type": "float"},
 		{"name": "psRa", "type": ["null", "double"], "default": null},
 		{"name": "psDecl", "type": ["null", "double"], "default": null},
-		{"name": "psFluxErr", "type": ["null", "float"], "default": null},
 		{"name": "psRaErr", "type": ["null", "float"], "default": null},
 		{"name": "psDeclErr", "type": ["null", "float"], "default": null},
 		{"name": "psFlux_psRa_Cov", "type": ["null", "float"], "default": null},
