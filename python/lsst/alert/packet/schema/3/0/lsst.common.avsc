@@ -1,0 +1,44 @@
+[
+    {
+        "namespace": "lsst.common",
+        "name": "floatMeasurement",
+        "type": "record",
+        "fields": [
+            {"name": "val", "type": "float"},
+            {"name": "err", "type": ["null", "float"], "default": null}
+        ]
+    },
+    {
+        "namespace": "lsst.common",
+        "name": "doubleMeasurement",
+        "type": "record",
+        "fields": [
+            {"name": "val", "type": "double"},
+            {"name": "err", "type": ["null", "float"], "default": null}
+        ]
+    },
+    {
+        "namespace": "lsst.common",
+        "name": "ra_decl",
+        "type": "record",
+        "fields": [
+            {"name": "ra", "type": "doubleMeasurement"},
+	    {"name": "decl", "type": "doubleMeasurement"},
+            {"name": "cov", "type": "floatMeasurement"}
+        ]
+    },
+    {
+        "namespace": "lsst.common",
+        "name": "pointSource",
+        "type": "record",
+        "fields": [
+	    {"name": "flux", "type": "lsst.common.floatMeasurement"},
+	    {"name": "radec", "type": "lsst.common.ra_decl"},
+            {"name": "flux_ra_cov", "type": ["null", "float"], "default": null},
+            {"name": "flux_dec_cov", "type": ["null", "float"], "default": null},
+	    {"name": "LnL", "type": ["null", "float"], "default": null},
+	    {"name": "chi2", "type": ["null", "float"], "default": null},
+	    {"name": "nData", "type": ["null", "int"], "default": null}
+        ]
+    }
+]
