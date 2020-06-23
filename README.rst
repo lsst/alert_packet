@@ -1,8 +1,8 @@
-#################
+############
 alert_packet
-#################
+############
 
-This package provides information about, and utilties for working with, LSST alerts in `Apache Avro`_ format.
+This package provides information about, and utilities for working with, LSST alerts in `Apache Avro`_ format.
 In particular, it includes:
 
 - Alert schemas;
