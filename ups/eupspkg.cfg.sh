@@ -1,7 +1,3 @@
-build() {
-    msg "No build needed; skipping default"
-}
-
 install() {
     # Do not auto-detect the build system; use eupspkg's "just copy
     # everything" approach.
