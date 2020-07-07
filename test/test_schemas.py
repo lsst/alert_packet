@@ -74,6 +74,8 @@ class SchemaValidityTestCase(unittest.TestCase):
                             schema.retrieve_alerts(f)
                     else:
                         retrieved_schema, alerts = schema.retrieve_alerts(f)
-                        self.assertEqual(retrieved_schema, schema)
-                        for alert in alerts:
-                            self.assertTrue(schema.validate(alert))
+                        self.assertEqual(retrieved_schema, schema,
+                                         f"schema not equal on version={version}")
+                        for idx, alert in enumerate(alerts):
+                            self.assertTrue(schema.validate(alert),
+                                            f"failed to validate version={version}, alert idx={idx}")
