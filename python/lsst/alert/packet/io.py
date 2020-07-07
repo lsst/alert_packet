@@ -68,5 +68,4 @@ def retrieve_alerts(fp, reader_schema=None):
     except Exception as e:
         raise RuntimeError(f"failed to find alert data in "
                            f"{fp.name if hasattr(fp, 'name') else 'stream'}") from e
-    records = [rec for rec in reader]
-    return Schema(reader.writer_schema), records
+    return Schema(reader.writer_schema), reader
