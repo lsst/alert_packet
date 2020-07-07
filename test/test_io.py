@@ -71,7 +71,7 @@ class RetrieveAlertsTestCase(unittest.TestCase):
         records = self._mock_records(5)
 
         with self._temp_alert_file(records) as alert_file:
-            have_schema, have_records_iterable = self.test_schema.retrieve_alerts(alert_file)
+            have_schema, have_records_iterable = retrieve_alerts(alert_file, self.test_schema)
             have_records = list(have_records_iterable)
 
         self.assertEqual(records, have_records)
@@ -82,7 +82,7 @@ class RetrieveAlertsTestCase(unittest.TestCase):
         records = self._mock_records(1)
 
         with self._temp_alert_file(records) as alert_file:
-            have_schema, have_records_iterable = self.test_schema.retrieve_alerts(alert_file)
+            have_schema, have_records_iterable = retrieve_alerts(alert_file, self.test_schema)
             have_records = list(have_records_iterable)
 
         self.assertEqual(records, list(have_records))
@@ -93,7 +93,7 @@ class RetrieveAlertsTestCase(unittest.TestCase):
         records = []
 
         with self._temp_alert_file(records) as alert_file:
-            have_schema, have_records_iterable = self.test_schema.retrieve_alerts(alert_file)
+            have_schema, have_records_iterable = retrieve_alerts(alert_file, self.test_schema)
             have_records = list(have_records_iterable)
 
         self.assertEqual(records, list(have_records))
