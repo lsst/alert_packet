@@ -47,7 +47,8 @@ class RetrieveAlertsTestCase(unittest.TestCase):
         self.test_schema = Schema(self.test_schema_dict)
 
     def _mock_records(self, n):
-        """Return a list of records with mock values, matching self.test_schema."""
+        """Return a list of records with mock values, matching self.test_schema.
+        """
         return [{"id": i} for i in range(n)]
 
     @contextmanager
@@ -58,7 +59,8 @@ class RetrieveAlertsTestCase(unittest.TestCase):
             yield alert_file
 
     def test_bad_read(self):
-        """Check that we throw a useful exception on failure."""
+        """Check that we throw a useful exception on failure.
+        """
         # This should work both if the stream has a name...
         self.assertRaises(RuntimeError, retrieve_alerts,
                           tempfile.NamedTemporaryFile())
@@ -67,7 +69,8 @@ class RetrieveAlertsTestCase(unittest.TestCase):
         self.assertRaises(RuntimeError, retrieve_alerts, io.IOBase())
 
     def test_retrieve_alerts(self):
-        """Write some alerts to a file. They should be readable back out."""
+        """Write some alerts to a file. They should be readable back out.
+        """
         records = self._mock_records(5)
 
         with self._temp_alert_file(records) as alert_file:
@@ -78,7 +81,8 @@ class RetrieveAlertsTestCase(unittest.TestCase):
         self.assertEqual(self.test_schema, have_schema)
 
     def test_alert_file_with_one_alert(self):
-        """Write a single alert to a file. It should be readable back out."""
+        """Write a single alert to a file. It should be readable back out.
+        """
         records = self._mock_records(1)
 
         with self._temp_alert_file(records) as alert_file:
@@ -89,7 +93,8 @@ class RetrieveAlertsTestCase(unittest.TestCase):
         self.assertEqual(self.test_schema, have_schema)
 
     def test_alert_file_with_no_alerts(self):
-        """Write an alert file that contains no alerts at all. It should be readable."""
+        """Write an alert file that contains no alerts at all. It should be readable.
+        """
         records = []
 
         with self._temp_alert_file(records) as alert_file:
