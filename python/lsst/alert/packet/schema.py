@@ -268,7 +268,7 @@ class Schema(object):
         """
         from .io import retrieve_alerts
         schema, records = retrieve_alerts(fp, reader_schema=self)
-        return schema, list(records)
+        return schema, records
 
     def __eq__(self, other):
         """Compare schemas for equality.
