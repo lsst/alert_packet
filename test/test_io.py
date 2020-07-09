@@ -60,6 +60,19 @@ class RetrieveAlertsTestCase(unittest.TestCase):
         return alerts
 
     def assert_alert_lists_equal(self, have_alerts, want_alerts):
+        """Assert that two lists of mock alerts are equal - or at least, equal enough.
+
+        We can't naively do `self.assertEqual(have_alerts, want_alerts)` because
+        fastavro will explicitly populate an alert with "None" for every
+        optional field when deserializing it. The sample alert.json files don't
+        have those explicit Nones, and constructing them automatically seems
+        complex.
+
+        A simple check is just that the two lists have the same length and that
+        the alertIds match. alertId is the only field that differs in a batch of
+        mock data created with self._mock_alerts, so this is probably
+        sufficient.
+        """
         self.assertEqual(len(have_alerts), len(want_alerts))
         for  i in range(len(have_alerts)):
             self.assertEqual(
