@@ -23,38 +23,46 @@ from contextlib import contextmanager
 import io
 import unittest
 import tempfile
+import posixpath
 import fastavro
+import json
 from lsst.alert.packet.io import retrieve_alerts
 from lsst.alert.packet.schema import Schema
+from lsst.alert.packet import get_latest_schema_version, get_schema_path
 
 
 class RetrieveAlertsTestCase(unittest.TestCase):
     def setUp(self):
-        # We could use the real schemas, but that would require building
-        # complicated mocks since there are lots of non-null fields in the real
-        # schema without defaults, and we'd need to test across versions.
-        #
-        # Writing our own schema keeps tests simple, and it also checks that
-        # retrieve_alerts is independent of any of our schemas' versioning or
-        # details.
-        self.test_schema_dict = {
-            "type": "record",
-            "name": "test_record",
-            "fields": [
-                {"name": "id", "type": "long"},
-            ]
-        }
-        self.test_schema = Schema(self.test_schema_dict)
+        """Prepare the test with sample alerts.
 
-    def _mock_records(self, n):
-        """Return a list of records with mock values, matching self.test_schema.
+        It's important to use the actual alert schema here because the
+        retrieve_alerts function calls Schema.__init__, which resets fastavro's
+        SCHEMA_DEFS cache. That cache only gets used for complex schemas which
+        use named references to types, so a simple mock record type is not
+        sufficient.
         """
-        return [{"id": i} for i in range(n)]
+        self.test_schema_version = get_latest_schema_version()
+        self.test_schema = Schema.from_file()
+        sample_json_path = posixpath.join(
+            get_schema_path(*self.test_schema_version), "sample_data", "alert.json",
+        )
+        with open(sample_json_path, "r") as f:
+            self.sample_alert = json.load(f)
+
+    def _mock_alerts(self, n):
+        """Return a list of alerts with mock values, matching self.sample_alert.
+        """
+        alerts = []
+        for i in range(n):
+            alert = self.sample_alert.copy()
+            alert["alertId"] = i
+            alerts.append(alert)
+        return alerts
 
     @contextmanager
-    def _temp_alert_file(self, records):
-        with tempfile.TemporaryFile() as alert_file:
-            self.test_schema.store_alerts(alert_file, records)
+    def _temp_alert_file(self, alerts):
+        with tempfile.TemporaryFile(mode="w+b") as alert_file:
+            self.test_schema.store_alerts(alert_file, alerts)
             alert_file.seek(0)
             yield alert_file
 
@@ -71,35 +79,35 @@ class RetrieveAlertsTestCase(unittest.TestCase):
     def test_retrieve_alerts(self):
         """Write some alerts to a file. They should be readable back out.
         """
-        records = self._mock_records(5)
+        alerts = self._mock_alerts(5)
 
-        with self._temp_alert_file(records) as alert_file:
-            have_schema, have_records_iterable = retrieve_alerts(alert_file, self.test_schema)
-            have_records = list(have_records_iterable)
+        with self._temp_alert_file(alerts) as alert_file:
+            have_schema, have_alerts_iterable = retrieve_alerts(alert_file, self.test_schema)
+            have_alerts = list(have_alerts_iterable)
 
-        self.assertEqual(records, have_records)
+        self.assertEqual(alerts, have_alerts)
         self.assertEqual(self.test_schema, have_schema)
 
     def test_alert_file_with_one_alert(self):
         """Write a single alert to a file. It should be readable back out.
         """
-        records = self._mock_records(1)
+        alerts = self._mock_alerts(1)
 
-        with self._temp_alert_file(records) as alert_file:
-            have_schema, have_records_iterable = retrieve_alerts(alert_file, self.test_schema)
-            have_records = list(have_records_iterable)
+        with self._temp_alert_file(alerts) as alert_file:
+            have_schema, have_alerts_iterable = retrieve_alerts(alert_file, self.test_schema)
+            have_alerts = list(have_alerts_iterable)
 
-        self.assertEqual(records, list(have_records))
+        self.assertEqual(alerts, list(have_alerts))
         self.assertEqual(self.test_schema, have_schema)
 
     def test_alert_file_with_no_alerts(self):
         """Write an alert file that contains no alerts at all. It should be readable.
         """
-        records = []
+        alerts = []
 
-        with self._temp_alert_file(records) as alert_file:
-            have_schema, have_records_iterable = retrieve_alerts(alert_file, self.test_schema)
-            have_records = list(have_records_iterable)
+        with self._temp_alert_file(alerts) as alert_file:
+            have_schema, have_alerts_iterable = retrieve_alerts(alert_file, self.test_schema)
+            have_alerts = list(have_alerts_iterable)
 
-        self.assertEqual(records, list(have_records))
+        self.assertEqual(alerts, list(have_alerts))
         self.assertEqual(self.test_schema, have_schema)
