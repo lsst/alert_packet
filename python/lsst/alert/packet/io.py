@@ -69,7 +69,7 @@ def retrieve_alerts(fp, reader_schema=None):
         raise RuntimeError(f"failed to find alert data in "
                            f"{fp.name if hasattr(fp, 'name') else 'stream'}") from e
 
-    # Peak at one record so that reader.writer_schema is populated, since it
+    # Peek at one record so that reader.writer_schema is populated, since it
     # gets loaded lazily. If you don't do this, then reader.writer_schema would
     # be None, which means Schema(reader.writer_schema) would get an empty
     # value.
