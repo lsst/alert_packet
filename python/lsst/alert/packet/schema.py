@@ -268,7 +268,7 @@ class Schema(object):
         return self.definition == other.definition
 
     @classmethod
-    def from_file(cls, filename=None, root_name="lsst.alert"):
+    def from_file(cls, filename=None, root_name="lsst.v3_0.alert"):
         """Instantiate a `Schema` by reading its definition from the filesystem.
 
         Parameters
