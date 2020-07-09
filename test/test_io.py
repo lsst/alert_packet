@@ -59,6 +59,14 @@ class RetrieveAlertsTestCase(unittest.TestCase):
             alerts.append(alert)
         return alerts
 
+    def assert_alert_lists_equal(self, have_alerts, want_alerts):
+        self.assertEqual(len(have_alerts), len(want_alerts))
+        for  i in range(len(have_alerts)):
+            self.assertEqual(
+                have_alerts[i]["alertId"], want_alerts[i]["alertId"],
+                f"alert idx={i} has mismatched IDs",
+            )
+
     @contextmanager
     def _temp_alert_file(self, alerts):
         with tempfile.TemporaryFile(mode="w+b") as alert_file:
@@ -85,7 +93,7 @@ class RetrieveAlertsTestCase(unittest.TestCase):
             have_schema, have_alerts_iterable = retrieve_alerts(alert_file, self.test_schema)
             have_alerts = list(have_alerts_iterable)
 
-        self.assertEqual(alerts, have_alerts)
+        self.assert_alert_lists_equal(alerts, list(have_alerts))
         self.assertEqual(self.test_schema, have_schema)
 
     def test_alert_file_with_one_alert(self):
@@ -97,7 +105,7 @@ class RetrieveAlertsTestCase(unittest.TestCase):
             have_schema, have_alerts_iterable = retrieve_alerts(alert_file, self.test_schema)
             have_alerts = list(have_alerts_iterable)
 
-        self.assertEqual(alerts, list(have_alerts))
+        self.assert_alert_lists_equal(alerts, list(have_alerts))
         self.assertEqual(self.test_schema, have_schema)
 
     def test_alert_file_with_no_alerts(self):
@@ -109,5 +117,5 @@ class RetrieveAlertsTestCase(unittest.TestCase):
             have_schema, have_alerts_iterable = retrieve_alerts(alert_file, self.test_schema)
             have_alerts = list(have_alerts_iterable)
 
-        self.assertEqual(alerts, list(have_alerts))
+        self.assert_alert_lists_equal(alerts, list(have_alerts))
         self.assertEqual(self.test_schema, have_schema)
