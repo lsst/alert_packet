@@ -29,12 +29,15 @@ import posixpath
 
 import fastavro
 
-__all__ = ["get_schema_root", "get_latest_schema_version", "get_schema_path", "Schema"]
+__all__ = ["get_schema_root", "get_latest_schema_version", "get_schema_path",
+           "Schema", "get_path_to_latest_schema"]
+
 
 def get_schema_root():
     """Return the root of the directory within which schemas are stored.
     """
     return pkg_resources.resource_filename(__name__, "schema")
+
 
 def get_latest_schema_version():
     """Get the latest schema version.
@@ -51,6 +54,7 @@ def get_latest_schema_version():
     clean = val.strip()
     major, minor = clean.split(b".", 1)
     return int(major), int(minor)
+
 
 def get_schema_path(major, minor):
     """Get the path to a package resource directory housing alert schema
@@ -70,10 +74,24 @@ def get_schema_path(major, minor):
 
     """
 
-    # Note that posixpath is right here, not os.path, since pkg_resources always
-    # uses slash-delimited paths, even on Windows.
+    # Note that posixpath is right here, not os.path, since pkg_resources
+    # always uses slash-delimited paths, even on Windows.
     path = posixpath.join("schema", str(major), str(minor))
     return pkg_resources.resource_filename(__name__, path)
+
+
+def get_path_to_latest_schema():
+    """Get the path to the primary schema file for the latest schema.
+
+    Returns
+    -------
+    path : `str`
+        Path to the latest primary schema file.
+    """
+
+    major, minor = get_latest_schema_version()
+    schema_path = get_schema_path(major, minor)
+    return posixpath.join(schema_path, f"lsst.v{major}_{minor}.alert.avsc")
 
 
 def resolve_schema_definition(to_resolve, seen_names=None):
@@ -142,6 +160,7 @@ def resolve_schema_definition(to_resolve, seen_names=None):
         raise Exception("Failed to parse.")
 
     return output
+
 
 class Schema(object):
     """An Avro schema.

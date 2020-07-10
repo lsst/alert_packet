@@ -25,7 +25,7 @@ import unittest
 import fastavro
 import json
 
-from lsst.alert.packet import get_schema_root, Schema
+from lsst.alert.packet import get_schema_root, Schema, get_path_to_latest_schema
 
 class SchemaRootTestCase(unittest.TestCase):
     """Test for get_schema_root().
@@ -34,6 +34,14 @@ class SchemaRootTestCase(unittest.TestCase):
     def test_get_schema_root(self):
         self.assertTrue(os.path.isdir(get_schema_root()))
 
+
+class PathLatestSchemTestCase(unittest.TestCase):
+    """Test for get_path_to_latest_schema().
+    """
+
+    def test_path_latest_schema(self):
+        self.assertTrue(os.path.isfile(get_path_to_latest_schema()))
+        
 
 class ResolveTestCase(unittest.TestCase):
     """Test for schema resolution.
