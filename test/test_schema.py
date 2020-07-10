@@ -41,7 +41,7 @@ class PathLatestSchemTestCase(unittest.TestCase):
 
     def test_path_latest_schema(self):
         self.assertTrue(os.path.isfile(get_path_to_latest_schema()))
-        
+
 
 class ResolveTestCase(unittest.TestCase):
     """Test for schema resolution.
