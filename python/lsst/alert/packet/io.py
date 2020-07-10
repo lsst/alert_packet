@@ -21,7 +21,7 @@
 
 """Routines for loading data from files.
 """
-
+import itertools
 import os.path
 
 import fastavro
@@ -68,5 +68,21 @@ def retrieve_alerts(fp, reader_schema=None):
     except Exception as e:
         raise RuntimeError(f"failed to find alert data in "
                            f"{fp.name if hasattr(fp, 'name') else 'stream'}") from e
-    records = [rec for rec in reader]
-    return Schema(reader.writer_schema), records
+
+    # Peek at one record so that reader.writer_schema is populated, since it
+    # gets loaded lazily. If you don't do this, then reader.writer_schema would
+    # be None, which means Schema(reader.writer_schema) would get an empty
+    # value.
+    #
+    # It would be simpler to do something like 'records = list(reader)', but
+    # that would require loading all the records into memory in one gulp. Since
+    # alert files can be huge, even terabytes, the extra complexity here is
+    # worth it.
+    try:
+        first_record = next(reader)
+        records = itertools.chain([first_record], reader)
+    except StopIteration:
+        # The file has zero records in it. It might still have a schema, though.
+        records = []
+    writer_schema = Schema(reader.writer_schema)
+    return writer_schema, records

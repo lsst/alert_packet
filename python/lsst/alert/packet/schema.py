@@ -29,12 +29,15 @@ import posixpath
 
 import fastavro
 
-__all__ = ["get_schema_root", "get_latest_schema_version", "get_schema_path", "Schema"]
+__all__ = ["get_schema_root", "get_latest_schema_version", "get_schema_path",
+           "Schema", "get_path_to_latest_schema"]
+
 
 def get_schema_root():
     """Return the root of the directory within which schemas are stored.
     """
     return pkg_resources.resource_filename(__name__, "schema")
+
 
 def get_latest_schema_version():
     """Get the latest schema version.
@@ -51,6 +54,7 @@ def get_latest_schema_version():
     clean = val.strip()
     major, minor = clean.split(b".", 1)
     return int(major), int(minor)
+
 
 def get_schema_path(major, minor):
     """Get the path to a package resource directory housing alert schema
@@ -70,10 +74,24 @@ def get_schema_path(major, minor):
 
     """
 
-    # Note that posixpath is right here, not os.path, since pkg_resources always
-    # uses slash-delimited paths, even on Windows.
+    # Note that posixpath is right here, not os.path, since pkg_resources
+    # always uses slash-delimited paths, even on Windows.
     path = posixpath.join("schema", str(major), str(minor))
     return pkg_resources.resource_filename(__name__, path)
+
+
+def get_path_to_latest_schema():
+    """Get the path to the primary schema file for the latest schema.
+
+    Returns
+    -------
+    path : `str`
+        Path to the latest primary schema file.
+    """
+
+    major, minor = get_latest_schema_version()
+    schema_path = get_schema_path(major, minor)
+    return posixpath.join(schema_path, f"lsst.v{major}_{minor}.alert.avsc")
 
 
 def resolve_schema_definition(to_resolve, seen_names=None):
@@ -143,6 +161,7 @@ def resolve_schema_definition(to_resolve, seen_names=None):
 
     return output
 
+
 class Schema(object):
     """An Avro schema.
 
@@ -172,7 +191,6 @@ class Schema(object):
     """
     def __init__(self, schema_definition):
         self.definition = resolve_schema_definition(schema_definition)
-        fastavro.schema._schema.SCHEMA_DEFS.clear()
 
     def serialize(self, record):
         """Create an Avro representation of data following this schema.
@@ -220,19 +238,9 @@ class Schema(object):
         -------
         valid : `bool`
             Whether or not the data complies with the schema.
-
-        Notes
-        -----
-        Validating the against the schema requires that the fastavro cache
-        (``SCHEMA_DEFS``) be populated, but that can only be the case for one
-        version of the schema at once. Hence we populate, check for validity,
-        and flush the cache.
         """
         fastavro.parse_schema(self.definition)
-        try:
-            return fastavro.validate(record, self.definition)
-        finally:
-            fastavro.schema._schema.SCHEMA_DEFS.clear()
+        return fastavro.validate(record, self.definition)
 
     def store_alerts(self, fp, records):
         """Store alert packets to the given I/O stream.
@@ -267,7 +275,8 @@ class Schema(object):
             Alert records.
         """
         from .io import retrieve_alerts
-        return retrieve_alerts(fp, reader_schema=self)
+        schema, records = retrieve_alerts(fp, reader_schema=self)
+        return schema, records
 
     def __eq__(self, other):
         """Compare schemas for equality.
@@ -278,7 +287,7 @@ class Schema(object):
         return self.definition == other.definition
 
     @classmethod
-    def from_file(cls, filename=None, root_name="lsst.alert"):
+    def from_file(cls, filename=None, root_name="lsst.v3_0.alert"):
         """Instantiate a `Schema` by reading its definition from the filesystem.
 
         Parameters

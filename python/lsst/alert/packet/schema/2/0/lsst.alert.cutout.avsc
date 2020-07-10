@@ -1,9 +1,0 @@
-{
-	"namespace": "lsst.alert",
-	"type": "record",
-	"name": "cutout",
-	"fields": [
-		{"name": "fileName", "type": "string"},
-		{"name": "stampData", "type": "bytes"}
-			]
-}

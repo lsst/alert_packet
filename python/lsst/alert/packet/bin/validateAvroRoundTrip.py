@@ -35,11 +35,13 @@ import tempfile
 
 import lsst.alert.packet
 
-# The default filename of the root of the alert schema.
-SCHEMA_FILENAME = "lsst.alert.avsc"
-
 # The default filename of per-schema sample alert data.
 SAMPLE_FILENAME = "alert.json"
+
+
+def schema_filename(major_version, minor_version):
+    return f"lsst.v{major_version}_{minor_version}.alert.avsc"
+
 
 def check_file_round_trip(baseline, received_data):
     """Assert that the contents of baseline is equal to received_data.
@@ -81,8 +83,10 @@ def main():
         schema_major, schema_minor = args.schema_version.split(".")
     schema_root = lsst.alert.packet.get_schema_path(schema_major, schema_minor)
 
-    alert_schema = lsst.alert.packet.Schema.from_file(os.path.join(schema_root,
-                                                            SCHEMA_FILENAME))
+    alert_schema = lsst.alert.packet.Schema.from_file(
+        os.path.join(schema_root,
+                     schema_filename(schema_major, schema_minor)),
+    )
     if args.input_data:
         input_data = args.input_data
     else:

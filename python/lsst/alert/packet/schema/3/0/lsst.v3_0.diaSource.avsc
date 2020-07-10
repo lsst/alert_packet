@@ -1,5 +1,5 @@
 {
-	"namespace": "lsst",
+	"namespace": "lsst.v3_0",
 	"name": "diaSource",
 	"type": "record",
 	"fields": [
