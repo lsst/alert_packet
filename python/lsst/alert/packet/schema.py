@@ -25,7 +25,7 @@
 import io
 import os.path
 import pkg_resources
-import posixpath
+from pathlib import PurePath
 
 import fastavro
 
@@ -74,10 +74,10 @@ def get_schema_path(major, minor):
 
     """
 
-    # Note that posixpath is right here, not os.path, since pkg_resources
+    # Note that as_posix() is right here, since pkg_resources
     # always uses slash-delimited paths, even on Windows.
-    path = posixpath.join("schema", str(major), str(minor))
-    return pkg_resources.resource_filename(__name__, path)
+    path = PurePath(f"schema/{major}/{minor}/")
+    return pkg_resources.resource_filename(__name__, path.as_posix())
 
 
 def get_path_to_latest_schema():
@@ -90,8 +90,8 @@ def get_path_to_latest_schema():
     """
 
     major, minor = get_latest_schema_version()
-    schema_path = get_schema_path(major, minor)
-    return posixpath.join(schema_path, f"lsst.v{major}_{minor}.alert.avsc")
+    schema_path = PurePath(get_schema_path(major, minor))
+    return (schema_path / f"lsst.v{major}_{minor}.alert.avsc").as_posix()
 
 
 def resolve_schema_definition(to_resolve, seen_names=None):
@@ -287,24 +287,27 @@ class Schema(object):
         return self.definition == other.definition
 
     @classmethod
-    def from_file(cls, filename=None, root_name="lsst.v3_0.alert"):
+    def from_file(cls, filename=None):
         """Instantiate a `Schema` by reading its definition from the filesystem.
 
         Parameters
         ----------
         filename : `str`, optional
-            Path to the schema root. Will recursively load referenced schemas,
-            assuming they can be found; otherwise, will raise. If `None` (the
+            Path to the schema root (/path/to/lsst.vM_m.alert.avsc). 
+            Will recursively load referenced schemas, assuming they can be 
+            found; otherwise, will raise. If `None` (the
             default), will load the latest schema defined in this package.
-        root_name : `str`, optional
-            Name of the root of the alert schema.
         """
         if filename is None:
             major, minor = get_latest_schema_version()
+            root_name = f"lsst.v{major}_{minor}.alert"
             filename = os.path.join(
                 get_schema_path(major, minor),
                 root_name + ".avsc",
             )
+        else:
+            root_name = PurePath(filename).stem
+
         schema_definition = fastavro.schema.load_schema(filename)
         # fastavro gives a back a list if it recursively loaded more than one
         # file, otherwise a dict.
