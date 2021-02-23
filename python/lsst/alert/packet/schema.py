@@ -112,6 +112,7 @@ def resolve_schema_definition(to_resolve, seen_names=None):
 
     Notes
     -----
+    This method is only needed for old fastavro (<=0.24).
     The schema is resolved in terms of the types which have been parsed
     and stored by fastavro (ie, are found in
     `fastavro.schema._schema.SCHEMA_DEFS`).
@@ -190,7 +191,12 @@ class Schema(object):
     cache after loading.
     """
     def __init__(self, schema_definition):
-        self.definition = resolve_schema_definition(schema_definition)
+        if hasattr(fastavro.schema._schema, 'SCHEMA_DEFS'):
+            # Old fastavro
+            self.definition = resolve_schema_definition(schema_definition)
+        else:
+            # New fastavro
+            self.definition = schema_definition
 
     def serialize(self, record):
         """Create an Avro representation of data following this schema.
@@ -309,11 +315,13 @@ class Schema(object):
             root_name = PurePath(filename).stem
 
         schema_definition = fastavro.schema.load_schema(filename)
-        # fastavro gives a back a list if it recursively loaded more than one
-        # file, otherwise a dict.
-        if isinstance(schema_definition, dict):
-            schema_definition = [schema_definition]
+        if hasattr(fastavro.schema._schema, 'SCHEMA_DEFS'):
+            # Old fastavro gives a back a list if it recursively loaded more than one
+            # file, otherwise a dict.
+            if isinstance(schema_definition, dict):
+                schema_definition = [schema_definition]
 
-        schema_definition = next(schema for schema in schema_definition
-                                 if schema['name'] == root_name)
+            schema_definition = next(schema for schema in schema_definition
+                                     if schema['name'] == root_name)
+
         return cls(schema_definition)
