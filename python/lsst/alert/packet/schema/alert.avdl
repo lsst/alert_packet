@@ -1,0 +1,14 @@
+import idl "diasource.avdl";
+
+@namespace("lsst.v4_0")
+protocol{
+
+  /** sample avro alert schema v4.0 **/
+  record alert {
+    /** unique alert identifier **/
+    long alertId
+
+
+
+  }
+}

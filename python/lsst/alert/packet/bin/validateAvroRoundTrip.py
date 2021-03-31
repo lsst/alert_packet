@@ -40,7 +40,7 @@ SAMPLE_FILENAME = "alert.json"
 
 
 def schema_filename(major_version, minor_version):
-    return f"lsst.v{major_version}_{minor_version}.alert.avsc"
+    return f"lsst.alert.avsc"
 
 
 def check_file_round_trip(baseline, received_data):

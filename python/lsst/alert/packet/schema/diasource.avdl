@@ -1,0 +1,12 @@
+@namespace("lsst.v4_0")
+protocol {
+  record diaSource {
+    long diaSourceId;
+    long ccdVisitId;
+    union {null, long} diaObjectId = null;
+    union {null, long} ssObjectId = null;
+    union {null, long} parentDiaSourceId = null;
+    double midPointTai;
+    string filterName;
+  }
+}

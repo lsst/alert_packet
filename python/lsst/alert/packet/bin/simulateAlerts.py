@@ -43,25 +43,21 @@ def parse_args():
 def main():
     args = parse_args()
 
-    schema = lsst.alert.packet.Schema.from_file()
+    schema = lsst.alert.packet.alert_schema
     arrayCount = {'prvDiaSources': args.visits_per_year,
                   'prvDiaForcedSources': args.visits_per_year//12,
                   'prvDiaNondetectionLimits': 0}
-    alerts = [lsst.alert.packet.simulate_alert(schema.definition,
+    alerts = [lsst.alert.packet.simulate_alert(schema,
                                         keepNull=['ssObject'],
                                         arrayCount=arrayCount)
               for _ in range(args.num_alerts)]
 
-    for alert in alerts:
-        assert(schema.validate(alert))
-
     with open(args.output_filename, "wb") as f:
-        schema.store_alerts(f, alerts)
+        lsst.alert.packet.store_alerts(f, alerts)
 
     with open(args.output_filename, "rb") as f:
-        writer_schema, loaded_alerts = schema.retrieve_alerts(f)
+        loaded_alerts = lsst.alert.packet.retrieve_alerts(f)
 
-    assert(schema == writer_schema)
     for a1, a2 in zip(alerts, loaded_alerts):
         assert(a1 == a2)
 
