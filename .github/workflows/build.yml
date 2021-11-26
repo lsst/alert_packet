@@ -19,4 +19,4 @@ jobs:
         pip install virtualenv
         test/test_wheel_install.sh
     # TODO: Add lint and test steps once we actually pass these tests. Crib from
-    # https://github.com/lsst/daf_butler/blob/master/.github/workflows/lint.yaml.
+    # https://github.com/lsst/daf_butler/blob/main/.github/workflows/lint.yaml.
