@@ -35,7 +35,7 @@ def parse_args():
     parser.add_argument(
         "--schema-registry-url",
         type=str,
-        default="http://alert-schemas.svc",
+        default="http://alert-schemas.localhost",
         help="URL of a Schema Registry service",
     )
     parser.add_argument(
@@ -58,8 +58,11 @@ def upload_schema(registry_url, subject, normalized_schema):
     payload = json.dumps(confluent_schema)
     headers = {"Content-Type": "application/vnd.schemaregistry.v1+json"}
     url = f"{registry_url}/subjects/{subject}/versions"
+    print(f"uploading schema to {url}")
     response = requests.post(url=url, data=payload, headers=headers)
     response.raise_for_status()
+    print(f"done, status={response.status_code}")
+    print(f"response text={response.text}")
 
 
 def main():
