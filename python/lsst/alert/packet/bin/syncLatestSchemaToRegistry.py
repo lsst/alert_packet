@@ -54,7 +54,7 @@ def load_latest_schema():
 
 
 def upload_schema(registry_url, subject, normalized_schema):
-    confluent_schema = {"schema": normalized_schema, "schemaType": "AVRO"}
+    confluent_schema = {"schema": normalized_schema}
     payload = json.dumps(confluent_schema)
     headers = {"Content-Type": "application/vnd.schemaregistry.v1+json"}
     url = f"{registry_url}/subjects/{subject}/versions"
