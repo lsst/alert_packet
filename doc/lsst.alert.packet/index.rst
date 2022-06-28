@@ -33,55 +33,6 @@ You can find Jira issues for this module under the `alert_packet <https://jira.l
 
 .. _lsst.alert.packet-command-line-taskref:
 
-Task reference
-==============
-
-.. _lsst.alert.packet-pipeline-tasks:
-
-Pipeline tasks
---------------
-
-.. lsst-pipelinetasks::
-   :root: lsst.alert.packet
-
-.. _lsst.alert.packet-command-line-tasks:
-
-Command-line tasks
-------------------
-
-.. lsst-cmdlinetasks::
-   :root: lsst.alert.packet
-
-.. _lsst.alert.packet-tasks:
-
-Tasks
------
-
-.. lsst-tasks::
-   :root: lsst.alert.packet
-   :toctree: tasks
-
-.. _lsst.alert.packet-configs:
-
-Configurations
---------------
-
-.. lsst-configs::
-   :root: lsst.alert.packet
-   :toctree: configs
-
-.. .. _lsst.alert.packet-scripts:
-
-.. Script reference
-.. ================
-
-.. .. TODO: Add an item to this toctree for each script reference topic in the scripts subdirectory.
-
-.. .. toctree::
-..    :maxdepth: 1
-
-.. .. _lsst.alert.packet-pyapi:
-
 Python API reference
 ====================
 
