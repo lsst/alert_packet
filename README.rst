@@ -73,10 +73,6 @@ Command Line
 Sample data is provided in the ``schema/latest/sample_data/alert.json`` file, or an alternative may be provided on the command line.
 Optionally, the path to binary data files to be included in the packet as “postage stamp” images may be provided.
 If the ``--print`` flag is given, the alert contents are printed to screen for sanity checking.
-The command will print a brief summary of the size of the data in various formats.
-Thus::
-
-   $ validateAvroRoundTrip.py --input-data=./schema/latest/sample_data/alert.json --cutout-template=./examples/stamp-678.fits --cutout-difference=./examples/stamp-679.fits
 
 ``simulateAlerts.py`` writes simulated alert packets to disk in Avro format.
 The resultant data is schema compliant, but the simulations are not intended to be realistic: packets are populated with pseudorandom numbers.
