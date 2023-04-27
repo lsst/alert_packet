@@ -6,8 +6,8 @@
 		{"name": "diaSourceId", "type": "long"},
 		{"name": "ccdVisitId",  "type": "long"},
 		{"name": "diaObjectId", "type": ["long", "null"], "default": null},
-		{"name": "midPointTai", "type": "double"},
-		{"name": "filterName", "type": "string"},
+		{"name": "midpointMjdTai", "type": "double"},
+		{"name": "band", "type": "string"},
 		{"name": "radec", "type": [{"type": "record",
 			"name": "Radec", "fields": [
 			{"name": "ra", "type": "double"},
@@ -22,6 +22,6 @@
 		{"name": "yVar", "type": "float"},
 		{"name": "x_y_Cov", "type": "float"},
 		{"name": "snr", "type": "float"},
-		{"name": "psFlux", "type": "float"}
+		{"name": "psfFlux", "type": "float"}
 	]
 }
