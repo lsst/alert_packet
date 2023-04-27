@@ -142,8 +142,7 @@ class SchemaRegistry(object):
         schema_root_file = schema_root + ".avsc"
         for root, dirs, files in os.walk(root, followlinks=False):
             if schema_root_file in files:
-                schema = Schema.from_file(os.path.join(root, schema_root_file),
-                                          root_name=schema_root)
+                schema = Schema.from_file(os.path.join(root, schema_root_file))
                 version = ".".join(root.split("/")[-2:])
                 registry.register_schema(schema, version)
         return registry
