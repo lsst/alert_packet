@@ -108,7 +108,7 @@
 		{"name": "iyyPSF", "type": ["null", "float"], "default": null},
 		{"name": "ixyPSF", "type": ["null", "float"], "default": null},
 		{"name": "extendedness", "type": ["null", "float"], "default": null},
-		{"name": "spuriousness", "type": ["null", "float"], "default": null},
+		{"name": "reliability", "type": ["null", "float"], "default": null},
 		{"name": "flags",  "type": "long"}
 	]
 }
