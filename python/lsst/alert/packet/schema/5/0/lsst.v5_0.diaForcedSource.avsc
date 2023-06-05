@@ -1,0 +1,16 @@
+{
+	"namespace": "lsst.v5_0",
+	"name": "diaForcedSource",
+	"type": "record",
+	"fields": [
+		{"name": "diaForcedSourceId", "type": "long"},
+		{"name": "ccdVisitId",  "type": "long"},
+		{"name": "diaObjectId", "type": "long"},
+		{"name": "midpointMjdTai", "type": "double"},
+		{"name": "band", "type": "string"},
+		{"name": "psfFlux", "type": "float"},
+		{"name": "psfFluxErr", "type": "float"},
+		{"name": "scienceFlux", "type": "float"},
+		{"name": "scienceFluxErr", "type":"float"}
+	]
+}

@@ -8,8 +8,8 @@
 		{"name": "diaObjectId", "type": ["long", "null"], "default": null},
 		{"name": "ssObjectId", "type": ["long", "null"], "default": null},
 		{"name": "parentSourceId", "type": ["long", "null"], "default": null},
-		{"name": "midPointTai", "type": "double"},
-		{"name": "filterName", "type": "string"},
+		{"name": "midpointMjdTai", "type": "double"},
+		{"name": "band", "type": "string"},
 		{"name": "radec", "type": [{"type": "record",
 			"name": "Radec", "fields": [
 			{"name": "ra", "type": "double"},
@@ -44,6 +44,6 @@
 			{"name": "apMeanSb09Sigma", "aliases": ["base_CircularApertureFlux_50_0_fluxSigma"], "type": ["float", "null"], "default": null},
 			{"name": "apMeanSb10Sigma", "aliases": ["base_CircularApertureFlux_70_0_fluxSigma"], "type": ["float", "null"], "default": null},
 		{"name": "snr", "type": "float"},
-		{"name": "psFlux", "type": "float"}
+		{"name": "psfFlux", "type": "float"}
 	]
 }

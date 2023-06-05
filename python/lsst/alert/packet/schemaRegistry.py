@@ -28,6 +28,7 @@ import zlib
 
 __all__ = ["SchemaRegistry"]
 
+
 class SchemaRegistry(object):
     """A registry for alert schemas.
 
@@ -127,7 +128,7 @@ class SchemaRegistry(object):
                                      sort_keys=True).encode('utf-8'))
 
     @classmethod
-    def from_filesystem(cls, root=None, schema_root="lsst.v3_0.alert"):
+    def from_filesystem(cls, root=None, schema_root="lsst.v5_0.alert"):
         """Populate a schema registry based on the filesystem.
 
         Walk the directory tree from the root provided, locating files named
@@ -142,8 +143,7 @@ class SchemaRegistry(object):
         schema_root_file = schema_root + ".avsc"
         for root, dirs, files in os.walk(root, followlinks=False):
             if schema_root_file in files:
-                schema = Schema.from_file(os.path.join(root, schema_root_file),
-                                          root_name=schema_root)
+                schema = Schema.from_file(os.path.join(root, schema_root_file))
                 version = ".".join(root.split("/")[-2:])
                 registry.register_schema(schema, version)
         return registry
