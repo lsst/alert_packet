@@ -25,6 +25,40 @@ The latest version of the schema may always be found in ``schema/latest.txt``.
 
 .. _Confluent compatibility model: https://docs.confluent.io/current/schema-registry/docs/avro.html#forward-compatibility
 
+Adding a new schema
+-------------------
+
+Steps to update the alert schema (for example, when the APDB schema is updated).
+
+* Decide what the new schema version will be, following the guidelines given in `DMTN-093 <https://dmtn-093.lsst.io/#management-and-evolution>`_, referring to the current version number directories in ``python/lsst/alert/packet/schema``.
+* ``setup -r .`` in this package's root.
+* Checkout the ticket branch for your schema changes.
+* Update the default ``schema_root`` kwarg in ``python/lsst/alert/packet/schemaRegistry.py:from_filesystem()`` to your new schema version number.
+* Add a new schema in ``python/lsst/alert/packet/schema/``. Subsequent instructions assume you are in that directory.
+
+   * Recursively copy the latest schema directory to the next number (e.g. ``cp -rp 4/ 5/`` to add schema version 5 based on version 4, or ``cp -rp 4/0 4/1`` for a minor version bump). Subsequent directions assume you are in this new directory.
+
+      * Rename all of the ``lsst.vX*`` files to the new version.
+      * Update the ``"namespace": "lsst.v5_0",`` line at the top of each ``*.avsc`` file to the new version.
+      * Update the contents of those avro schema files to reflect the new schema.
+      * Update the sample alert packet in ``sample_data``:
+
+         * Update ``alert.json`` to reflect the new schema.
+         * Change the ``schema_root`` and ``get_by_version`` parameters in ``generate.py`` to your new verison number.
+         * Run ``python generate.py`` to produce a new ``fakeAlert.avro`` file with data filled in from the updated json file above and using the new schema files you made earlier.
+
+   * Update the files ``*.avsc`` and ``*.json`` files in ``examples/`` to reflect the new schema.
+   * Update the contents of ``latest.txt`` to your new schema version number.
+
+* Add all of your new and updated files to ``git``, commit them with a message that includes the new schema version number and why it was incremented, and push your new branch.
+* Test your changes with ap_assocation and ap_verify (these steps may be more involved if your ticket branch impacts multiple packets):
+
+   * Clone a local copy of `ap_association <https://github.com/lsst/ap_association/>`_ and cd into that directory.
+   * Setup ap_association with ``setup -kr .`` (``-k`` to "keep" your previously setup ``alert_packet``).
+   * Confirm that your modified alert_packet is still setup: ``eups list -s alert_packet`` should show a ``LOCAL:`` directory being setup.
+   * Run ``scons`` to confirm that your updated schema works with the ``ap_association`` tests.
+   * Run at least one of the `ap_verify datasets <https://pipelines.lsst.io/v/daily/modules/lsst.ap.verify/running.html>`_ to confirm that your new alert schema works with the broader tests in ap_verify.
+
 Example Alert Contents
 ======================
 
