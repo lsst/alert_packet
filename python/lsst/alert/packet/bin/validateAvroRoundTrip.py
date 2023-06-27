@@ -30,7 +30,6 @@ import argparse
 import filecmp
 import json
 import os
-import sys
 import tempfile
 
 import lsst.alert.packet
@@ -59,6 +58,7 @@ def check_file_round_trip(baseline, received_data):
             f.write(received_data)
         assert filecmp.cmp(baseline, filename, shallow=False)
 
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--schema-version', type=str,
@@ -74,6 +74,7 @@ def parse_args():
                         help='Pretty-print alert contents')
 
     return parser.parse_args()
+
 
 def main():
     args = parse_args()

@@ -307,7 +307,8 @@ class Schema(object):
 
     @classmethod
     def from_file(cls, filename=None):
-        """Instantiate a `Schema` by reading its definition from the filesystem.
+        """Instantiate a `Schema` by reading its definition from the
+        filesystem.
 
         Parameters
         ----------
@@ -331,8 +332,8 @@ class Schema(object):
             schema_definition = fastavro.schema.load_schema(filename)
 
         if hasattr(fastavro.schema._schema, 'SCHEMA_DEFS'):
-            # Old fastavro gives a back a list if it recursively loaded more than one
-            # file, otherwise a dict.
+            # Old fastavro gives a back a list if it recursively loaded more
+            # than one file, otherwise a dict.
             if isinstance(schema_definition, dict):
                 schema_definition = [schema_definition]
 

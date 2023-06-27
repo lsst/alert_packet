@@ -27,35 +27,42 @@ import numpy
 
 __all__ = ["simulate_alert"]
 
+
 def randomNull():
     """Provide a random value of the Avro `null` type.
     """
     return None
+
 
 def randomBoolean():
     """Provide a random value of the Avro `boolean` type.
     """
     return random.choice([True, False])
 
+
 def randomInt():
     """Provide a random value of the Avro (32 bit, signed) `int` type.
     """
     return int(numpy.random.randint(-2**31, 2**31 - 1, dtype=numpy.int32))
+
 
 def randomLong():
     """Provide a random value of the Avro (64 bit, signed) `long` type.
     """
     return int(numpy.random.randint(-2**63, 2**63 - 1, dtype=numpy.int64))
 
+
 def randomFloat():
     """Provide a random value of the Avro (32) bit `float` type.
     """
     return float(numpy.float32(numpy.random.random()))
 
+
 def randomDouble():
     """Provide a random value of the Avro `double` type.
     """
     return float(numpy.float64(numpy.random.random()))
+
 
 def randomString():
     """Provide a random value of the Avro `string` type.
@@ -65,12 +72,14 @@ def randomString():
     return ''.join(random.choice(string.ascii_letters)
                    for _ in range(random.randint(0, 10)))
 
+
 def randomBytes(max_bytes=1000):
     """Provide a random value of the Avro `bytes` type.
 
     Up to `max_bytes` bytes are returned.
     """
     return numpy.random.bytes(random.randint(0, max_bytes))
+
 
 randomizerFunctionsByType = {
     'null': randomNull,
@@ -83,6 +92,7 @@ randomizerFunctionsByType = {
     'bytes': randomBytes
 }
 
+
 def simulate_alert(schema, keepNull=None, arrayCount=None):
     """Parse the schema and generate a compliant alert with random contents.
 
@@ -94,7 +104,8 @@ def simulate_alert(schema, keepNull=None, arrayCount=None):
     keepNull : {`list` of `str`, `None`}
         Schema keys for which to output null values.
     arrayCount : {`dict`, `None`}
-        Number of array items to randomly generate for each provided schema key.
+        Number of array items to randomly generate for each provided schema
+        key.
 
     Returns
     -------

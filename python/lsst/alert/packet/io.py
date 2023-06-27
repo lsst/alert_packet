@@ -30,6 +30,7 @@ from .schema import Schema
 
 __all__ = ["load_stamp", "retrieve_alerts"]
 
+
 def load_stamp(file_path):
     """Load a cutout postage stamp file to include in alert.
     """
@@ -38,6 +39,7 @@ def load_stamp(file_path):
         cutout_data = f.read()
         cutout_dict = {"fileName": fileoutname, "stampData": cutout_data}
     return cutout_dict
+
 
 def retrieve_alerts(fp, reader_schema=None):
     """Read alert packets from the given I/O stream.
@@ -82,7 +84,8 @@ def retrieve_alerts(fp, reader_schema=None):
         first_record = next(reader)
         records = itertools.chain([first_record], reader)
     except StopIteration:
-        # The file has zero records in it. It might still have a schema, though.
+        # The file has zero records in it. It might still have a schema,
+        # though.
         records = []
     writer_schema = Schema(reader.writer_schema)
     return writer_schema, records

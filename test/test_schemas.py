@@ -47,7 +47,7 @@ class SchemaValidityTestCase(unittest.TestCase):
         for version in self.registry.known_versions:
             with get_schema_root() as schema_root:
                 path = path_to_sample_data(schema_root, version, "alert.json")
-                schema = self.registry.get_by_version(version)
+                schema = self.registry.get_by_version(version)  # noqa: F841
                 if version in no_data:
                     self.assertFalse(os.path.exists(path))
                 else:
@@ -64,7 +64,7 @@ class SchemaValidityTestCase(unittest.TestCase):
         for version in self.registry.known_versions:
             with get_schema_root() as schema_root:
                 path = path_to_sample_data(schema_root, version,
-                                        "fakeAlert.avro")
+                                           "fakeAlert.avro")
                 schema = self.registry.get_by_version(version)
 
                 if version in no_data:
@@ -83,7 +83,7 @@ class SchemaValidityTestCase(unittest.TestCase):
                                     schema.definition.pop(key)
 
                             self.assertEqual(retrieved_schema, schema,
-                                            f"schema not equal on version={version}")
+                                             f"schema not equal on version={version}")
                             for idx, alert in enumerate(alerts):
                                 self.assertTrue(schema.validate(alert),
                                                 f"failed to validate version={version}, alert idx={idx}")

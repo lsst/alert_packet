@@ -23,7 +23,7 @@
 
 import argparse
 
-import fastavro
+import fastavro  # noqa: F401
 
 import lsst.alert.packet
 
@@ -48,12 +48,12 @@ def main():
                   'prvDiaForcedSources': args.visits_per_year//12,
                   'prvDiaNondetectionLimits': 0}
     alerts = [lsst.alert.packet.simulate_alert(schema.definition,
-                                        keepNull=['ssObject'],
-                                        arrayCount=arrayCount)
+                                               keepNull=['ssObject'],
+                                               arrayCount=arrayCount)
               for _ in range(args.num_alerts)]
 
     for alert in alerts:
-        assert(schema.validate(alert))
+        assert schema.validate(alert)
 
     with open(args.output_filename, "wb") as f:
         schema.store_alerts(f, alerts)
@@ -61,9 +61,9 @@ def main():
     with open(args.output_filename, "rb") as f:
         writer_schema, loaded_alerts = schema.retrieve_alerts(f)
 
-    assert(schema == writer_schema)
+    assert schema == writer_schema
     for a1, a2 in zip(alerts, loaded_alerts):
-        assert(a1 == a2)
+        assert a1 == a2
 
 
 if __name__ == '__main__':

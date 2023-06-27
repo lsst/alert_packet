@@ -23,9 +23,9 @@ import os.path
 import unittest
 
 import fastavro
-import json
 
 from lsst.alert.packet import get_schema_root, Schema, get_path_to_latest_schema
+
 
 class SchemaRootTestCase(unittest.TestCase):
     """Test for get_schema_root().
@@ -48,12 +48,13 @@ class PathLatestSchemTestCase(unittest.TestCase):
 class ResolveTestCase(unittest.TestCase):
     """Test for schema resolution.
     """
+
     def test_recursive_resolve(self):
         """Check that resolution of nested schemas gives the expected result.
         """
         # Definition of schemas in terms of each other.
         named_schemas = {}
-        sub_sub_schema = fastavro.parse_schema({
+        sub_sub_schema = fastavro.parse_schema({  # noqa: F841
             "name": "subsub",
             "namespace": "lsst",
             "type": "record",
@@ -62,7 +63,7 @@ class ResolveTestCase(unittest.TestCase):
             ]
         }, named_schemas)
 
-        sub_schema = fastavro.parse_schema({
+        sub_schema = fastavro.parse_schema({  # noqa: F841
             "name": "sub",
             "namespace": "lsst",
             "type": "record",
