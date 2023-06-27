@@ -43,11 +43,12 @@ class RetrieveAlertsTestCase(unittest.TestCase):
         """
         self.test_schema_version = get_latest_schema_version()
         self.test_schema = Schema.from_file()
-        sample_json_path = posixpath.join(
-            get_schema_path(*self.test_schema_version), "sample_data", "alert.json",
-        )
-        with open(sample_json_path, "r") as f:
-            self.sample_alert = json.load(f)
+        with get_schema_path(*self.test_schema_version) as schema_path:
+            sample_json_path = posixpath.join(
+                schema_path, "sample_data", "alert.json",
+            )
+            with open(sample_json_path, "r") as f:
+                self.sample_alert = json.load(f)
 
     def _mock_alerts(self, n):
         """Return a list of alerts with mock values, matching self.sample_alert.
