@@ -101,13 +101,18 @@ class RetrieveAlertsTestCase(unittest.TestCase):
         """Write some alerts to a file. They should be readable back out.
         """
         alerts = self._mock_alerts(5)
-
         with self._temp_alert_file(alerts) as alert_file:
             have_schema, have_alerts_iterable = retrieve_alerts(alert_file, self.test_schema)
             have_alerts = list(have_alerts_iterable)
 
         self.assert_alert_lists_equal(alerts, list(have_alerts))
-        self.assertEqual(self.test_schema, have_schema)
+
+        fastavro_keys = list(self.test_schema.definition.keys())
+        for key in fastavro_keys:
+            if '__' in key and '__len__' not in key:
+                self.test_schema.definition.pop(key)
+
+        self.assertEqual(self.test_schema.definition, have_schema.definition)
 
     def test_alert_file_with_one_alert(self):
         """Write a single alert to a file. It should be readable back out.
@@ -119,7 +124,13 @@ class RetrieveAlertsTestCase(unittest.TestCase):
             have_alerts = list(have_alerts_iterable)
 
         self.assert_alert_lists_equal(alerts, list(have_alerts))
-        self.assertEqual(self.test_schema, have_schema)
+
+        fastavro_keys = list(self.test_schema.definition.keys())
+        for key in fastavro_keys:
+            if '__' in key and '__len__' not in key:
+                self.test_schema.definition.pop(key)
+
+        self.assertEqual(self.test_schema.definition, have_schema.definition)
 
     def test_alert_file_with_no_alerts(self):
         """Write an alert file that contains no alerts at all. It should be readable.
@@ -131,4 +142,10 @@ class RetrieveAlertsTestCase(unittest.TestCase):
             have_alerts = list(have_alerts_iterable)
 
         self.assert_alert_lists_equal(alerts, list(have_alerts))
-        self.assertEqual(self.test_schema, have_schema)
+
+        fastavro_keys = list(self.test_schema.definition.keys())
+        for key in fastavro_keys:
+            if '__' in key and '__len__' not in key:
+                self.test_schema.definition.pop(key)
+
+        self.assertEqual(self.test_schema.definition, have_schema.definition)

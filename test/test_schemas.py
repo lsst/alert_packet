@@ -74,6 +74,12 @@ class SchemaValidityTestCase(unittest.TestCase):
                             schema.retrieve_alerts(f)
                     else:
                         retrieved_schema, alerts = schema.retrieve_alerts(f)
+
+                        fastavro_keys = list(schema.definition.keys())
+                        for key in fastavro_keys:
+                            if '__' in key and '__len__' not in key:
+                                schema.definition.pop(key)
+
                         self.assertEqual(retrieved_schema, schema,
                                          f"schema not equal on version={version}")
                         for idx, alert in enumerate(alerts):
