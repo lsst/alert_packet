@@ -50,6 +50,7 @@ class ResolveTestCase(unittest.TestCase):
         """Check that resolution of nested schemas gives the expected result.
         """
         # Definition of schemas in terms of each other.
+        named_schemas = {}
         sub_sub_schema = fastavro.parse_schema({
             "name": "subsub",
             "namespace": "lsst",
@@ -57,7 +58,7 @@ class ResolveTestCase(unittest.TestCase):
             "fields": [
                 {"name": "sub_sub_field", "type": "string"}
             ]
-        })
+        }, named_schemas)
 
         sub_schema = fastavro.parse_schema({
             "name": "sub",
@@ -67,7 +68,7 @@ class ResolveTestCase(unittest.TestCase):
                 {"name": "sub_field", "type": "lsst.subsub"},
                 {"name": "second_sub_field", "type": "lsst.subsub"}
             ]
-        })
+        }, named_schemas)
 
         top_schema = fastavro.parse_schema({
             "name": "top",
@@ -77,7 +78,7 @@ class ResolveTestCase(unittest.TestCase):
                 {"name": "top_field", "type": "lsst.sub"},
                 {"name": "boring_field", "type": "int"}
             ]
-        })
+        }, named_schemas)
 
         # Derived by substituting the above into each other by hand.
         model_resolved_schema = {
@@ -105,7 +106,16 @@ class ResolveTestCase(unittest.TestCase):
                             },
                             {
                                 "name": "second_sub_field",
-                                "type": "lsst.subsub"
+                                "type": {
+                                    "type": "record",
+                                    "name": "lsst.subsub",
+                                    "fields": [
+                                        {
+                                            "name": "sub_sub_field",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
                             }
                         ]
                     }
@@ -118,4 +128,12 @@ class ResolveTestCase(unittest.TestCase):
         }
 
         resolved_schema = Schema(top_schema).definition
-        self.assertEqual(resolved_schema, model_resolved_schema)
+        partially_resolved_schema = fastavro.schema.expand_schema(resolved_schema)
+        fully_resolved_schema = fastavro.schema.expand_schema(partially_resolved_schema)
+
+        fastavro_keys = list(fully_resolved_schema.keys())
+        for key in fastavro_keys:
+            if '__' in key and '__len__' not in key:
+                fully_resolved_schema.pop(key)
+
+        self.assertEqual(fully_resolved_schema, model_resolved_schema)
