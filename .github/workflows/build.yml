@@ -6,17 +6,25 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ["3.10"]
+        python-version: ["3.10", "3.11"]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
     - name: Build and install wheel
       run: |
         pip install virtualenv
         test/test_wheel_install.sh
-    # TODO: Add lint and test steps once we actually pass these tests. Crib from
-    # https://github.com/lsst/daf_butler/blob/main/.github/workflows/lint.yaml.
+    - name: Install pytest and fastavro (needed by tests)
+      run: |
+        pip install --upgrade pip
+        pip install pytest fastavro
+    - name: Ensure we have a usable version installed
+      run: |
+        pip install -e .
+    - name: run tests
+      run: |
+        pytest test

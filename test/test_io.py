@@ -24,7 +24,7 @@ import io
 import unittest
 import tempfile
 import posixpath
-import fastavro
+import fastavro  # noqa: F401
 import json
 from lsst.alert.packet.io import retrieve_alerts
 from lsst.alert.packet.schema import Schema
@@ -43,14 +43,16 @@ class RetrieveAlertsTestCase(unittest.TestCase):
         """
         self.test_schema_version = get_latest_schema_version()
         self.test_schema = Schema.from_file()
-        sample_json_path = posixpath.join(
-            get_schema_path(*self.test_schema_version), "sample_data", "alert.json",
-        )
-        with open(sample_json_path, "r") as f:
-            self.sample_alert = json.load(f)
+        with get_schema_path(*self.test_schema_version) as schema_path:
+            sample_json_path = posixpath.join(
+                schema_path, "sample_data", "alert.json",
+            )
+            with open(sample_json_path, "r") as f:
+                self.sample_alert = json.load(f)
 
     def _mock_alerts(self, n):
-        """Return a list of alerts with mock values, matching self.sample_alert.
+        """Return a list of alerts with mock values, matching
+        self.sample_alert.
         """
         alerts = []
         for i in range(n):
@@ -60,21 +62,22 @@ class RetrieveAlertsTestCase(unittest.TestCase):
         return alerts
 
     def assert_alert_lists_equal(self, have_alerts, want_alerts):
-        """Assert that two lists of mock alerts are equal - or at least, equal enough.
+        """Assert that two lists of mock alerts are equal - or at least,
+        equal enough.
 
-        We can't naively do `self.assertEqual(have_alerts, want_alerts)` because
-        fastavro will explicitly populate an alert with "None" for every
-        optional field when deserializing it. The sample alert.json files don't
-        have those explicit Nones, and constructing them automatically seems
-        complex.
+        We can't naively do `self.assertEqual(have_alerts, want_alerts)`
+        because fastavro will explicitly populate an alert with "None" for
+        every optional field when deserializing it. The sample alert.json files
+        don't have those explicit Nones, and constructing them automatically
+        seems complex.
 
         A simple check is just that the two lists have the same length and that
-        the alertIds match. alertId is the only field that differs in a batch of
-        mock data created with self._mock_alerts, so this is probably
+        the alertIds match. alertId is the only field that differs in a batch
+        of mock data created with self._mock_alerts, so this is probably
         sufficient.
         """
         self.assertEqual(len(have_alerts), len(want_alerts))
-        for  i in range(len(have_alerts)):
+        for i in range(len(have_alerts)):
             self.assertEqual(
                 have_alerts[i]["alertId"], want_alerts[i]["alertId"],
                 f"alert idx={i} has mismatched IDs",
@@ -133,7 +136,8 @@ class RetrieveAlertsTestCase(unittest.TestCase):
         self.assertEqual(self.test_schema.definition, have_schema.definition)
 
     def test_alert_file_with_no_alerts(self):
-        """Write an alert file that contains no alerts at all. It should be readable.
+        """Write an alert file that contains no alerts at all. It should be
+        readable.
         """
         alerts = []
 

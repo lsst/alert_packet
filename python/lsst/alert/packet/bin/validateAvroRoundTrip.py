@@ -30,7 +30,6 @@ import argparse
 import filecmp
 import json
 import os
-import sys
 import tempfile
 
 import lsst.alert.packet
@@ -59,6 +58,7 @@ def check_file_round_trip(baseline, received_data):
             f.write(received_data)
         assert filecmp.cmp(baseline, filename, shallow=False)
 
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--schema-version', type=str,
@@ -75,24 +75,25 @@ def parse_args():
 
     return parser.parse_args()
 
+
 def main():
     args = parse_args()
     if args.schema_version == "latest":
         schema_major, schema_minor = lsst.alert.packet.get_latest_schema_version()
     else:
         schema_major, schema_minor = args.schema_version.split(".")
-    schema_root = lsst.alert.packet.get_schema_path(schema_major, schema_minor)
 
-    alert_schema = lsst.alert.packet.Schema.from_file(
-        os.path.join(schema_root,
-                     schema_filename(schema_major, schema_minor)),
-    )
-    if args.input_data:
-        input_data = args.input_data
-    else:
-        input_data = os.path.join(schema_root, "sample_data", SAMPLE_FILENAME)
-    with open(input_data) as f:
-        json_data = json.load(f)
+    with lsst.alert.packet.get_schema_path(schema_major, schema_minor) as schema_root:
+        alert_schema = lsst.alert.packet.Schema.from_file(
+            os.path.join(schema_root,
+                         schema_filename(schema_major, schema_minor)),
+        )
+        if args.input_data:
+            input_data = args.input_data
+        else:
+            input_data = os.path.join(schema_root, "sample_data", SAMPLE_FILENAME)
+        with open(input_data) as f:
+            json_data = json.load(f)
 
     # Load difference stamp if included
     stamp_size = 0

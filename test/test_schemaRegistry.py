@@ -26,6 +26,7 @@ from tempfile import TemporaryDirectory
 
 from lsst.alert.packet import SchemaRegistry
 
+
 def write_schema(root_dir, filename, version_major, version_minor):
     """Write a simple schema to a filesystem location based on its version.
     """
@@ -44,12 +45,14 @@ def write_schema(root_dir, filename, version_major, version_minor):
     with open(os.path.join(target_dir, filename), "w") as f:
         json.dump(schema, f)
 
+
 def create_filesystem_hierarchy(root_dir, root_file="lsst.example.avsc"):
     """Create a simple schema hierarchy on the filesystem.
     """
     write_schema(root_dir, root_file, "1", "0")
     write_schema(root_dir, root_file, "2", "0")
     write_schema(root_dir, root_file, "2", "1")
+
 
 class FromFilesystemTestCase(unittest.TestCase):
     """Demonstrate that the SchemaRegistry can work with on-disk data.

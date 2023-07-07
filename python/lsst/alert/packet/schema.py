@@ -22,10 +22,11 @@
 """Routines for working with Avro schemas.
 """
 
+import contextlib
 import io
 import os.path
-import pkg_resources
 from pathlib import PurePath
+from importlib import resources
 
 import fastavro
 
@@ -33,10 +34,22 @@ __all__ = ["get_schema_root", "get_latest_schema_version", "get_schema_path",
            "Schema", "get_path_to_latest_schema"]
 
 
+def _get_ref(*args):
+    """Return the package resource file path object.
+
+    Parameters are relative to lsst.alert.packet.
+    """
+    return resources.files("lsst.alert.packet").joinpath(*args)
+
+
+@contextlib.contextmanager
 def get_schema_root():
     """Return the root of the directory within which schemas are stored.
+
+    Returned as a context manager yielding the path to the root.
     """
-    return pkg_resources.resource_filename(__name__, "schema")
+    with resources.as_file(_get_ref("schema")) as f:
+        yield str(f)
 
 
 def get_latest_schema_version():
@@ -50,12 +63,14 @@ def get_latest_schema_version():
         The minor version number.
 
     """
-    val = pkg_resources.resource_string(__name__, "schema/latest.txt")
+    with _get_ref("schema", "latest.txt").open("rb") as fh:
+        val = fh.read()
     clean = val.strip()
     major, minor = clean.split(b".", 1)
     return int(major), int(minor)
 
 
+@contextlib.contextmanager
 def get_schema_path(major, minor):
     """Get the path to a package resource directory housing alert schema
     definitions.
@@ -73,13 +88,11 @@ def get_schema_path(major, minor):
         Path to the directory containing the schemas.
 
     """
-
-    # Note that as_posix() is right here, since pkg_resources
-    # always uses slash-delimited paths, even on Windows.
-    path = PurePath(f"schema/{major}/{minor}/")
-    return pkg_resources.resource_filename(__name__, path.as_posix())
+    with resources.as_file(_get_ref("schema", str(major), str(minor))) as f:
+        yield str(f)
 
 
+@contextlib.contextmanager
 def get_path_to_latest_schema():
     """Get the path to the primary schema file for the latest schema.
 
@@ -90,8 +103,8 @@ def get_path_to_latest_schema():
     """
 
     major, minor = get_latest_schema_version()
-    schema_path = PurePath(get_schema_path(major, minor))
-    return (schema_path / f"lsst.v{major}_{minor}.alert.avsc").as_posix()
+    with get_schema_path(major, minor) as schema_path:
+        yield (PurePath(schema_path) / f"lsst.v{major}_{minor}.alert.avsc").as_posix()
 
 
 def resolve_schema_definition(to_resolve, seen_names=None):
@@ -294,30 +307,33 @@ class Schema(object):
 
     @classmethod
     def from_file(cls, filename=None):
-        """Instantiate a `Schema` by reading its definition from the filesystem.
+        """Instantiate a `Schema` by reading its definition from the
+        filesystem.
 
         Parameters
         ----------
         filename : `str`, optional
-            Path to the schema root (/path/to/lsst.vM_m.alert.avsc). 
-            Will recursively load referenced schemas, assuming they can be 
+            Path to the schema root (/path/to/lsst.vM_m.alert.avsc).
+            Will recursively load referenced schemas, assuming they can be
             found; otherwise, will raise. If `None` (the
             default), will load the latest schema defined in this package.
         """
         if filename is None:
             major, minor = get_latest_schema_version()
             root_name = f"lsst.v{major}_{minor}.alert"
-            filename = os.path.join(
-                get_schema_path(major, minor),
-                root_name + ".avsc",
-            )
+            with get_schema_path(major, minor) as schema_path:
+                filename = os.path.join(
+                    schema_path,
+                    root_name + ".avsc",
+                )
+                schema_definition = fastavro.schema.load_schema(filename)
         else:
             root_name = PurePath(filename).stem
+            schema_definition = fastavro.schema.load_schema(filename)
 
-        schema_definition = fastavro.schema.load_schema(filename)
         if hasattr(fastavro.schema._schema, 'SCHEMA_DEFS'):
-            # Old fastavro gives a back a list if it recursively loaded more than one
-            # file, otherwise a dict.
+            # Old fastavro gives a back a list if it recursively loaded more
+            # than one file, otherwise a dict.
             if isinstance(schema_definition, dict):
                 schema_definition = [schema_definition]
 

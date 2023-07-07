@@ -45,14 +45,15 @@ class SchemaValidityTestCase(unittest.TestCase):
         no_data = ("1.0",)  # No example data is available.
 
         for version in self.registry.known_versions:
-            path = path_to_sample_data(get_schema_root(), version, "alert.json")
-            schema = self.registry.get_by_version(version)
-            if version in no_data:
-                self.assertFalse(os.path.exists(path))
-            else:
-                with open(path, "r") as f:
-                    data = json.load(f)
-                self.assertTrue(self.registry.get_by_version(version).validate(data))
+            with get_schema_root() as schema_root:
+                path = path_to_sample_data(schema_root, version, "alert.json")
+                schema = self.registry.get_by_version(version)  # noqa: F841
+                if version in no_data:
+                    self.assertFalse(os.path.exists(path))
+                else:
+                    with open(path, "r") as f:
+                        data = json.load(f)
+                    self.assertTrue(self.registry.get_by_version(version).validate(data))
 
     def test_example_avro(self):
         """Test that example data in Avro format can be loaded by the schema.
@@ -61,27 +62,28 @@ class SchemaValidityTestCase(unittest.TestCase):
         bad_versions = ("2.0",)  # This data is known not to parse.
 
         for version in self.registry.known_versions:
-            path = path_to_sample_data(get_schema_root(), version,
-                                       "fakeAlert.avro")
-            schema = self.registry.get_by_version(version)
+            with get_schema_root() as schema_root:
+                path = path_to_sample_data(schema_root, version,
+                                           "fakeAlert.avro")
+                schema = self.registry.get_by_version(version)
 
-            if version in no_data:
-                self.assertFalse(os.path.exists(path))
-            else:
-                with open(path, "rb") as f:
-                    if version in bad_versions:
-                        with self.assertRaises(RuntimeError):
-                            schema.retrieve_alerts(f)
-                    else:
-                        retrieved_schema, alerts = schema.retrieve_alerts(f)
+                if version in no_data:
+                    self.assertFalse(os.path.exists(path))
+                else:
+                    with open(path, "rb") as f:
+                        if version in bad_versions:
+                            with self.assertRaises(RuntimeError):
+                                schema.retrieve_alerts(f)
+                        else:
+                            retrieved_schema, alerts = schema.retrieve_alerts(f)
 
-                        fastavro_keys = list(schema.definition.keys())
-                        for key in fastavro_keys:
-                            if '__' in key and '__len__' not in key:
-                                schema.definition.pop(key)
+                            fastavro_keys = list(schema.definition.keys())
+                            for key in fastavro_keys:
+                                if '__' in key and '__len__' not in key:
+                                    schema.definition.pop(key)
 
-                        self.assertEqual(retrieved_schema, schema,
-                                         f"schema not equal on version={version}")
-                        for idx, alert in enumerate(alerts):
-                            self.assertTrue(schema.validate(alert),
-                                            f"failed to validate version={version}, alert idx={idx}")
+                            self.assertEqual(retrieved_schema, schema,
+                                             f"schema not equal on version={version}")
+                            for idx, alert in enumerate(alerts):
+                                self.assertTrue(schema.validate(alert),
+                                                f"failed to validate version={version}, alert idx={idx}")
