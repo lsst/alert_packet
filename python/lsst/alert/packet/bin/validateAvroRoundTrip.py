@@ -82,18 +82,18 @@ def main():
         schema_major, schema_minor = lsst.alert.packet.get_latest_schema_version()
     else:
         schema_major, schema_minor = args.schema_version.split(".")
+    schema_root = lsst.alert.packet.get_schema_path(schema_major, schema_minor)
 
-    with lsst.alert.packet.get_schema_path(schema_major, schema_minor) as schema_root:
-        alert_schema = lsst.alert.packet.Schema.from_file(
-            os.path.join(schema_root,
-                         schema_filename(schema_major, schema_minor)),
-        )
-        if args.input_data:
-            input_data = args.input_data
-        else:
-            input_data = os.path.join(schema_root, "sample_data", SAMPLE_FILENAME)
-        with open(input_data) as f:
-            json_data = json.load(f)
+    alert_schema = lsst.alert.packet.Schema.from_file(
+        os.path.join(schema_root,
+                     schema_filename(schema_major, schema_minor)),
+    )
+    if args.input_data:
+        input_data = args.input_data
+    else:
+        input_data = os.path.join(schema_root, "sample_data", SAMPLE_FILENAME)
+    with open(input_data) as f:
+        json_data = json.load(f)
 
     # Load difference stamp if included
     stamp_size = 0
