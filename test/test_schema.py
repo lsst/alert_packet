@@ -32,8 +32,7 @@ class SchemaRootTestCase(unittest.TestCase):
     """
 
     def test_get_schema_root(self):
-        with get_schema_root() as schema_root:
-            self.assertTrue(os.path.isdir(schema_root))
+        self.assertTrue(os.path.isdir(get_schema_root()))
 
 
 class PathLatestSchemTestCase(unittest.TestCase):
@@ -41,8 +40,7 @@ class PathLatestSchemTestCase(unittest.TestCase):
     """
 
     def test_path_latest_schema(self):
-        with get_path_to_latest_schema() as schema_path:
-            self.assertTrue(os.path.isfile(schema_path))
+        self.assertTrue(os.path.isfile(get_path_to_latest_schema()))
 
 
 class ResolveTestCase(unittest.TestCase):
