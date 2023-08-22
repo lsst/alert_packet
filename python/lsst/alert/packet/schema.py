@@ -24,7 +24,7 @@
 
 import io
 import os.path
-import pkg_resources
+from importlib import resources
 from pathlib import PurePath
 
 import fastavro
@@ -33,10 +33,20 @@ __all__ = ["get_schema_root", "get_latest_schema_version", "get_schema_path",
            "Schema", "get_path_to_latest_schema"]
 
 
+def _get_ref(*args):
+    """Return the package resource file path object.
+
+    Parameters are relative to lsst.alert.packet.
+    """
+    return resources.files("lsst.alert.packet").joinpath(*args)
+
+
 def get_schema_root():
     """Return the root of the directory within which schemas are stored.
+
+    This might be a temporary location if a zip distribution file is used.
     """
-    return pkg_resources.resource_filename(__name__, "schema")
+    return _get_ref("schema")
 
 
 def get_latest_schema_version():
@@ -50,7 +60,8 @@ def get_latest_schema_version():
         The minor version number.
 
     """
-    val = pkg_resources.resource_string(__name__, "schema/latest.txt")
+    with _get_ref("schema", "latest.txt").open("rb") as fh:
+        val = fh.read()
     clean = val.strip()
     major, minor = clean.split(b".", 1)
     return int(major), int(minor)
@@ -73,11 +84,7 @@ def get_schema_path(major, minor):
         Path to the directory containing the schemas.
 
     """
-
-    # Note that as_posix() is right here, since pkg_resources
-    # always uses slash-delimited paths, even on Windows.
-    path = PurePath(f"schema/{major}/{minor}/")
-    return pkg_resources.resource_filename(__name__, path.as_posix())
+    return _get_ref("schema", str(major), str(minor)).as_posix()
 
 
 def get_path_to_latest_schema():
