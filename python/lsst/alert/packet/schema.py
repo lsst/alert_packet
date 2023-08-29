@@ -30,7 +30,8 @@ from pathlib import PurePath
 import fastavro
 
 __all__ = ["get_schema_root", "get_latest_schema_version", "get_schema_path",
-           "Schema", "get_path_to_latest_schema"]
+           "Schema", "get_path_to_latest_schema", "get_schema_root_uri",
+           "get_uri_to_latest_schema", "get_schema_uri"]
 
 
 def _get_ref(*args):
@@ -41,12 +42,28 @@ def _get_ref(*args):
     return resources.files("lsst.alert.packet").joinpath(*args)
 
 
+def _get_uri_str(*args):
+    """Return the package resource in the form of a URI.
+
+    This URI is suitable for use by `lsst.resources.ResourcePath`
+    and uses the ``resource`` URI scheme.
+    """
+    return "resource://lsst.alert.packet/" + "/".join(args)
+
+
 def get_schema_root():
     """Return the root of the directory within which schemas are stored.
 
     This might be a temporary location if a zip distribution file is used.
     """
     return _get_ref("schema")
+
+
+def get_schema_root_uri():
+    """Return the ``resource`` URI corresponding to the location where
+    schemas are stored."""
+    # Add trailing / to indicate that we know this is a directory.
+    return _get_uri_str("schema") + "/"
 
 
 def get_latest_schema_version():
@@ -87,6 +104,27 @@ def get_schema_path(major, minor):
     return _get_ref("schema", str(major), str(minor)).as_posix()
 
 
+def get_schema_uri(major, minor):
+    """Get the URI to a package resource directory housing alert schema
+    definitions.
+
+    Parameters
+    ----------
+    major : `int`
+        Major version number for the schema.
+    minor : `int`
+        Minor version number for the schema.
+
+    Returns
+    -------
+    uri : `str`
+        ``resource`` URI to the directory containing the schemas.
+    """
+    # Add trailing / to indicate that we know this URI refers
+    # to a directory.
+    return _get_uri_str("schema", str(major), str(minor)) + "/"
+
+
 def get_path_to_latest_schema():
     """Get the path to the primary schema file for the latest schema.
 
@@ -99,6 +137,19 @@ def get_path_to_latest_schema():
     major, minor = get_latest_schema_version()
     schema_path = PurePath(get_schema_path(major, minor))
     return (schema_path / f"lsst.v{major}_{minor}.alert.avsc").as_posix()
+
+
+def get_uri_to_latest_schema():
+    """Get the URI to to the primary file for the latest schema.
+
+    Returns
+    -------
+    uri : `str`
+        The ``resource`` URI to the latest schema.
+    """
+    major, minor = get_latest_schema_version()
+    schema_uri = get_schema_uri(major, minor)
+    return schema_uri + f"lsst.v{major}_{minor}.alert.avsc"
 
 
 def resolve_schema_definition(to_resolve, seen_names=None):
