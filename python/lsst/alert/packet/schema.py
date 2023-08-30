@@ -364,15 +364,9 @@ class Schema(object):
             default), will load the latest schema defined in this package.
         """
         if filename is None:
-            major, minor = get_latest_schema_version()
-            root_name = f"lsst.v{major}_{minor}.alert"
-            filename = os.path.join(
-                get_schema_path(major, minor),
-                root_name + ".avsc",
-            )
-        else:
-            root_name = PurePath(filename).stem
+            filename = get_path_to_latest_schema()
 
+        root_name = PurePath(filename).stem
         schema_definition = fastavro.schema.load_schema(filename)
         if hasattr(fastavro.schema._schema, 'SCHEMA_DEFS'):
             # Old fastavro gives a back a list if it recursively loaded more
