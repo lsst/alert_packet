@@ -22,10 +22,13 @@
 """Routines for working with Avro schemas.
 """
 
+from __future__ import annotations
+
 import io
-import os.path
+import tempfile
 from importlib import resources
 from pathlib import PurePath
+from lsst.resources import ResourcePath
 
 import fastavro
 
@@ -42,13 +45,17 @@ def _get_ref(*args):
     return resources.files("lsst.alert.packet").joinpath(*args)
 
 
-def _get_uri_str(*args):
-    """Return the package resource in the form of a URI.
+def _get_dir_uri(*args: str) -> ResourcePath:
+    """Return the package resource associated with the given directory
+     components as a URI.
 
-    This URI is suitable for use by `lsst.resources.ResourcePath`
-    and uses the ``resource`` URI scheme.
+    Returns
+    -------
+    uri : `lsst.resources.ResourcePath`
+        The URI derived from the supplied paths.
     """
-    return "resource://lsst.alert.packet/" + "/".join(args)
+    return ResourcePath("resource://lsst.alert.packet/" + "/".join(args),
+                        forceDirectory=True)
 
 
 def get_schema_root():
@@ -59,11 +66,10 @@ def get_schema_root():
     return _get_ref("schema")
 
 
-def get_schema_root_uri():
+def get_schema_root_uri() -> ResourcePath:
     """Return the ``resource`` URI corresponding to the location where
     schemas are stored."""
-    # Add trailing / to indicate that we know this is a directory.
-    return _get_uri_str("schema") + "/"
+    return _get_dir_uri("schema")
 
 
 def get_latest_schema_version():
@@ -104,7 +110,7 @@ def get_schema_path(major, minor):
     return _get_ref("schema", str(major), str(minor)).as_posix()
 
 
-def get_schema_uri(major, minor):
+def get_schema_uri(major: int, minor: int) -> ResourcePath:
     """Get the URI to a package resource directory housing alert schema
     definitions.
 
@@ -117,12 +123,10 @@ def get_schema_uri(major, minor):
 
     Returns
     -------
-    uri : `str`
+    uri : `lsst.resources.ResourcePath`
         ``resource`` URI to the directory containing the schemas.
     """
-    # Add trailing / to indicate that we know this URI refers
-    # to a directory.
-    return _get_uri_str("schema", str(major), str(minor)) + "/"
+    return _get_dir_uri("schema", str(major), str(minor))
 
 
 def get_path_to_latest_schema():
@@ -139,17 +143,17 @@ def get_path_to_latest_schema():
     return (schema_path / f"lsst.v{major}_{minor}.alert.avsc").as_posix()
 
 
-def get_uri_to_latest_schema():
+def get_uri_to_latest_schema() -> ResourcePath:
     """Get the URI to to the primary file for the latest schema.
 
     Returns
     -------
-    uri : `str`
+    uri : `lsst.resources.ResourcePath`
         The ``resource`` URI to the latest schema.
     """
     major, minor = get_latest_schema_version()
     schema_uri = get_schema_uri(major, minor)
-    return schema_uri + f"lsst.v{major}_{minor}.alert.avsc"
+    return schema_uri.join(f"lsst.v{major}_{minor}.alert.avsc")
 
 
 def resolve_schema_definition(to_resolve, seen_names=None):
@@ -349,6 +353,52 @@ class Schema:
         the same.
         """
         return self.definition == other.definition
+
+    @classmethod
+    def from_uri(cls, base_uri: None | str | ResourcePath = None) -> Schema:
+        """Instantiate a `Schema` by reading its definition from a URI.
+
+        Parameters
+        ----------
+        base_uri : `str` or `lsst.resources.ResourcePath` or `None`
+            URI to the base schema as either a `~lsst.resources.ResourcePath`
+            or a string that can be converted to one. If `None` the most
+            recent default schema will be used.
+        """
+        if base_uri is None:
+            uri = get_uri_to_latest_schema()
+        else:
+            uri = ResourcePath(base_uri)
+
+        if uri.isLocal:
+            return cls.from_file(uri.ospath)
+
+        # fastavro requires that the schema file is local and that all the
+        # referenced schema files are also local. This means that for a remote
+        # URI all related schema files must be downloaded. Additionally they
+        # must all have the original names and not temporary names.
+
+        # Special case resource URIs. If the package is installed in expanded
+        # form the local file will have the original name, else if the package
+        # is still in a wheel it will have a temporary name.
+        if uri.scheme == "resource":
+            with uri.as_local() as local_file:
+                if local_file.basename() == uri.basename():
+                    # Likely already a local file.
+                    return cls.from_file(local_file.ospath)
+
+        # This URI is a remote resource (eg S3) or a package resource in a
+        # wheel. Need to scan the directory and download all .avsc files.
+        uri_dir = uri.dirname()
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tempdir_uri = ResourcePath(tmpdir, forceDirectory=True)
+            for file in ResourcePath.findFileResources([uri_dir],
+                                                       file_filter=f"\\{uri.getExtension()}$"):
+                target = tempdir_uri.join(file.basename())
+                target.transfer_from(file, transfer="copy")
+
+            return cls.from_file(tempdir_uri.join(uri.basename()).ospath)
 
     @classmethod
     def from_file(cls, filename=None):
