@@ -221,7 +221,7 @@ def resolve_schema_definition(to_resolve, seen_names=None):
     return output
 
 
-class Schema(object):
+class Schema:
     """An Avro schema.
 
     Parameters
