@@ -29,7 +29,7 @@ import zlib
 __all__ = ["SchemaRegistry"]
 
 
-class SchemaRegistry(object):
+class SchemaRegistry:
     """A registry for alert schemas.
 
     When a schema is registered, the registry allocates it an ID. We can
