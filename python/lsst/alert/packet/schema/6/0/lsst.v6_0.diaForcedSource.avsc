@@ -19,8 +19,8 @@
       "type": "long"
     },
     {
-      "doc": "Point Source model flux.",
       "default": null,
+      "doc": "Point Source model flux.",
       "name": "psfFlux",
       "type": [
         "null",
@@ -28,8 +28,8 @@
       ]
     },
     {
-      "doc": "Uncertainty of psfFlux.",
       "default": null,
+      "doc": "Uncertainty of psfFlux.",
       "name": "psfFluxErr",
       "type": [
         "null",
@@ -37,8 +37,8 @@
       ]
     },
     {
-      "doc": "x position at which psfFlux has been measured.",
       "default": null,
+      "doc": "x position at which psfFlux has been measured.",
       "name": "x",
       "type": [
         "null",
@@ -46,8 +46,8 @@
       ]
     },
     {
-      "doc": "y position at which psfFlux has been measured.",
       "default": null,
+      "doc": "y position at which psfFlux has been measured.",
       "name": "y",
       "type": [
         "null",
@@ -65,8 +65,8 @@
       "type": "double"
     },
     {
-      "doc": "Filter band this source was observed with.",
       "default": null,
+      "doc": "Filter band this source was observed with.",
       "name": "band",
       "type": [
         "null",

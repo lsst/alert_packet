@@ -24,26 +24,22 @@ import os
 import fastavro
 import yaml
 import json
-from lsst.alert.packet import get_schema_root, SchemaRegistry
+
+__all__ = ['generate_schema']
 
 
-__all__ = ['update_schema']
+def write_schema(schema, path):
 
-
-def write_schema(schema, version, path):
-
-    updated_schema_loc = path[0:-3] + version[0]+'/'+version[2]
-
-    if not os.path.exists(updated_schema_loc):
-        if not os.path.exists(updated_schema_loc[0:-2]):
-            os.mkdir(updated_schema_loc[0:-2])
-            os.mkdir(updated_schema_loc)
+    if not os.path.exists(path):
+        if not os.path.exists(path[0:-2]):
+            os.mkdir(path[0:-2])
+            os.mkdir(path)
         else:
-            os.mkdir(updated_schema_loc)
+            os.mkdir(path)
 
     updated_schema_name = schema['namespace'] + '.' + schema['name'] + '.avsc'
 
-    with open(updated_schema_loc + '/' + updated_schema_name, "w") as f:
+    with open(path + '/' + updated_schema_name, "w") as f:
         json.dump(schema, f, indent=2)
 
 
@@ -57,32 +53,30 @@ def add_namespace(schema):
     return schema
 
 
-def populate_fields(apdb):
+def populate_fields(apdb_table):
     """Make a dictionary of fields to populate the avro schema. At present, a
     number of rules must be included to ensure certain fields are excluded.
 
     Parameters
     ----------
-    apdb: `dict`
-        The name of the schema as a string. E.G. diaSource.
+    apdb_table: `dict`
+        The dictionary used to generate the avro schema.
     """
 
     field_dictionary_array = []
-    for column in apdb['columns']:
+    for column in apdb_table['columns']:
         # We are still finalizing the time series feature names.
-        if (column['name'] != 'validityStart') and (
-                column['name'] != 'validityEnd') and "Periodic" not in column[
-                'name'] and "max" not in column['name'] and "min" not in column[
-                'name'] and "Science" not in column['name'] and "Percentile" not in column[
-                'name'] and "Max" not in column['name'] and "Min" not in column[
-                'name'] and "science" not in column['name'] and "LowzGal" not in column[
-                'name'] and "MAD" not in column['name'] and "Skew" not in column[
-                'name'] and "Intercept" not in column['name'] and "Slope" not in column[
-                'name'] and "Stetson" not in column['name'] and "lastNonForcedSource" not in column[
-                'name'] and "nDiaSources" not in column['name'] and "ExtObj" not in column[
-                'name'] and "time_" not in column['name'] and "Time" not in column[
-                'name'] and "isDipole" not in column['name'] and "bboxSize" not in column['name']:
 
+        excluded_fields = ['validityStart', 'validityEnd', 'Periodic', 'max', 'min',
+                           'Science', 'Percentile', 'Max', 'Min', 'science', 'LowzGal',
+                           'MAD', 'Skew', 'Intercept', 'Slope', 'Stetson', 'lastNonForcedSource',
+                           'nDiaSources', 'ExtObj', 'Time', 'time_', 'isDipole', 'bboxSize']
+        exclude = False
+        for excluded_field in excluded_fields:
+            if excluded_field in column['name']:
+                exclude = True
+
+        if not exclude:
             if 'char' in column['datatype']:
                 column['datatype'] = "string"
             # Check if a column is nullable. If it is, it needs a default.
@@ -90,30 +84,30 @@ def populate_fields(apdb):
                 if column['nullable'] is False:
                     # Check if a column has a description, if so, include "doc"
                     if 'description' in column:
-                        field = {"name": column['name'],
-                                 "type": column["datatype"],
-                                 "doc": column["description"]}
+                        field = {'name': column['name'],
+                                 'type': column['datatype'],
+                                 'doc': column['description']}
                         field_dictionary_array.append(field)
                     else:
-                        field = {"name": column['name'],
-                                 "type": column["datatype"], "doc": ""}
+                        field = {'name': column['name'],
+                                 'type': column['datatype'], 'doc': ''}
                         field_dictionary_array.append(field)
                 else:  # nullable == True
                     if 'description' in column:
-                        field = {"name": column['name'],
-                                 "type": ["null", str(column["datatype"])],
-                                 "doc": column["description"], "default": None}
+                        field = {'name': column['name'],
+                                 'type': ['null', str(column['datatype'])],
+                                 'doc': column['description'], 'default': None}
                         field_dictionary_array.append(field)
                     else:
-                        field = {"name": column['name'],
-                                 "type": ["null", str(column["datatype"])],
-                                 "doc": "", "default": None}
+                        field = {'name': column['name'],
+                                 'type': ['null', str(column['datatype'])],
+                                 'doc': '', 'default': None}
                         field_dictionary_array.append(field)
             else:  # nullable not in columns (nullable == True)
                 if 'description' in column:
-                    field = {"name": column['name'],
-                             "type": ["null", str(column["datatype"])],
-                             "doc": column["description"], "default": None}
+                    field = {'name': column['name'],
+                             'type': ['null', str(column['datatype'])],
+                             'doc': column['description'], 'default': None}
                     field_dictionary_array.append(field)
                 else:
                     field = {"name": column['name'],
@@ -125,21 +119,21 @@ def populate_fields(apdb):
 
 
 def create_schema(name, field_dictionary_array, version):
-    """ Create a schema using the field dictionary. fastavro will automatically
+    """ Create a schema using a field dictionary. fastavro will automatically
     take the name and namespace and put them as one, so the name should just be
     the schema name and the namespace needs to be created separately. The
     fastavro keys also need to be removed from the schema.
 
-        Parameters
+    Parameters
     ----------
     name: `string`
-        The name of the schema as a string. E.G. diaSource.
+        The name of the schema as a string. (e.g., `'diaSource'`).
 
     field_dictionary_array: 'np.array'
         An array containing dictionary entries for the individual fields.
 
     version: 'string'
-        The version number of the schema
+        The version number of the schema.
     """
     name = name[0:2].lower() + name[2:]
     schema = fastavro.parse_schema({
@@ -159,60 +153,60 @@ def create_schema(name, field_dictionary_array, version):
     return schema
 
 
-def update_schema(apdb_filepath, update_version=None):
-    """Compare an avro schemas  docstrings with the apdb.yaml file.
+def generate_schema(apdb_filepath, schema_path, schema_version):
+    """Generate avro schemas using an apdb.yaml file.
 
-    If there are no docstrings, add the field. If the docstrings do
-    not match, update the schema docstrings to the apdb docstrings.
-
-    Once it is updated, write out the new schema.
+    Using a provided path to the apdb.yaml file and schema folder,
+    generate a new schema, using a provided version number.
 
     Parameters
     ----------
     apdb_filepath: `string`
-        Input string for the apdb.yaml file where the docstrings
-        will be compared.
+        Input path to the apdb.yaml file which contains the information
+        used to generate the new schemas.
+        Example: path/to/sdm_schemas/yml/apdb.yaml
 
-    update_version: 'string'
-        If a string is included, update schema to provided version.
+    schema_path: `string`
+        Input path to the schema folder where the new schemas will
+        be added.
+        Example: /path/to/alert_packet/python/lsst/alert/packet/schema
+
+    schema_version: 'string'
+        Provide the version number of the schema as a string.
         Example: "5.1"
 
     """
 
-    registry = SchemaRegistry.from_filesystem()
+    path = os.path.join(schema_path, *schema_version.split("."))
 
-    for version in registry.known_versions:
-        schema_root = get_schema_root()
-        path = os.path.join(schema_root, *version.split("."))
+    with open(apdb_filepath, 'r') as file:
+        apdb = yaml.safe_load(file)
 
-        with open(apdb_filepath, 'r') as file:
-            apdb = yaml.safe_load(file)
+    version_name = schema_version.split(".")[0] + "_" + schema_version.split(".")[1]
 
-        if update_version:
-            version_name = update_version.split(".")[0] + "_" + update_version.split(".")[1]
-        else:
-            version_name = version.split(".")[0] + "_" + version.split(".")[1]
+    table_names = ['DiaForcedSource', 'DiaObject', 'DiaSource', 'SSObject']
+    for name in table_names:
 
-        # The first 4 columns in the apdb are the ones we use for alerts
-        for x in range(0, 4):
+        for table in apdb['tables']:
+            if name in table['name']:
+                field_dictionary = populate_fields(table)
+                schema = create_schema(name, field_dictionary, version_name)
 
-            name = apdb['tables'][x]['name']
-            field_dictionary = populate_fields(apdb['tables'][x])
-            schema = create_schema(name, field_dictionary, version_name)
-
-            write_schema(schema, version_name, path)
+                write_schema(schema, path)
 
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser(description='Update the schema docstrings so that they'
-                                                 'match the docstrings in apdb.yaml and include the '
-                                                 'desired version number. Example input:'
+    parser = argparse.ArgumentParser(description='Generate a schema using an apdb.yaml as the source'
+                                                 'of truth andinclude a desired version number'
+                                                 'Example input:'
                                                  'python3 updateSchema.py '
-                                                 '"Path/To/Yaml/sdm_schemas/yml/apdb.yaml" "6.0"')
+                                                 'Path/To/Yaml/sdm_schemas/yml/apdb.yaml '
+                                                 'Path/To/alert_packet/lsst/alert/packet/schema "6.0"')
     parser.add_argument('apdb_filepath')
-    parser.add_argument('update_version')
+    parser.add_argument('schema_path')
+    parser.add_argument('schema_version')
 
     args = parser.parse_args()
 
-    update_schema(args.apdb_filepath, args.update_version)
+    generate_schema(args.apdb_filepath, args.schema_path, args.schema_version)

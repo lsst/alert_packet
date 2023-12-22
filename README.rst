@@ -39,8 +39,8 @@ Steps to update the alert schema (for example, when the APDB schema is updated).
    * To update the schema, you must have the path to the apdb.yaml file and have chosen a version number. If the directory for your version
    * does not already exist, ``updateSchema.py`` will create it.
 
-      * run ``python updateSchema.py /path/to/LSST/code/sdm_schemas/yml/apdb.yaml "6.0"`` All Generated files do not need to be altered.
-      * Navigate to the new schema. Copy in the previous ``lsst.vX_X.avsc`` file and ``lsst.vX_X.diaNondetectionLimit.avsc``.
+      * run ``python updateSchema.py /path/to/LSST/code/sdm_schemas/yml/apdb.yaml Path/To/alert_packet/lsst/alert/packet/schema "6.0"`` All Generated files do not need to be altered.
+      * Navigate to the new schema. Copy in the previous ``lsst.vX_X.alert.avsc`` file and ``lsst.vX_X.diaNondetectionLimit.avsc``.
       * Within the two copied files, update ``"namespace": "lsst.vX_X",`` line at the top of each ``*.avsc`` file to the new version.
       * Update the contents of those avro schema files to reflect the new schema.
       * Update the sample alert packet in ``sample_data``:
