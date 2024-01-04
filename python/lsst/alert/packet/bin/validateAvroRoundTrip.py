@@ -120,7 +120,7 @@ def main():
         check_file_round_trip(args.cutout_template,
                               message.pop('cutoutTemplate')['stampData'])
 
-    message_size = len(json.dumps(message).encode('utf-8'))
+    message_size = len(json.dumps(message, default=repr).encode('utf-8'))
     print("Size in bytes of JSON-encoded message (excl. stamps): %d" % (message_size,))
     print("Size in bytes of stamps:                              %d" % (stamp_size,))
     print("TOTAL:                                                %d" % (stamp_size + message_size,))
@@ -135,7 +135,7 @@ def main():
     #   populated with nulls;
     # - Precision has been lost on the floats.
     if args.print:
-        print(json.dumps(message, sort_keys=True, indent=4))
+        print(json.dumps(message, sort_keys=True, indent=4, default=repr))
 
 
 if __name__ == "__main__":

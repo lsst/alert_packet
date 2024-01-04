@@ -25,6 +25,7 @@ import fastavro
 import yaml
 import json
 
+
 __all__ = ['generate_schema']
 
 
@@ -70,7 +71,7 @@ def populate_fields(apdb_table):
         excluded_fields = ['validityStart', 'validityEnd', 'Periodic', 'max', 'min',
                            'Science', 'Percentile', 'Max', 'Min', 'science', 'LowzGal',
                            'MAD', 'Skew', 'Intercept', 'Slope', 'Stetson', 'lastNonForcedSource',
-                           'nDiaSources', 'ExtObj', 'Time', 'time_', 'isDipole', 'bboxSize']
+                           'nDiaSources', 'ExtObj', 'isDipole', 'bboxSize', 'Time', 'time_']
         exclude = False
         for excluded_field in excluded_fields:
             if excluded_field in column['name']:
@@ -78,7 +79,13 @@ def populate_fields(apdb_table):
 
         if not exclude:
             if 'char' in column['datatype']:
-                column['datatype'] = "string"
+                column['datatype'] = 'string'
+
+            if 'timestamp' in column['datatype']:
+                column['datatype'] = {'type': 'long', 'logicalType': 'timestamp-micros'}
+            else:
+                column['datatype'] = str(column['datatype'])
+
             # Check if a column is nullable. If it is, it needs a default.
             if 'nullable' in column:
                 if column['nullable'] is False:
@@ -87,38 +94,35 @@ def populate_fields(apdb_table):
                         field = {'name': column['name'],
                                  'type': column['datatype'],
                                  'doc': column['description']}
-                        field_dictionary_array.append(field)
                     else:
                         field = {'name': column['name'],
                                  'type': column['datatype'], 'doc': ''}
-                        field_dictionary_array.append(field)
                 else:  # nullable == True
                     if 'description' in column:
                         field = {'name': column['name'],
-                                 'type': ['null', str(column['datatype'])],
+                                 'type': ['null', column['datatype']],
                                  'doc': column['description'], 'default': None}
-                        field_dictionary_array.append(field)
                     else:
                         field = {'name': column['name'],
-                                 'type': ['null', str(column['datatype'])],
+                                 'type': ['null', column['datatype']],
                                  'doc': '', 'default': None}
-                        field_dictionary_array.append(field)
             else:  # nullable not in columns (nullable == True)
                 if 'description' in column:
                     field = {'name': column['name'],
-                             'type': ['null', str(column['datatype'])],
+                             'type': ['null', column['datatype']],
                              'doc': column['description'], 'default': None}
-                    field_dictionary_array.append(field)
+
                 else:
                     field = {"name": column['name'],
-                             "type": ["null", str(column["datatype"])],
+                             "type": ["null", column["datatype"]],
                              "doc": "", "default": None}
-                    field_dictionary_array.append(field)
+
+            field_dictionary_array.append(field)
 
     return field_dictionary_array
 
 
-def create_schema(name, field_dictionary_array, version):
+def create_schema(name, field_dictionary_list, version):
     """ Create a schema using a field dictionary. fastavro will automatically
     take the name and namespace and put them as one, so the name should just be
     the schema name and the namespace needs to be created separately. The
@@ -129,8 +133,8 @@ def create_schema(name, field_dictionary_array, version):
     name: `string`
         The name of the schema as a string. (e.g., `'diaSource'`).
 
-    field_dictionary_array: 'np.array'
-        An array containing dictionary entries for the individual fields.
+    field_dictionary_list: 'list'
+        A list containing dictionary entries for the individual fields.
 
     version: 'string'
         The version number of the schema.
@@ -139,7 +143,7 @@ def create_schema(name, field_dictionary_array, version):
     schema = fastavro.parse_schema({
         "name": name,
         "type": "record",
-        "fields": field_dictionary_array
+        "fields": field_dictionary_list
     })
 
     schema['namespace'] = 'lsst.v' + version
@@ -188,10 +192,9 @@ def generate_schema(apdb_filepath, schema_path, schema_version):
     for name in table_names:
 
         for table in apdb['tables']:
-            if name in table['name']:
+            if table['name'] == name:
                 field_dictionary = populate_fields(table)
                 schema = create_schema(name, field_dictionary, version_name)
-
                 write_schema(schema, path)
 
 

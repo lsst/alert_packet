@@ -19,8 +19,8 @@
       "type": "long"
     },
     {
-      "default": null,
       "doc": "Point Source model flux.",
+      "default": null,
       "name": "psfFlux",
       "type": [
         "null",
@@ -28,8 +28,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of psfFlux.",
+      "default": null,
       "name": "psfFluxErr",
       "type": [
         "null",
@@ -37,8 +37,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "x position at which psfFlux has been measured.",
+      "default": null,
       "name": "x",
       "type": [
         "null",
@@ -46,8 +46,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "y position at which psfFlux has been measured.",
+      "default": null,
       "name": "y",
       "type": [
         "null",
@@ -56,8 +56,12 @@
     },
     {
       "doc": "Flags, bitwise OR tbd",
+      "default": null,
       "name": "flags",
-      "type": "long"
+      "type": [
+        "null",
+        "long"
+      ]
     },
     {
       "doc": "Effective mid-visit time for this diaForcedSource, expressed as Modified Julian Date, International Atomic Time.",
@@ -65,8 +69,8 @@
       "type": "double"
     },
     {
-      "default": null,
       "doc": "Filter band this source was observed with.",
+      "default": null,
       "name": "band",
       "type": [
         "null",

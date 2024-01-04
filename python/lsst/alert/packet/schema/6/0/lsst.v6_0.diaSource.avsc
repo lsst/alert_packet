@@ -14,8 +14,8 @@
       "type": "long"
     },
     {
-      "default": null,
       "doc": "Id of the diaObject this source was associated with, if any. If not, it is set to NULL (each diaSource will be associated with either a diaObject or ssObject).",
+      "default": null,
       "name": "diaObjectId",
       "type": [
         "null",
@@ -23,8 +23,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Id of the ssObject this source was associated with, if any. If not, it is set to NULL (each diaSource will be associated with either a diaObject or ssObject).",
+      "default": null,
       "name": "ssObjectId",
       "type": [
         "null",
@@ -32,8 +32,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Id of the parent diaSource this diaSource has been deblended from, if any.",
+      "default": null,
       "name": "parentDiaSourceId",
       "type": [
         "null",
@@ -51,8 +51,8 @@
       "type": "double"
     },
     {
-      "default": null,
       "doc": "Uncertainty of ra.",
+      "default": null,
       "name": "raErr",
       "type": [
         "null",
@@ -65,8 +65,8 @@
       "type": "double"
     },
     {
-      "default": null,
       "doc": "Uncertainty of dec.",
+      "default": null,
       "name": "decErr",
       "type": [
         "null",
@@ -74,8 +74,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance between ra and dec.",
+      "default": null,
       "name": "ra_dec_Cov",
       "type": [
         "null",
@@ -88,8 +88,8 @@
       "type": "float"
     },
     {
-      "default": null,
       "doc": "Uncertainty of x.",
+      "default": null,
       "name": "xErr",
       "type": [
         "null",
@@ -102,8 +102,8 @@
       "type": "float"
     },
     {
-      "default": null,
       "doc": "Uncertainty of y.",
+      "default": null,
       "name": "yErr",
       "type": [
         "null",
@@ -111,8 +111,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance between x and y.",
+      "default": null,
       "name": "x_y_Cov",
       "type": [
         "null",
@@ -120,8 +120,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Flux in a 12 pixel radius aperture on the difference image.",
+      "default": null,
       "name": "apFlux",
       "type": [
         "null",
@@ -129,8 +129,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Estimated uncertainty of apFlux.",
+      "default": null,
       "name": "apFluxErr",
       "type": [
         "null",
@@ -138,8 +138,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "The signal-to-noise ratio at which this source was detected in the difference image.",
+      "default": null,
       "name": "snr",
       "type": [
         "null",
@@ -147,8 +147,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Flux for Point Source model. Note this actually measures the flux difference between the template and the visit image.",
+      "default": null,
       "name": "psfFlux",
       "type": [
         "null",
@@ -156,8 +156,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of psfFlux.",
+      "default": null,
       "name": "psfFluxErr",
       "type": [
         "null",
@@ -165,8 +165,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Right ascension coordinate of centroid for point source model.",
+      "default": null,
       "name": "psfRa",
       "type": [
         "null",
@@ -174,8 +174,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of psfRa.",
+      "default": null,
       "name": "psfRaErr",
       "type": [
         "null",
@@ -183,8 +183,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Declination coordinate of centroid for point source model.",
+      "default": null,
       "name": "psfDec",
       "type": [
         "null",
@@ -192,8 +192,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of psfDec.",
+      "default": null,
       "name": "psfDecErr",
       "type": [
         "null",
@@ -201,8 +201,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance between psfFlux and psfRa.",
+      "default": null,
       "name": "psfFlux_psfRa_Cov",
       "type": [
         "null",
@@ -210,8 +210,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance between psfFlux and psfDec.",
+      "default": null,
       "name": "psfFlux_psfDec_Cov",
       "type": [
         "null",
@@ -219,8 +219,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance between psfRa and psfDec.",
+      "default": null,
       "name": "psfRa_psfDec_Cov",
       "type": [
         "null",
@@ -228,8 +228,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Natural log likelihood of the observed data given the point source model.",
+      "default": null,
       "name": "psfLnL",
       "type": [
         "null",
@@ -237,8 +237,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Chi^2 statistic of the point source model fit.",
+      "default": null,
       "name": "psfChi2",
       "type": [
         "null",
@@ -246,8 +246,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "The number of data points (pixels) used to fit the point source model.",
+      "default": null,
       "name": "psfNdata",
       "type": [
         "null",
@@ -255,8 +255,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Flux for a trailed source model. Note this actually measures the flux difference between the template and the visit image.",
+      "default": null,
       "name": "trailFlux",
       "type": [
         "null",
@@ -264,8 +264,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of trailFlux.",
+      "default": null,
       "name": "trailFluxErr",
       "type": [
         "null",
@@ -273,8 +273,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Right ascension coordinate of centroid for trailed source model.",
+      "default": null,
       "name": "trailRa",
       "type": [
         "null",
@@ -282,8 +282,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of trailRa.",
+      "default": null,
       "name": "trailRaErr",
       "type": [
         "null",
@@ -291,8 +291,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Declination coordinate of centroid for trailed source model.",
+      "default": null,
       "name": "trailDec",
       "type": [
         "null",
@@ -300,8 +300,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of trailDec.",
+      "default": null,
       "name": "trailDecErr",
       "type": [
         "null",
@@ -309,8 +309,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Maximum likelihood fit of trail length.",
+      "default": null,
       "name": "trailLength",
       "type": [
         "null",
@@ -318,8 +318,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of trailLength.",
+      "default": null,
       "name": "trailLengthErr",
       "type": [
         "null",
@@ -327,8 +327,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Maximum likelihood fit of the angle between the meridian through the centroid and the trail direction (bearing).",
+      "default": null,
       "name": "trailAngle",
       "type": [
         "null",
@@ -336,8 +336,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of trailAngle.",
+      "default": null,
       "name": "trailAngleErr",
       "type": [
         "null",
@@ -345,8 +345,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of trailFlux and trailRa.",
+      "default": null,
       "name": "trailFlux_trailRa_Cov",
       "type": [
         "null",
@@ -354,8 +354,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of trailFlux and trailDec.",
+      "default": null,
       "name": "trailFlux_trailDec_Cov",
       "type": [
         "null",
@@ -363,8 +363,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of trailFlux and trailLength",
+      "default": null,
       "name": "trailFlux_trailLength_Cov",
       "type": [
         "null",
@@ -372,8 +372,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of trailFlux and trailAngle",
+      "default": null,
       "name": "trailFlux_trailAngle_Cov",
       "type": [
         "null",
@@ -381,8 +381,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of trailRa and trailDec.",
+      "default": null,
       "name": "trailRa_trailDec_Cov",
       "type": [
         "null",
@@ -390,8 +390,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of trailRa and trailLength.",
+      "default": null,
       "name": "trailRa_trailLength_Cov",
       "type": [
         "null",
@@ -399,8 +399,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of trailRa and trailAngle.",
+      "default": null,
       "name": "trailRa_trailAngle_Cov",
       "type": [
         "null",
@@ -408,8 +408,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of trailDec and trailLength.",
+      "default": null,
       "name": "trailDec_trailLength_Cov",
       "type": [
         "null",
@@ -417,8 +417,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of trailDec and trailAngle.",
+      "default": null,
       "name": "trailDec_trailAngle_Cov",
       "type": [
         "null",
@@ -426,8 +426,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of trailLength and trailAngle",
+      "default": null,
       "name": "trailLength_trailAngle_Cov",
       "type": [
         "null",
@@ -435,8 +435,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Natural log likelihood of the observed data given the trailed source model.",
+      "default": null,
       "name": "trailLnL",
       "type": [
         "null",
@@ -444,8 +444,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Chi^2 statistic of the trailed source model fit.",
+      "default": null,
       "name": "trailChi2",
       "type": [
         "null",
@@ -453,8 +453,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "The number of data points (pixels) used to fit the trailed source model.",
+      "default": null,
       "name": "trailNdata",
       "type": [
         "null",
@@ -462,8 +462,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Maximum likelihood value for the mean absolute flux of the two lobes for a dipole model.",
+      "default": null,
       "name": "dipoleMeanFlux",
       "type": [
         "null",
@@ -471,8 +471,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of dipoleMeanFlux.",
+      "default": null,
       "name": "dipoleMeanFluxErr",
       "type": [
         "null",
@@ -480,8 +480,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Maximum likelihood value for the difference of absolute fluxes of the two lobes for a dipole model.",
+      "default": null,
       "name": "dipoleFluxDiff",
       "type": [
         "null",
@@ -489,8 +489,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of dipoleFluxDiff.",
+      "default": null,
       "name": "dipoleFluxDiffErr",
       "type": [
         "null",
@@ -498,8 +498,8 @@
       ]
     },
     {
-      "default": null,
       "doc": " Right ascension coordinate of centroid for dipole model.",
+      "default": null,
       "name": "dipoleRa",
       "type": [
         "null",
@@ -507,8 +507,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of dipoleRa.",
+      "default": null,
       "name": "dipoleRaErr",
       "type": [
         "null",
@@ -516,8 +516,8 @@
       ]
     },
     {
-      "default": null,
       "doc": " Declination coordinate of centroid for dipole model.",
+      "default": null,
       "name": "dipoleDec",
       "type": [
         "null",
@@ -525,8 +525,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of dipoleDec.",
+      "default": null,
       "name": "dipoleDecErr",
       "type": [
         "null",
@@ -534,8 +534,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Maximum likelihood value for the lobe separation in dipole model.",
+      "default": null,
       "name": "dipoleLength",
       "type": [
         "null",
@@ -543,8 +543,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of dipoleLength.",
+      "default": null,
       "name": "dipoleLengthErr",
       "type": [
         "null",
@@ -552,8 +552,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Maximum likelihood fit of the angle between the meridian through the centroid and the dipole direction (bearing, from negative to positive lobe).",
+      "default": null,
       "name": "dipoleAngle",
       "type": [
         "null",
@@ -561,8 +561,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of dipoleAngle.",
+      "default": null,
       "name": "dipoleAngleErr",
       "type": [
         "null",
@@ -570,8 +570,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of dipoleMeanFlux and dipoleFluxDiff.",
+      "default": null,
       "name": "dipoleMeanFlux_dipoleFluxDiff_Cov",
       "type": [
         "null",
@@ -579,8 +579,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of dipoleMeanFlux and dipoleRa.",
+      "default": null,
       "name": "dipoleMeanFlux_dipoleRa_Cov",
       "type": [
         "null",
@@ -588,8 +588,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of dipoleMeanFlux and dipoleDec.",
+      "default": null,
       "name": "dipoleMeanFlux_dipoleDec_Cov",
       "type": [
         "null",
@@ -597,8 +597,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of dipoleMeanFlux and dipoleLength.",
+      "default": null,
       "name": "dipoleMeanFlux_dipoleLength_Cov",
       "type": [
         "null",
@@ -606,8 +606,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of dipoleMeanFlux and dipoleAngle.",
+      "default": null,
       "name": "dipoleMeanFlux_dipoleAngle_Cov",
       "type": [
         "null",
@@ -615,8 +615,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of dipoleFluxDiff and dipoleRa.",
+      "default": null,
       "name": "dipoleFluxDiff_dipoleRa_Cov",
       "type": [
         "null",
@@ -624,8 +624,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of dipoleFluxDiff and dipoleDec.",
+      "default": null,
       "name": "dipoleFluxDiff_dipoleDec_Cov",
       "type": [
         "null",
@@ -633,8 +633,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of dipoleFluxDiff and dipoleLength.",
+      "default": null,
       "name": "dipoleFluxDiff_dipoleLength_Cov",
       "type": [
         "null",
@@ -642,8 +642,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of dipoleFluxDiff and dipoleAngle.",
+      "default": null,
       "name": "dipoleFluxDiff_dipoleAngle_Cov",
       "type": [
         "null",
@@ -651,8 +651,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of dipoleRa and dipoleDec.",
+      "default": null,
       "name": "dipoleRa_dipoleDec_Cov",
       "type": [
         "null",
@@ -660,8 +660,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of dipoleRa and dipoleLength.",
+      "default": null,
       "name": "dipoleRa_dipoleLength_Cov",
       "type": [
         "null",
@@ -669,8 +669,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of dipoleRa and dipoleAngle.",
+      "default": null,
       "name": "dipoleRa_dipoleAngle_Cov",
       "type": [
         "null",
@@ -678,8 +678,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of dipoleDec and dipoleLength.",
+      "default": null,
       "name": "dipoleDec_dipoleLength_Cov",
       "type": [
         "null",
@@ -687,8 +687,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of dipoleDec and dipoleAngle.",
+      "default": null,
       "name": "dipoleDec_dipoleAngle_Cov",
       "type": [
         "null",
@@ -696,8 +696,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of dipoleLength and dipoleAngle.",
+      "default": null,
       "name": "dipoleLength_dipoleAngle_Cov",
       "type": [
         "null",
@@ -705,8 +705,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Natural log likelihood of the observed data given the dipole source model.",
+      "default": null,
       "name": "dipoleLnL",
       "type": [
         "null",
@@ -714,8 +714,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Chi^2 statistic of the model fit.",
+      "default": null,
       "name": "dipoleChi2",
       "type": [
         "null",
@@ -723,8 +723,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "The number of data points (pixels) used to fit the model.",
+      "default": null,
       "name": "dipoleNdata",
       "type": [
         "null",
@@ -732,8 +732,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Calibrated flux for Point Source model centered on radec but measured on the difference of snaps comprising this visit.",
+      "default": null,
       "name": "snapDiffFlux",
       "type": [
         "null",
@@ -741,8 +741,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Estimated uncertainty of snapDiffFlux.",
+      "default": null,
       "name": "snapDiffFluxErr",
       "type": [
         "null",
@@ -750,8 +750,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Estimated sky background at the position (centroid) of the object.",
+      "default": null,
       "name": "fpBkgd",
       "type": [
         "null",
@@ -759,8 +759,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Estimated uncertainty of fpBkgd.",
+      "default": null,
       "name": "fpBkgdErr",
       "type": [
         "null",
@@ -768,8 +768,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Adaptive second moment of the source intensity.",
+      "default": null,
       "name": "ixx",
       "type": [
         "null",
@@ -777,8 +777,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of ixx.",
+      "default": null,
       "name": "ixxErr",
       "type": [
         "null",
@@ -786,8 +786,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Adaptive second moment of the source intensity.",
+      "default": null,
       "name": "iyy",
       "type": [
         "null",
@@ -795,8 +795,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of iyy.",
+      "default": null,
       "name": "iyyErr",
       "type": [
         "null",
@@ -804,8 +804,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Adaptive second moment of the source intensity.",
+      "default": null,
       "name": "ixy",
       "type": [
         "null",
@@ -813,8 +813,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Uncertainty of ixy.",
+      "default": null,
       "name": "ixyErr",
       "type": [
         "null",
@@ -822,8 +822,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of ixx and iyy.",
+      "default": null,
       "name": "ixx_iyy_Cov",
       "type": [
         "null",
@@ -831,8 +831,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of ixx and ixy.",
+      "default": null,
       "name": "ixx_ixy_Cov",
       "type": [
         "null",
@@ -840,8 +840,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Covariance of iyy and ixy.",
+      "default": null,
       "name": "iyy_ixy_Cov",
       "type": [
         "null",
@@ -849,8 +849,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Adaptive second moment for the PSF.",
+      "default": null,
       "name": "ixxPSF",
       "type": [
         "null",
@@ -858,8 +858,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Adaptive second moment for the PSF.",
+      "default": null,
       "name": "iyyPSF",
       "type": [
         "null",
@@ -867,8 +867,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Adaptive second moment for the PSF.",
+      "default": null,
       "name": "ixyPSF",
       "type": [
         "null",
@@ -876,8 +876,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "A measure of extendedness, Computed using a combination of available moments and model fluxes or from a likelihood ratio of point/trailed source models (exact algorithm TBD). extendedness = 1 implies a high degree of confidence that the source is extended. extendedness = 0 implies a high degree of confidence that the source is point-like.",
+      "default": null,
       "name": "extendedness",
       "type": [
         "null",
@@ -885,8 +885,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "A measure of reliability, computed using information from the source and image characterization, as well as the information on the Telescope and Camera system (e.g., ghost maps, defect maps, etc.).",
+      "default": null,
       "name": "reliability",
       "type": [
         "null",
@@ -899,8 +899,8 @@
       "type": "long"
     },
     {
-      "default": null,
       "doc": "Filter band this source was observed with.",
+      "default": null,
       "name": "band",
       "type": [
         "null",
