@@ -4,6 +4,7 @@
 	"diaSource":
 	{
 		"diaSourceId": 281323062375219200,
+		"time_processed": 0,
 		"ccdVisitId": 111111,
 		"midpointMjdTai": 1480360995,
 		"band": "r",
@@ -29,6 +30,7 @@
 	"prvDiaSources": [
     	{
     		"diaSourceId": 281323062375219198,
+			"time_processed": 0,
     		"ccdVisitId": 111111,
     		"midpointMjdTai": 1480360995,
     		"band": "r",
@@ -53,6 +55,7 @@
     	},
     	{
     		"diaSourceId": 281323062375219199,
+			"time_processed": 0,
     		"ccdVisitId": 111111,
     		"midpointMjdTai": 1480360995,
     		"band": "r",
@@ -78,6 +81,7 @@
 	],
 	"diaObject": {
 		"diaObjectId": 281323062375219201,
+		"validityStart": 0,
 		"ra": 351.570546978,
 		"dec": 0.126243049656,
 		"raErr": 0.00028,

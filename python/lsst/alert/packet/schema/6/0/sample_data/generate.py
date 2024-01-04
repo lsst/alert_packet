@@ -1,9 +1,16 @@
 #!/usr/bin/env python
 import json
 import lsst.alert.packet as packet
+from datetime import datetime
+import pandas as pd
 
 with open("alert.json", "r") as f:
     data = json.load(f)
+
+    data_time = datetime.now()
+
+    data['diaSource']['time_processed'] = pd.Timestamp(data_time)
+    data['diaObject']['validityStart'] = pd.Timestamp(data_time)
 
 schema = packet.SchemaRegistry.from_filesystem(schema_root="lsst.v6_0.alert").get_by_version("6.0")
 with open("fakeAlert.avro", "wb") as f:
