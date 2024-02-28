@@ -1,4 +1,4 @@
-FROM python:3.9.7-buster AS base-image
+FROM python:3.11.6-slim-bullseye as base-image
 
 # Create a Python virtual environment
 ENV VIRTUAL_ENV=/opt/venv

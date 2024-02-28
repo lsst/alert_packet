@@ -60,6 +60,21 @@ Steps to update the alert schema (for example, when the APDB schema is updated).
    * Confirm that your modified alert_packet is still setup: ``eups list -s alert_packet`` should show a ``LOCAL:`` directory being setup.
    * Run ``scons`` to confirm that your updated schema works with the ``ap_association`` tests.
    * Run at least one of the `ap_verify datasets <https://pipelines.lsst.io/v/daily/modules/lsst.ap.verify/running.html>`_ to confirm that your new alert schema works with the broader tests in ap_verify.
+   * Update the schema registry image for the alert stream.
+
+Update Schema Registry
+----------------------
+
+When a pull request is made for a change to ``alert_packet``, a docker container image is created which needs to be synced to
+the alert stream. The new docker image is present at `lsstdm/lsst_alert_packet <https://hub.docker.com/r/lsstdm/lsst_alert_packet/tags>` on dockerhub.
+The image will apear with the same tag as the ticket branch you created to update ``alert_packet``.
+
+    * Go to ``alert-stream-schema-registry`` in the ``alert-stream-broker`` charts folder in the ``phalanx`` github repository.
+    * In the `values.yaml <https://github.com/lsst-sqre/phalanx/blob/main/applications/alert-stream-broker/charts/alert-stream-schema-registry/values.yaml>` file, update the `tag` in `schemaSync` to match the docker image tag.
+    * If you have access to ``argocd``, sync the ``schema-registry`` instance. If the application will not sync, a full restart may be required of the `alert-stream` application.
+    * If you do not have access, alert whoever is in charge of the ``alert-stream`` so that they can sync the registry.
+
+More thorough instructions for updating the schema registry can be found in `DMTN-214 <https://dmtn-214.lsst.io/#updating-the-alert-schema>`
 
 Example Alert Contents
 ======================
