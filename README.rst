@@ -35,22 +35,22 @@ Steps to update the alert schema (for example, when the APDB schema is updated).
 * Checkout the ticket branch for your schema changes.
 * Update the default ``schema_root`` kwarg in ``python/lsst/alert/packet/schemaRegistry.py:from_filesystem()`` to your new schema version number.
 
-   * New schemas are built from the apdb. Any changes to a field should be done in apdb.yaml, and any changes to what is included/excluded should be made in updateSchema.py.
-   * To update the schema, you must have the path to the apdb.yaml file and have chosen a version number. If the directory for your version
-   * does not already exist, ``updateSchema.py`` will create it.
+* New schemas are built from the apdb. Any changes to a field should be done in sdm_schemas/yml/apdb.yaml, and any changes to what is included/excluded should be made in updateSchema.py.
+* To update the schema, you must have the path to the apdb.yaml file and have chosen a version number. If the directory for your version does not already exist, ``updateSchema.py`` will create it.
 
-      * run ``python updateSchema.py /path/to/LSST/code/sdm_schemas/yml/apdb.yaml Path/To/alert_packet/lsst/alert/packet/schema "6.0"`` All Generated files do not need to be altered.
-      * Navigate to the new schema. Copy in the previous ``lsst.vX_X.alert.avsc`` file and ``lsst.vX_X.diaNondetectionLimit.avsc``.
-      * Within the two copied files, update ``"namespace": "lsst.vX_X",`` line at the top of each ``*.avsc`` file to the new version.
-      * Update the contents of those avro schema files to reflect the new schema.
-      * Update the sample alert packet in ``sample_data``:
+   * run ``python updateSchema.py /path/to/LSST/code/sdm_schemas/yml/apdb.yaml Path/To/alert_packet/lsst/alert/packet/schema "6.0"`` All Generated files do not need to be altered.
+    * Navigate to the new schema. Copy in the previous ``lsst.vX_X.alert.avsc`` file and ``lsst.vX_X.diaNondetectionLimit.avsc``.
+    * Within the two copied files, update ``"namespace": "lsst.vX_X",`` line at the top of each ``*.avsc`` file to the new version.
+    * Update the contents of those avro schema files to reflect the new schema.
 
-         * Update ``alert.json`` to reflect the new schema.
-         * Change the ``schema_root`` and ``get_by_version`` parameters in ``generate.py`` to your new version number.
-         * Run ``python generate.py`` to produce a new ``fakeAlert.avro`` file with data filled in from the updated json file above and using the new schema files you made earlier.
+* Update the sample alert packet in ``sample_data``:
 
-   * Update the files ``*.avsc`` and ``*.json`` files in ``examples/`` to reflect the new schema.
-   * Update the contents of ``latest.txt`` to your new schema version number.
+    * Update ``alert.json`` to reflect the new schema.
+    * Change the ``schema_root`` and ``get_by_version`` parameters in ``generate.py`` to your new version number.
+    * Run ``python generate.py`` to produce a new ``fakeAlert.avro`` file with data filled in from the updated json file above and using the new schema files you made earlier.
+
+* Update the files ``*.avsc`` and ``*.json`` files in ``examples/`` to reflect the new schema.
+* Update the contents of ``latest.txt`` to your new schema version number.
 
 * Add all of your new and updated files to ``git``, commit them with a message that includes the new schema version number and why it was incremented, and push your new branch.
 * Test your changes with ap_association and ap_verify (these steps may be more involved if your ticket branch impacts multiple packets):
