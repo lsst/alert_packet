@@ -1,0 +1,81 @@
+{
+  "type": "record",
+  "namespace": "lsst.v6_1",
+  "name": "diaForcedSource",
+  "fields": [
+    {
+      "doc": "Unique id.",
+      "name": "diaForcedSourceId",
+      "type": "long"
+    },
+    {
+      "doc": "Id of the DiaObject that this DiaForcedSource was associated with.",
+      "name": "diaObjectId",
+      "type": "long"
+    },
+    {
+      "doc": "Id of the ccdVisit where this forcedSource was measured.",
+      "name": "ccdVisitId",
+      "type": "long"
+    },
+    {
+      "doc": "Point Source model flux.",
+      "default": null,
+      "name": "psfFlux",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Uncertainty of psfFlux.",
+      "default": null,
+      "name": "psfFluxErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "x position at which psfFlux has been measured.",
+      "default": null,
+      "name": "x",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "y position at which psfFlux has been measured.",
+      "default": null,
+      "name": "y",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Flags, bitwise OR tbd",
+      "default": null,
+      "name": "flags",
+      "type": [
+        "null",
+        "long"
+      ]
+    },
+    {
+      "doc": "Effective mid-visit time for this diaForcedSource, expressed as Modified Julian Date, International Atomic Time.",
+      "name": "midpointMjdTai",
+      "type": "double"
+    },
+    {
+      "doc": "Filter band this source was observed with.",
+      "default": null,
+      "name": "band",
+      "type": [
+        "null",
+        "string"
+      ]
+    }
+  ]
+}
