@@ -81,6 +81,9 @@ def populate_fields(apdb_table):
             if 'char' in column['datatype']:
                 column['datatype'] = 'string'
 
+            if 'short' in column['datatype']:
+                column['datatype'] = 'int'
+
             if 'timestamp' in column['datatype']:
                 column['datatype'] = {'type': 'long', 'logicalType': 'timestamp-micros'}
             else:
