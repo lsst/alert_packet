@@ -1,0 +1,11 @@
+{
+	"namespace": "lsst.v7_0",
+	"name": "diaNondetectionLimit",
+	"type": "record",
+	"fields": [
+		{"name": "ccdVisitId",  "type": "long"},
+		{"name": "midpointMjdTai", "type": "double"},
+		{"name": "band", "type": "string"},
+		{"name": "diaNoise", "type": "float"}
+	]
+}

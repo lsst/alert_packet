@@ -4,7 +4,8 @@
 	"name": "diaSource",
 	"fields": [
 		{"name": "diaSourceId", "type": "long"},
-		{"name": "ccdVisitId",  "type": "long"},
+        {"name": "visit",  "type": "long"},
+        {"name": "detector",  "type": "int"},
 		{"name": "diaObjectId", "type": ["long", "null"], "default": null},
 		{"name": "ssObjectId", "type": ["long", "null"], "default": null},
 		{"name": "parentSourceId", "type": ["long", "null"], "default": null},

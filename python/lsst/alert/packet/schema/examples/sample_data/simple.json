@@ -1,6 +1,7 @@
 {
 	"diaSourceId":111111,
-	"ccdVisitId":111111,
+	"visit": 1,
+    "detector": 42,
 	"midpointMjdTai":12314.142412,
 	"band":"my favorite filter",
 	"radec": {
