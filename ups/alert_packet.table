@@ -1,2 +1,7 @@
 envPrepend(PYTHONPATH, ${PRODUCT_DIR}/python)
 envPrepend(PATH, ${PRODUCT_DIR}/bin)
+
+# These are necessary to generate a new alert schema version, but the package
+# is stand-alone otherwise.
+setupOptional(resources)
+setupOptional(sdm_schemas)
