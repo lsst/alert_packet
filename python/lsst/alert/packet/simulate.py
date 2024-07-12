@@ -133,7 +133,7 @@ def simulate_alert(schema, keepNull=None, arrayCount=None):
     if arrayCount is None:
         arrayCount = {}
 
-    if type(schema['type']) == list:
+    if type(schema['type']) is list:
         # potentially nullable
         if ('null' in schema['type']) and (schema['name'] in keepNull):
             return {schema['name']: None}
@@ -142,7 +142,7 @@ def simulate_alert(schema, keepNull=None, arrayCount=None):
             # for our application
             schema['type'] = schema['type'][0]
 
-    if type(schema['type']) == dict:
+    if type(schema['type']) is dict:
         # either an array, a record, or a nested type
         if schema['type']['type'] == 'array':
             if schema['name'] in arrayCount:
