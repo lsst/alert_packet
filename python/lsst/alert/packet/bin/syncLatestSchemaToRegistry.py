@@ -46,32 +46,43 @@ def parse_args():
     )
     return parser.parse_args()
 
+def load_all_schemas():
+    """Load in all schemas"""
+    schemas = lsst.alert.packet.Schema.all_schemas_from_file()
+    version_numbers = []
+    for schema in schemas:
+        import re
+        numbers = re.findall(r'\d+', schema.definition['name'])
+        # Join the numbers into a single string
+        version_numbers.append(int(''.join(numbers)))
 
-def load_latest_schema():
-    schema = lsst.alert.packet.Schema.from_file()
-    normalized_schema = fastavro.schema.to_parsing_canonical_form(schema.definition)
-    return normalized_schema
+    normalized_schemas = fastavro.schema.to_parsing_canonical_form(schema.definition)
+    return normalized_schemas, version_numbers
 
 
-def upload_schema(registry_url, subject, normalized_schema):
-    confluent_schema = {"schema": normalized_schema}
-    payload = json.dumps(confluent_schema)
-    headers = {"Content-Type": "application/vnd.schemaregistry.v1+json"}
-    url = f"{registry_url}/subjects/{subject}/versions"
-    print(f"uploading schema to {url}")
-    response = requests.post(url=url, data=payload, headers=headers)
-    response.raise_for_status()
-    print(f"done, status={response.status_code}")
-    print(f"response text={response.text}")
+def upload_schema(registry_url, subject, schemas, version_numbers):
+
+    for i, normalized_schema in enumerate(schemas):
+        normalized_schema["subject"] = normalized_schema["version"]
+        confluent_schema = {"schemaType": "Avro", "version":1, "id":version_numbers[i], "schema": normalized_schema}
+        payload = json.dumps(confluent_schema)
+        headers = {"Content-Type": "application/vnd.schemaregistry.v1+json"}
+        url = f"{registry_url}/subjects/{subject}/versions"
+        print(f"uploading schema to {url}")
+        response = requests.post(url=url, data=payload, headers=headers)
+        response.raise_for_status()
+        print(f"done, status={response.status_code}")
+        print(f"response text={response.text}")
 
 
 def main():
     args = parse_args()
-    schema = load_latest_schema()
+    normalized_schemas, version_numbers = load_all_schemas()
     upload_schema(
         args.schema_registry_url,
         subject=args.subject,
-        normalized_schema=schema,
+        schemas=normalized_schemas,
+        version_numbers = version_numbers
     )
 
 
