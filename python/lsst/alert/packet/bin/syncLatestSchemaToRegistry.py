@@ -46,6 +46,7 @@ def parse_args():
     )
     return parser.parse_args()
 
+
 def load_all_schemas():
     """Load in all schemas"""
     schemas = lsst.alert.packet.Schema.all_schemas_from_file()
@@ -64,7 +65,8 @@ def upload_schema(registry_url, subject, schemas, version_numbers):
 
     for i, normalized_schema in enumerate(schemas):
         normalized_schema["subject"] = normalized_schema["version"]
-        confluent_schema = {"schemaType": "Avro", "version":1, "id":version_numbers[i], "schema": normalized_schema}
+        confluent_schema = {"schemaType": "Avro", "version": 1,
+                            "id": version_numbers[i], "schema": normalized_schema}
         payload = json.dumps(confluent_schema)
         headers = {"Content-Type": "application/vnd.schemaregistry.v1+json"}
         url = f"{registry_url}/subjects/{subject}/versions"
@@ -82,7 +84,7 @@ def main():
         args.schema_registry_url,
         subject=args.subject,
         schemas=normalized_schemas,
-        version_numbers = version_numbers
+        version_numbers=version_numbers
     )
 
 
