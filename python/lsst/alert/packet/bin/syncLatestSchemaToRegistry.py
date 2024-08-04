@@ -47,7 +47,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def load_all_schemas():
+def all_schemas():
     """Load in all schemas"""
     schemas = lsst.alert.packet.Schema.all_schemas_from_filesystem()
     version_numbers = []
@@ -79,7 +79,7 @@ def upload_schema(registry_url, subject, schemas, version_numbers):
 
 def main():
     args = parse_args()
-    normalized_schemas, version_numbers = load_all_schemas()
+    normalized_schemas, version_numbers = all_schemas()
     upload_schema(
         args.schema_registry_url,
         subject=args.subject,
