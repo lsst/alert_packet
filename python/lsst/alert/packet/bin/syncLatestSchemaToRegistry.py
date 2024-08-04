@@ -49,7 +49,7 @@ def parse_args():
 
 def load_all_schemas():
     """Load in all schemas"""
-    schemas = lsst.alert.packet.Schema.all_schemas_from_file()
+    schemas = lsst.alert.packet.Schema.all_schemas_from_filesystem()
     version_numbers = []
     for schema in schemas:
         import re
