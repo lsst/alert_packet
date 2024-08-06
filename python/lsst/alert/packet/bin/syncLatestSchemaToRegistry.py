@@ -23,7 +23,7 @@
 
 import argparse
 import json
-
+import re
 import fastavro
 import requests
 
@@ -49,10 +49,9 @@ def parse_args():
 
 def all_schemas():
     """Load in all schemas"""
-    schemas = lsst.alert.packet.Schema.all_schemas_from_filesystem()
+    schema_registry = lsst.alert.packet.schemaRegistry.SchemaRegistry().all_schemas_from_filesystem()
     version_numbers = []
-    for schema in schemas:
-        import re
+    for schema in schema_registry:
         numbers = re.findall(r'\d+', schema.definition['name'])
         # Join the numbers into a single string
         version_numbers.append(int(''.join(numbers)))
