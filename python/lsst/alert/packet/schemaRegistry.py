@@ -147,3 +147,23 @@ class SchemaRegistry:
                 version = ".".join(root.split("/")[-2:])
                 registry.register_schema(schema, version)
         return registry
+
+    @classmethod
+    def all_schemas_from_filesystem(cls, root=None):
+        """Populate a schema registry based on the filesystem.
+
+        Walk the directory tree from the root provided, locating all schemas
+        and their corresponding version numbers.
+        """
+        from .schema import Schema
+        from .schema import get_schema_root
+        if not root:
+            root = get_schema_root()
+        registry = cls()
+        for root, dirs, files in os.walk(root, followlinks=False):
+            for file in files:
+                if "alert.avsc" in file:
+                    schema = Schema.from_file(os.path.join(root, file))
+                    version = ".".join(root.split("/")[-2:])
+                    registry.register_schema(schema, version)
+        return registry
