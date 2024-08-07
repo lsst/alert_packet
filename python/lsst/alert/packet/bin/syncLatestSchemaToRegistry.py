@@ -51,8 +51,9 @@ def all_schemas():
     """Load in all schemas"""
     schema_registry = lsst.alert.packet.schemaRegistry.SchemaRegistry().all_schemas_from_filesystem()
     version_numbers = []
-    for schema in schema_registry:
-        numbers = re.findall(r'\d+', schema.definition['name'])
+    for version in schema_registry.known_versions:
+        schema = schema_registry.get_by_version(version)
+        numbers = re.findall(r'\d+', version)
         # Join the numbers into a single string
         version_numbers.append(int(''.join(numbers)))
 
