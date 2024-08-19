@@ -35,7 +35,7 @@ def parse_args():
     parser.add_argument(
         "--schema-registry-url",
         type=str,
-        default='http://localhost:8081',
+        default="http://alert-schemas.localhost",
         help="URL of a Schema Registry service",
     )
     parser.add_argument(
@@ -48,7 +48,8 @@ def parse_args():
 
 
 def upload_schema(registry_url, subject, schema_registry):
-    """Parse schema registry and upload all schemas."""
+    """Parse schema registry and upload all schemas.
+    """
     for version in schema_registry.known_versions:
         schema = schema_registry.get_by_version(version)
         numbers = re.findall(r'\d+', version)
@@ -68,16 +69,16 @@ def upload_schema(registry_url, subject, schema_registry):
         print(f"response text={response.text}")
 
 
-def delete_schema():
+def delete_schema(registry_url, subject):
     """Delete schema and then remake it in import mode"""
-
-    # Define the URL
-    url_mode = 'http://localhost:8081/mode/alert-packet'
-    url_schemas = 'http://localhost:8081/subjects/alert-packet'
-    url_schema_versions = 'http://localhost:8081/subjects/alert-packet/versions'
+    # Define the URLs
+    url_mode = f"{registry_url}/mode/{subject}"
+    url_schemas = f"{registry_url}/subjects/{subject}"
+    url_schema_versions = f"{registry_url}/subjects/{subject}/versions"
     response = requests.get(url_schema_versions)
 
-    # Check the status code
+    # Schema registry must be empty to put it in import mode. If it exists,
+    # remove it and remkae the schema. If not, continue.
     if response.status_code == 200:
         print('The schema will be deleted and remade in import mode.')
         response = requests.delete(url_schemas)
@@ -86,7 +87,7 @@ def delete_schema():
     else:
         print('The schema does not exist. Creating in import mode.')
 
-    # Define the headers
+    # Switch registry to import mode.
     headers = {
         'Content-Type': 'application/json'
     }
@@ -104,15 +105,9 @@ def delete_schema():
     print('Response Text:', response.text)
 
 
-def main():
-    args = parse_args()
-    delete_schema()
-    schema_registry = lsst.alert.packet.schemaRegistry.SchemaRegistry().all_schemas_from_filesystem()
-    upload_schema(
-        args.schema_registry_url,
-        subject=args.subject,
-        schema_registry=schema_registry
-    )
+def close_schema(registry_url, subject):
+    """Return the schema registry from import mode to readwrite.
+    """
     data = {
         "mode": "READWRITE"
     }
@@ -122,12 +117,23 @@ def main():
         'Content-Type': 'application/json'
     }
 
+    url_mode = f"{registry_url}/mode/{subject}"
     # Send the PUT request
-    response = requests.put('http://localhost:8081/mode/alert-packet', json=data, headers=headers)
-
-    # Print the response status code and text
+    response = requests.put(url_mode, json=data, headers=headers)
     print(f'Status Code: {response.status_code}')
     print(f'Response Text: {response.text}')
+
+
+def main():
+    args = parse_args()
+    delete_schema(args.schema_registry_url,args.subject)
+    schema_registry = lsst.alert.packet.schemaRegistry.SchemaRegistry().all_schemas_from_filesystem()
+    upload_schema(
+        args.schema_registry_url,
+        subject=args.subject,
+        schema_registry=schema_registry
+    )
+    close_schema(args.schema_registry_url, args.subject)
 
 
 if __name__ == "__main__":

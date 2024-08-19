@@ -152,8 +152,7 @@ class SchemaRegistry:
     def all_schemas_from_filesystem(cls, root=None):
         """Populate a schema registry based on the filesystem.
 
-        Walk the directory tree from the root provided, locating all schemas
-        and their corresponding version numbers.
+        Walk the directory tree from the root provided, locating all schemas.
         """
         from .schema import Schema
         from .schema import get_schema_root
