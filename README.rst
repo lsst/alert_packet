@@ -21,7 +21,11 @@ Alert schemas are located in the ``schema`` directory.
 
 Schemas are filed according to their version number, following a ``MAJOR.MINOR`` scheme.
 We maintain ``FORWARD_TRANSITIVE`` compatibility within a major version, per the `Confluent compatibility model`_.
-The latest version of the schema may always be found in ``schema/latest.txt``.
+However, for all schemas to exist in the same registry this is not enforced and the schema registry compatibility is set
+to ``NONE``. The latest version of the schema may always be found in ``schema/latest.txt``.
+
+Within the schema registry, versions are registered with space for two digits in the minor version. Example : 7.1
+becomes 701. Version 13.10 would be 1310.
 
 .. _Confluent compatibility model: https://docs.confluent.io/current/schema-registry/docs/avro.html#forward-compatibility
 
@@ -68,11 +72,12 @@ Update Schema Registry
 
 When a pull request is made for a change to ``alert_packet``, a docker container image is created which needs to be synced to
 the alert stream. The new docker image is present at `lsstdm/lsst_alert_packet <https://hub.docker.com/r/lsstdm/lsst_alert_packet/tags>` on dockerhub.
-The image will apear with the same tag as the ticket branch you created to update ``alert_packet``.
+The image will appear with the same tag as the ticket branch you created to update ``alert_packet``.
 
     * Go to ``alert-stream-schema-registry`` in the ``alert-stream-broker`` charts folder in the ``phalanx`` github repository.
-    * In the `values.yaml <https://github.com/lsst-sqre/phalanx/blob/main/applications/alert-stream-broker/charts/alert-stream-schema-registry/values.yaml>` file, update the `tag` in `schemaSync` to match the docker image tag.
-    * If you have access to ``argocd``, sync the ``schema-registry`` instance. If the application will not sync, a full restart may be required of the `alert-stream` application.
+    * In the `values.yaml <https://github.com/lsst-sqre/phalanx/blob/main/applications/alert-stream-broker/charts/alert-stream-schema-registry/values.yaml>`_ file,
+      update the `tag` in `schemaSync` to match the docker image tag. If the image is not updating in argo, use the image digest to force an update.
+    * If you have access to ``argocd``, click ``sync`` at the top. A full sync is needed to load the registry with the schemas. If the application will not sync, a full restart may be required of the `alert-stream` application.
     * If you do not have access, alert whoever is in charge of the ``alert-stream`` so that they can sync the registry.
 
 More thorough instructions for updating the schema registry can be found in `DMTN-214 <https://dmtn-214.lsst.io/#updating-the-alert-schema>`

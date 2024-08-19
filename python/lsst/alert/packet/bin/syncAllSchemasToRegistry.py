@@ -126,7 +126,7 @@ def close_schema(registry_url, subject):
 
 def main():
     args = parse_args()
-    delete_schema(args.schema_registry_url,args.subject)
+    delete_schema(args.schema_registry_url, args.subject)
     schema_registry = lsst.alert.packet.schemaRegistry.SchemaRegistry().all_schemas_from_filesystem()
     upload_schema(
         args.schema_registry_url,
