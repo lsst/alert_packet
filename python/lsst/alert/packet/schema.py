@@ -26,11 +26,13 @@ from __future__ import annotations
 
 import io
 import tempfile
+import re
+import fastavro
 from importlib import resources
 from pathlib import PurePath
+
 from lsst.resources import ResourcePath
 
-import fastavro
 
 __all__ = ["get_schema_root", "get_latest_schema_version", "get_schema_path",
            "Schema", "get_path_to_latest_schema", "get_schema_root_uri",
@@ -428,3 +430,13 @@ class Schema:
                                      if schema['name'] == root_name)
 
         return cls(schema_definition)
+
+    def get_schema_id(self):
+        """Retrieve the schema id used in the schema registry.
+        """
+        numbers = re.findall(r'\d+', self.definition['name'])
+        assert (len(numbers) == 2)
+        numbers[1] = str(numbers[1]).zfill(2)
+        schema_id = int(''.join(numbers))
+
+        return schema_id

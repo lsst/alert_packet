@@ -23,7 +23,6 @@
 
 import argparse
 import json
-import re
 import fastavro
 import requests
 
@@ -36,7 +35,7 @@ def parse_args():
         "--schema-registry-url",
         type=str,
         default="http://alert-schemas.localhost",
-        help="URL of a Schema Registry service",
+        help="URL of a Confluent Schema Registry service",
     )
     parser.add_argument(
         "--subject",
@@ -47,30 +46,27 @@ def parse_args():
     return parser.parse_args()
 
 
-def upload_schema(registry_url, subject, schema_registry):
+def upload_schemas(registry_url, subject, schema_registry):
     """Parse schema registry and upload all schemas.
     """
-    for version in schema_registry.known_versions:
-        schema = schema_registry.get_by_version(version)
-        numbers = re.findall(r'\d+', version)
-        numbers[1] = str(numbers[1]).zfill(2)
-        version_number = int(''.join(numbers))
+    for schema_id in schema_registry.known_ids:
+        schema = schema_registry.get_by_id(schema_id)
         normalized_schema = fastavro.schema.to_parsing_canonical_form(
             schema.definition)
-        confluent_schema = {"version": version_number,
-                            "id": version_number, "schema": normalized_schema}
+        confluent_schema = {"version": schema_id,
+                            "id": schema_id, "schema": normalized_schema}
         payload = json.dumps(confluent_schema)
         headers = {"Content-Type": "application/vnd.schemaregistry.v1+json"}
         url = f"{registry_url}/subjects/{subject}/versions"
         print(f"uploading schema to {url}")
         response = requests.post(url=url, data=payload, headers=headers)
-        # response.raise_for_status()
+        response.raise_for_status()
         print(f"done, status={response.status_code}")
         print(f"response text={response.text}")
 
 
-def delete_schema(registry_url, subject):
-    """Delete schema and then remake it in import mode"""
+def clear_schema_registry_for_import(registry_url, subject):
+    """Delete schemas in the registry and then remake it in import mode"""
     # Define the URLs
     url_mode = f"{registry_url}/mode/{subject}"
     url_schemas = f"{registry_url}/subjects/{subject}"
@@ -78,7 +74,7 @@ def delete_schema(registry_url, subject):
     response = requests.get(url_schema_versions)
 
     # Schema registry must be empty to put it in import mode. If it exists,
-    # remove it and remkae the schema. If not, continue.
+    # remove it and remake the schema. If not, continue.
     if response.status_code == 200:
         print('The schema will be deleted and remade in import mode.')
         response = requests.delete(url_schemas)
@@ -105,7 +101,7 @@ def delete_schema(registry_url, subject):
     print('Response Text:', response.text)
 
 
-def close_schema(registry_url, subject):
+def close_schema_registry(registry_url, subject):
     """Return the schema registry from import mode to readwrite.
     """
     data = {
@@ -126,14 +122,14 @@ def close_schema(registry_url, subject):
 
 def main():
     args = parse_args()
-    delete_schema(args.schema_registry_url, args.subject)
+    clear_schema_registry_for_import(args.schema_registry_url, args.subject)
     schema_registry = lsst.alert.packet.schemaRegistry.SchemaRegistry().all_schemas_from_filesystem()
-    upload_schema(
+    upload_schemas(
         args.schema_registry_url,
         subject=args.subject,
         schema_registry=schema_registry
     )
-    close_schema(args.schema_registry_url, args.subject)
+    close_schema_registry(args.schema_registry_url, args.subject)
 
 
 if __name__ == "__main__":
