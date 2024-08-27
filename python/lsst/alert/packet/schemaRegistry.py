@@ -19,12 +19,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-"""Provide a lookup table for alert schemas.
+"""Provide a lookup table for versioned alert schemas.
 """
 
-import json
 import os
-import zlib
 
 __all__ = ["SchemaRegistry"]
 
@@ -38,6 +36,7 @@ class SchemaRegistry:
     def __init__(self):
         self._version_to_id = {}
         self._id_to_schema = {}
+        self._ids = []
 
     def register_schema(self, schema, version):
         """Register a new schema in the registry.
@@ -61,8 +60,9 @@ class SchemaRegistry:
         schema_id : `int`
             The ID that has been allocated to the schema.
         """
-        schema_id = self.calculate_id(schema)
+        schema_id = schema.get_schema_id()
         self._version_to_id[version] = schema_id
+        self._ids.append(schema_id)
         self._id_to_schema[schema_id] = schema
         return schema_id
 
@@ -108,27 +108,19 @@ class SchemaRegistry:
         """
         return set(self._version_to_id)
 
-    @staticmethod
-    def calculate_id(schema):
-        """Calculate an ID for the given schema.
-
-        Parameters
-        ----------
-        schema : `lsst.alert.packet.Schema`
-            Schema for which an ID will be derived.
+    @property
+    def known_ids(self):
+        """Return all the schema ids tracked by this registry.
 
         Returns
         -------
-        schema_id : `int`
-            The calculated ID.
+        schemas : `list` of `int`
+            List of schema ids.
         """
-        # Significant risk of collisions with more than a few schemas;
-        # CRC32 is ok for prototyping but isn't sensible in production.
-        return zlib.crc32(json.dumps(schema.definition,
-                                     sort_keys=True).encode('utf-8'))
+        return set(self._ids)
 
     @classmethod
-    def from_filesystem(cls, root=None, schema_root="lsst.v7_0.alert"):
+    def from_filesystem(cls, root=None, schema_root="lsst.v7_1.alert"):
         """Populate a schema registry based on the filesystem.
 
         Walk the directory tree from the root provided, locating files named
@@ -146,4 +138,23 @@ class SchemaRegistry:
                 schema = Schema.from_file(os.path.join(root, schema_root_file))
                 version = ".".join(root.split("/")[-2:])
                 registry.register_schema(schema, version)
+        return registry
+
+    @classmethod
+    def all_schemas_from_filesystem(cls, root=None):
+        """Populate a schema registry based on the filesystem.
+
+        Walk the directory tree from the root provided, locating all schemas.
+        """
+        from .schema import Schema
+        from .schema import get_schema_root
+        if not root:
+            root = get_schema_root()
+        registry = cls()
+        for root, dirs, files in os.walk(root, followlinks=False):
+            for file in files:
+                if "alert.avsc" in file:
+                    schema = Schema.from_file(os.path.join(root, file))
+                    version = ".".join(root.split("/")[-2:])
+                    registry.register_schema(schema, version)
         return registry

@@ -33,7 +33,7 @@ def write_schema(root_dir, filename, version_major, version_minor):
     # Generate a new schema for each version to avoid ID collisions.
     schema = {
         "name": "example",
-        "namespace": "lsst",
+        "namespace": f"lsst.v{version_major}_{version_minor}",
         "type": "record",
         "fields": [
             {"name": "field%s%s" % (version_major, version_minor),
@@ -75,3 +75,7 @@ class FromFilesystemTestCase(unittest.TestCase):
         for version in versions:
             registry.get_by_version(version)
         self.assertRaises(KeyError, registry.get_by_version, "2.2")
+
+        for id in registry.known_ids:
+            registry.get_by_id(id)
+        self.assertRaises(KeyError, registry.get_by_id, "202")

@@ -15,4 +15,4 @@ WORKDIR /app
 RUN pip install --no-cache-dir .
 
 ENTRYPOINT ["sh", "-c"]
-CMD "syncLatestSchemaToRegistry.py --help"
+CMD "syncAllSchemasToRegistry.py --help"
