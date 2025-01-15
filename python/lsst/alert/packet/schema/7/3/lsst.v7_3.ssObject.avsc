@@ -1,0 +1,471 @@
+{
+  "type": "record",
+  "namespace": "lsst.v7_3",
+  "name": "ssObject",
+  "fields": [
+    {
+      "doc": "Unique identifier.",
+      "name": "ssObjectId",
+      "type": "long"
+    },
+    {
+      "doc": "The date the LSST first linked and submitted the discovery observations to the MPC. May be NULL if not an LSST discovery. The date format will follow general LSST conventions (MJD TAI, at the moment).",
+      "default": null,
+      "name": "discoverySubmissionDate",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "doc": "The time of the first LSST observation of this object (could be precovered) as Modified Julian Date, International Atomic Time.",
+      "default": null,
+      "name": "firstObservationDate",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "doc": "Arc of LSST observations.",
+      "default": null,
+      "name": "arc",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Number of LSST observations of this object.",
+      "default": null,
+      "name": "numObs",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "doc": "Minimum orbit intersection distance to Earth.",
+      "default": null,
+      "name": "MOID",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "True anomaly of the MOID point.",
+      "default": null,
+      "name": "MOIDTrueAnomaly",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Ecliptic longitude of the MOID point.",
+      "default": null,
+      "name": "MOIDEclipticLongitude",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "DeltaV at the MOID point.",
+      "default": null,
+      "name": "MOIDDeltaV",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Best fit absolute magnitude (u band).",
+      "default": null,
+      "name": "u_H",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Best fit G12 slope parameter (u band).",
+      "default": null,
+      "name": "u_G12",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Uncertainty of H (u band).",
+      "default": null,
+      "name": "u_HErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Uncertainty of G12 (u band).",
+      "default": null,
+      "name": "u_G12Err",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "H-G12 covariance (u band).",
+      "default": null,
+      "name": "u_H_u_G12_Cov",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Chi^2 statistic of the phase curve fit (u band).",
+      "default": null,
+      "name": "u_Chi2",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "The number of data points used to fit the phase curve (u band).",
+      "default": null,
+      "name": "u_Ndata",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "doc": "Best fit absolute magnitude (g band).",
+      "default": null,
+      "name": "g_H",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Best fit G12 slope parameter (g band).",
+      "default": null,
+      "name": "g_G12",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Uncertainty of H (g band).",
+      "default": null,
+      "name": "g_HErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Uncertainty of G12 (g band).",
+      "default": null,
+      "name": "g_G12Err",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "H-G12 covariance (g band).",
+      "default": null,
+      "name": "g_H_g_G12_Cov",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Chi^2 statistic of the phase curve fit (g band).",
+      "default": null,
+      "name": "g_Chi2",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "The number of data points used to fit the phase curve (g band).",
+      "default": null,
+      "name": "g_Ndata",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "doc": "Best fit absolute magnitude (r band).",
+      "default": null,
+      "name": "r_H",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Best fit G12 slope parameter (r band).",
+      "default": null,
+      "name": "r_G12",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Uncertainty of H (r band).",
+      "default": null,
+      "name": "r_HErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Uncertainty of G12 (r band).",
+      "default": null,
+      "name": "r_G12Err",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "H-G12 covariance (r band).",
+      "default": null,
+      "name": "r_H_r_G12_Cov",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Chi^2 statistic of the phase curve fit (r band).",
+      "default": null,
+      "name": "r_Chi2",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "The number of data points used to fit the phase curve (r band).",
+      "default": null,
+      "name": "r_Ndata",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "doc": "Best fit absolute magnitude (i band).",
+      "default": null,
+      "name": "i_H",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Best fit G12 slope parameter (i band).",
+      "default": null,
+      "name": "i_G12",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Uncertainty of H (i band).",
+      "default": null,
+      "name": "i_HErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Uncertainty of G12 (i band).",
+      "default": null,
+      "name": "i_G12Err",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "H-G12 covariance (i band).",
+      "default": null,
+      "name": "i_H_i_G12_Cov",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Chi^2 statistic of the phase curve fit (i band).",
+      "default": null,
+      "name": "i_Chi2",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "The number of data points used to fit the phase curve (i band).",
+      "default": null,
+      "name": "i_Ndata",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "doc": "Best fit absolute magnitude (z band).",
+      "default": null,
+      "name": "z_H",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Best fit G12 slope parameter (z band).",
+      "default": null,
+      "name": "z_G12",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Uncertainty of H (z band).",
+      "default": null,
+      "name": "z_HErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Uncertainty of G12 (z band).",
+      "default": null,
+      "name": "z_G12Err",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "H-G12 covariance (z band).",
+      "default": null,
+      "name": "z_H_z_G12_Cov",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Chi^2 statistic of the phase curve fit (z band).",
+      "default": null,
+      "name": "z_Chi2",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "The number of data points used to fit the phase curve (z band).",
+      "default": null,
+      "name": "z_Ndata",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "doc": "Best fit absolute magnitude (y band).",
+      "default": null,
+      "name": "y_H",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Best fit G12 slope parameter (y band).",
+      "default": null,
+      "name": "y_G12",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Uncertainty of H (y band).",
+      "default": null,
+      "name": "y_HErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Uncertainty of G12 (y band).",
+      "default": null,
+      "name": "y_G12Err",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "H-G12 covariance (y band).",
+      "default": null,
+      "name": "y_H_y_G12_Cov",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Chi^2 statistic of the phase curve fit (y band).",
+      "default": null,
+      "name": "y_Chi2",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "The number of data points used to fit the phase curve (y band).",
+      "default": null,
+      "name": "y_Ndata",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "doc": "median `extendedness` value from the DIASource.",
+      "default": null,
+      "name": "medianExtendedness",
+      "type": [
+        "null",
+        "float"
+      ]
+    }
+  ]
+}
