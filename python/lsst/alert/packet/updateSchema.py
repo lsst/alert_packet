@@ -204,7 +204,7 @@ def generate_schema(apdb_filepath, schema_path, schema_version):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Generate a schema using an apdb.yaml as the source'
-                                                 'of truth andinclude a desired version number'
+                                                 'of truth and include a desired alert version number'
                                                  'Example input:'
                                                  'python3 updateSchema.py '
                                                  'Path/To/Yaml/sdm_schemas/yml/apdb.yaml '
