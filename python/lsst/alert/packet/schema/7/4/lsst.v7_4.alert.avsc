@@ -1,0 +1,24 @@
+{
+	"namespace": "lsst.v7_4",
+	"type": "record",
+	"name": "alert",
+	"doc": "Rubin Avro alert schema v7.4",
+	"fields": [
+		{"name": "alertId", "type": "long", "doc": "unique alert identifer"},
+		{"name": "diaSource", "type": "lsst.v7_4.diaSource"},
+		{"name": "prvDiaSources", "type": ["null", {
+				"type": "array",
+				"items": "lsst.v7_4.diaSource"}], "default": null},
+		{"name": "prvDiaForcedSources", "type": ["null", {
+				"type": "array",
+				"items": "lsst.v7_4.diaForcedSource"}], "default": null},
+		{"name": "prvDiaNondetectionLimits", "type": ["null", {
+				"type": "array",
+				"items": "lsst.v7_4.diaNondetectionLimit"}], "default": null},
+		{"name": "diaObject", "type": ["null", "lsst.v7_4.diaObject"], "default": null},
+		{"name": "ssObject", "type": ["null", "lsst.v7_4.ssObject"], "default": null},
+		{"name": "cutoutDifference", "type": ["null", "bytes"], "default": null},
+		{"name": "cutoutScience", "type": ["null", "bytes"], "default": null},
+		{"name": "cutoutTemplate", "type": ["null", "bytes"], "default": null}
+     ]
+}

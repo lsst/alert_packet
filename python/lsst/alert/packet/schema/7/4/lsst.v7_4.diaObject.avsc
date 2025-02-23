@@ -1,0 +1,733 @@
+{
+  "type": "record",
+  "namespace": "lsst.v7_4",
+  "name": "diaObject",
+  "fields": [
+    {
+      "doc": "Unique identifier of this DiaObject.",
+      "name": "diaObjectId",
+      "type": "long"
+    },
+    {
+      "doc": "Right ascension coordinate of the position of the object at time radecMjdTai.",
+      "name": "ra",
+      "type": "double"
+    },
+    {
+      "doc": "Uncertainty of ra.",
+      "default": null,
+      "name": "raErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Declination coordinate of the position of the object at time radecMjdTai.",
+      "name": "dec",
+      "type": "double"
+    },
+    {
+      "doc": "Uncertainty of dec.",
+      "default": null,
+      "name": "decErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Covariance between ra and dec.",
+      "default": null,
+      "name": "ra_dec_Cov",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Time at which the object was at a position ra/dec, expressed as Modified Julian Date, International Atomic Time.",
+      "default": null,
+      "name": "radecMjdTai",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "doc": "Proper motion in right ascension.",
+      "default": null,
+      "name": "pmRa",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Uncertainty of pmRa.",
+      "default": null,
+      "name": "pmRaErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Proper motion of declination.",
+      "default": null,
+      "name": "pmDec",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Uncertainty of pmDec.",
+      "default": null,
+      "name": "pmDecErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Parallax.",
+      "default": null,
+      "name": "parallax",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Uncertainty of parallax.",
+      "default": null,
+      "name": "parallaxErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Covariance of pmRa and pmDec.",
+      "default": null,
+      "name": "pmRa_pmDec_Cov",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Covariance of pmRa and parallax.",
+      "default": null,
+      "name": "pmRa_parallax_Cov",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Covariance of pmDec and parallax.",
+      "default": null,
+      "name": "pmDec_parallax_Cov",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Natural log of the likelihood of the linear proper motion parallax fit.",
+      "default": null,
+      "name": "pmParallaxLnL",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Chi^2 static of the model fit.",
+      "default": null,
+      "name": "pmParallaxChi2",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "The number of data points used to fit the model.",
+      "default": null,
+      "name": "pmParallaxNdata",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "doc": "Weighted mean point-source model magnitude for u filter.",
+      "default": null,
+      "name": "u_psfFluxMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard error of u_psfFluxMean.",
+      "default": null,
+      "name": "u_psfFluxMeanErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard deviation of the distribution of u_psfFlux.",
+      "default": null,
+      "name": "u_psfFluxSigma",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Chi^2 statistic for the scatter of u_psfFlux around u_psfFluxMean.",
+      "default": null,
+      "name": "u_psfFluxChi2",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "The number of data points used to compute u_psfFluxChi2.",
+      "default": null,
+      "name": "u_psfFluxNdata",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "doc": "Weighted mean forced photometry flux for u filter.",
+      "default": null,
+      "name": "u_fpFluxMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard error of u_fpFluxMean.",
+      "default": null,
+      "name": "u_fpFluxMeanErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard deviation of the distribution of u_fpFlux.",
+      "default": null,
+      "name": "u_fpFluxSigma",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Weighted mean point-source model magnitude for g filter.",
+      "default": null,
+      "name": "g_psfFluxMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard error of g_psfFluxMean.",
+      "default": null,
+      "name": "g_psfFluxMeanErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard deviation of the distribution of g_psfFlux.",
+      "default": null,
+      "name": "g_psfFluxSigma",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Chi^2 statistic for the scatter of g_psfFlux around g_psfFluxMean.",
+      "default": null,
+      "name": "g_psfFluxChi2",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "The number of data points used to compute g_psfFluxChi2.",
+      "default": null,
+      "name": "g_psfFluxNdata",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "doc": "Weighted mean forced photometry flux for g filter.",
+      "default": null,
+      "name": "g_fpFluxMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard error of g_fpFluxMean.",
+      "default": null,
+      "name": "g_fpFluxMeanErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard deviation of the distribution of g_fpFlux.",
+      "default": null,
+      "name": "g_fpFluxSigma",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Weighted mean point-source model magnitude for r filter.",
+      "default": null,
+      "name": "r_psfFluxMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard error of r_psfFluxMean.",
+      "default": null,
+      "name": "r_psfFluxMeanErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard deviation of the distribution of r_psfFlux.",
+      "default": null,
+      "name": "r_psfFluxSigma",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Chi^2 statistic for the scatter of r_psfFlux around r_psfFluxMean.",
+      "default": null,
+      "name": "r_psfFluxChi2",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "The number of data points used to compute r_psfFluxChi2.",
+      "default": null,
+      "name": "r_psfFluxNdata",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "doc": "Weighted mean forced photometry flux for r filter.",
+      "default": null,
+      "name": "r_fpFluxMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard error of r_fpFluxMean.",
+      "default": null,
+      "name": "r_fpFluxMeanErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard deviation of the distribution of r_fpFlux.",
+      "default": null,
+      "name": "r_fpFluxSigma",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Weighted mean point-source model magnitude for i filter.",
+      "default": null,
+      "name": "i_psfFluxMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard error of i_psfFluxMean.",
+      "default": null,
+      "name": "i_psfFluxMeanErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard deviation of the distribution of i_psfFlux.",
+      "default": null,
+      "name": "i_psfFluxSigma",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Chi^2 statistic for the scatter of i_psfFlux around i_psfFluxMean.",
+      "default": null,
+      "name": "i_psfFluxChi2",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "The number of data points used to compute i_psfFluxChi2.",
+      "default": null,
+      "name": "i_psfFluxNdata",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "doc": "Weighted mean forced photometry flux for i filter.",
+      "default": null,
+      "name": "i_fpFluxMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard error of i_fpFluxMean.",
+      "default": null,
+      "name": "i_fpFluxMeanErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard deviation of the distribution of i_fpFlux.",
+      "default": null,
+      "name": "i_fpFluxSigma",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Weighted mean point-source model magnitude for z filter.",
+      "default": null,
+      "name": "z_psfFluxMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard error of z_psfFluxMean.",
+      "default": null,
+      "name": "z_psfFluxMeanErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard deviation of the distribution of z_psfFlux.",
+      "default": null,
+      "name": "z_psfFluxSigma",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Chi^2 statistic for the scatter of z_psfFlux around z_psfFluxMean.",
+      "default": null,
+      "name": "z_psfFluxChi2",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "The number of data points used to compute z_psfFluxChi2.",
+      "default": null,
+      "name": "z_psfFluxNdata",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "doc": "Weighted mean forced photometry flux for z filter.",
+      "default": null,
+      "name": "z_fpFluxMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard error of z_fpFluxMean.",
+      "default": null,
+      "name": "z_fpFluxMeanErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard deviation of the distribution of z_fpFlux.",
+      "default": null,
+      "name": "z_fpFluxSigma",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Weighted mean point-source model magnitude for y filter.",
+      "default": null,
+      "name": "y_psfFluxMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard error of y_psfFluxMean.",
+      "default": null,
+      "name": "y_psfFluxMeanErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard deviation of the distribution of y_psfFlux.",
+      "default": null,
+      "name": "y_psfFluxSigma",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Chi^2 statistic for the scatter of y_psfFlux around y_psfFluxMean.",
+      "default": null,
+      "name": "y_psfFluxChi2",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "The number of data points used to compute y_psfFluxChi2.",
+      "default": null,
+      "name": "y_psfFluxNdata",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "doc": "Weighted mean forced photometry flux for y filter.",
+      "default": null,
+      "name": "y_fpFluxMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard error of y_fpFluxMean.",
+      "default": null,
+      "name": "y_fpFluxMeanErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Standard deviation of the distribution of y_fpFlux.",
+      "default": null,
+      "name": "y_fpFluxSigma",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Id of the closest nearby object.",
+      "default": null,
+      "name": "nearbyObj1",
+      "type": [
+        "null",
+        "long"
+      ]
+    },
+    {
+      "doc": "Distance to nearbyObj1.",
+      "default": null,
+      "name": "nearbyObj1Dist",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Natural log of the probability that the observed diaObject is the same as the nearbyObj1.",
+      "default": null,
+      "name": "nearbyObj1LnP",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Id of the second-closest nearby object.",
+      "default": null,
+      "name": "nearbyObj2",
+      "type": [
+        "null",
+        "long"
+      ]
+    },
+    {
+      "doc": "Distance to nearbyObj2.",
+      "default": null,
+      "name": "nearbyObj2Dist",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Natural log of the probability that the observed diaObject is the same as the nearbyObj2.",
+      "default": null,
+      "name": "nearbyObj2LnP",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Id of the third-closest nearby object.",
+      "default": null,
+      "name": "nearbyObj3",
+      "type": [
+        "null",
+        "long"
+      ]
+    },
+    {
+      "doc": "Distance to nearbyObj3.",
+      "default": null,
+      "name": "nearbyObj3Dist",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Natural log of the probability that the observed diaObject is the same as the nearbyObj3.",
+      "default": null,
+      "name": "nearbyObj3LnP",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Mean of the u band flux errors.",
+      "default": null,
+      "name": "u_psfFluxErrMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Mean of the g band flux errors.",
+      "default": null,
+      "name": "g_psfFluxErrMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Mean of the r band flux errors.",
+      "default": null,
+      "name": "r_psfFluxErrMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Mean of the i band flux errors.",
+      "default": null,
+      "name": "i_psfFluxErrMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Mean of the z band flux errors.",
+      "default": null,
+      "name": "z_psfFluxErrMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Mean of the y band flux errors.",
+      "default": null,
+      "name": "y_psfFluxErrMean",
+      "type": [
+        "null",
+        "float"
+      ]
+    }
+  ]
+}
