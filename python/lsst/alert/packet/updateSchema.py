@@ -66,12 +66,10 @@ def populate_fields(apdb_table):
 
     field_dictionary_array = []
     for column in apdb_table['columns']:
-        # We are still finalizing the time series feature names.
 
-        excluded_fields = ['validityStart', 'validityEnd', 'Periodic', 'max', 'min',
-                           'Science', 'Percentile', 'Max', 'Min', 'science', 'LowzGal',
-                           'MAD', 'Skew', 'Intercept', 'Slope', 'Stetson', 'lastNonForcedSource',
-                           'nDiaSources', 'ExtObj', 'isDipole', 'bboxSize', 'Time', 'time_']
+        # exclude fields used only for updates after PP runs
+        excluded_fields = ['validityStart', 'validityEnd', 'time_withdrawn', 
+                           'ssObjectReassocTime']
         exclude = False
         for excluded_field in excluded_fields:
             if excluded_field in column['name']:
@@ -191,7 +189,7 @@ def generate_schema(apdb_filepath, schema_path, schema_version):
 
     version_name = schema_version.split(".")[0] + "_" + schema_version.split(".")[1]
 
-    table_names = ['DiaForcedSource', 'DiaObject', 'DiaSource', 'SSObject']
+    table_names = ['DiaForcedSource', 'DiaObject', 'DiaSource', 'SSSource', 'MPCORB']
     for name in table_names:
 
         for table in apdb['tables']:
