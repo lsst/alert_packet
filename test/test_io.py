@@ -56,7 +56,7 @@ class RetrieveAlertsTestCase(unittest.TestCase):
         alerts = []
         for i in range(n):
             alert = self.sample_alert.copy()
-            alert["alertId"] = i
+            alert["diaSourceId"] = i
             alerts.append(alert)
         return alerts
 
@@ -78,7 +78,7 @@ class RetrieveAlertsTestCase(unittest.TestCase):
         self.assertEqual(len(have_alerts), len(want_alerts))
         for i in range(len(have_alerts)):
             self.assertEqual(
-                have_alerts[i]["alertId"], want_alerts[i]["alertId"],
+                have_alerts[i]["diaSourceId"], want_alerts[i]["diaSourceId"],
                 f"alert idx={i} has mismatched IDs",
             )
 

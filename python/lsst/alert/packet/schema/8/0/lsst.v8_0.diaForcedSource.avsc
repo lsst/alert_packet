@@ -1,0 +1,95 @@
+{
+  "type": "record",
+  "namespace": "lsst.v8_0",
+  "name": "diaForcedSource",
+  "fields": [
+    {
+      "doc": "Unique id.",
+      "name": "diaForcedSourceId",
+      "type": "long"
+    },
+    {
+      "doc": "Id of the DiaObject that this DiaForcedSource was associated with.",
+      "name": "diaObjectId",
+      "type": "long"
+    },
+    {
+      "doc": "Right ascension coordinate of the position of the DiaObject [deg].",
+      "name": "ra",
+      "type": "double"
+    },
+    {
+      "doc": "Declination coordinate of the position of the DiaObject [deg].",
+      "name": "dec",
+      "type": "double"
+    },
+    {
+      "doc": "Id of the visit where this forcedSource was measured.",
+      "name": "visit",
+      "type": "long"
+    },
+    {
+      "doc": "Id of the detector where this forcedSource was measured. Datatype short instead of byte because of DB concerns about unsigned bytes.",
+      "name": "detector",
+      "type": "int"
+    },
+    {
+      "default": null,
+      "doc": "Point Source model flux [nJy].",
+      "name": "psfFlux",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty of psfFlux [nJy].",
+      "name": "psfFluxErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Effective mid-visit time for this diaForcedSource, expressed as Modified Julian Date, International Atomic Time [d].",
+      "name": "midpointMjdTai",
+      "type": "double"
+    },
+    {
+      "default": null,
+      "doc": "Forced photometry flux for a point source model measured on the visit image centered at the DiaObject position [nJy].",
+      "name": "scienceFlux",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty of scienceFlux [nJy].",
+      "name": "scienceFluxErr",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Filter band this source was observed with.",
+      "name": "band",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "doc": "Time when this record was generated.",
+      "name": "time_processed",
+      "type": {
+        "logicalType": "timestamp-micros",
+        "type": "long"
+      }
+    }
+  ]
+}

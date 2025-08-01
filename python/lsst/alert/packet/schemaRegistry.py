@@ -120,7 +120,7 @@ class SchemaRegistry:
         return set(self._ids)
 
     @classmethod
-    def from_filesystem(cls, root=None, schema_root="lsst.v7_4.alert"):
+    def from_filesystem(cls, root=None, schema_root="lsst.v8_0.alert"):
         """Populate a schema registry based on the filesystem.
 
         Walk the directory tree from the root provided, locating files named
