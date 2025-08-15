@@ -6,7 +6,7 @@
 		"time_processed": 0,
 		"visit": 1,
         "detector": 42,
-		"midpointMjdTai": 1480360995,
+		"midpointMjdTai": 60902.993305483615,
 		"band": "r",
 		"programId": 1,
 		"ra": 351.570546978,
@@ -32,7 +32,7 @@
 			"time_processed": 0,
     		"visit": 2,
             "detector": 43,
-    		"midpointMjdTai": 1480360995,
+    		"midpointMjdTai": 60901.993305483615,
     		"band": "r",
     		"programId": 1,
     		"ra": 351.570546978,
@@ -57,7 +57,7 @@
 			"time_processed": 0,
     		"visit": 1,
             "detector": 42,
-    		"midpointMjdTai": 1480360995,
+    		"midpointMjdTai": 60900.993305483615,
     		"band": "r",
     		"programId": 1,
     		"ra": 351.570546978,
@@ -86,8 +86,8 @@
 		"raErr": 0.00028,
 		"decErr": 0.00028,
 		"ra_dec_Cov": 0.00029,
-    		"firstDiaSourceMjdTai": 1480360995.0,
-    		"lastDiaSourceMjdTai": 1480360996.0,
+    		"firstDiaSourceMjdTai": 60900.993305483615,
+    		"lastDiaSourceMjdTai": 60902.993305483615,
 		"nDiaSources": 2
 	}
 }
