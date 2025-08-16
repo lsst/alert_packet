@@ -1,0 +1,223 @@
+{
+  "type": "record",
+  "namespace": "lsst.v8_0",
+  "name": "ssSource",
+  "fields": [
+    {
+      "default": null,
+      "doc": "Unique identifier of the object.",
+      "name": "ssObjectId",
+      "type": [
+        "null",
+        "long"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Unique identifier of the observation.",
+      "name": "diaSourceId",
+      "type": [
+        "null",
+        "long"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Ecliptic longitude [deg].",
+      "name": "eclipticLambda",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Ecliptic latitude [deg].",
+      "name": "eclipticBeta",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Galactic longitude [deg].",
+      "name": "galacticL",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Galactic latitute [deg].",
+      "name": "galacticB",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Phase angle [deg].",
+      "name": "phaseAngle",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Heliocentric distance [AU].",
+      "name": "heliocentricDist",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Topocentric distace [AU].",
+      "name": "topocentricDist",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Predicted V-band magnitude [mag].",
+      "name": "predictedVMagnitude",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Residual R.A. vs. ephemeris [deg].",
+      "name": "residualRa",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Residual Dec vs. ephemeris [deg].",
+      "name": "residualDec",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian heliocentric X coordinate (at the emit time) [AU].",
+      "name": "heliocentricX",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian heliocentric Y coordinate (at the emit time) [AU].",
+      "name": "heliocentricY",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian heliocentric Z coordinate (at the emit time) [AU].",
+      "name": "heliocentricZ",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian heliocentric X velocity (at the emit time) [AU/d].",
+      "name": "heliocentricVX",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian heliocentric Y velocity (at the emit time) [AU/d].",
+      "name": "heliocentricVY",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian heliocentric Z velocity (at the emit time) [AU/d].",
+      "name": "heliocentricVZ",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian topocentric X coordinate (at the emit time) [AU].",
+      "name": "topocentricX",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian topocentric Y coordinate (at the emit time) [AU].",
+      "name": "topocentricY",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian topocentric Z coordinate (at the emit time) [AU].",
+      "name": "topocentricZ",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian topocentric X velocity (at the emit time) [AU/d].",
+      "name": "topocentricVX",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian topocentric Y velocity (at the emit time) [AU/d].",
+      "name": "topocentricVY",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian topocentric Z velocity (at the emit time) [AU/d].",
+      "name": "topocentricVZ",
+      "type": [
+        "null",
+        "float"
+      ]
+    }
+  ]
+}

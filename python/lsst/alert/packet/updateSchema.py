@@ -66,12 +66,9 @@ def populate_fields(apdb_table):
 
     field_dictionary_array = []
     for column in apdb_table['columns']:
-        # We are still finalizing the time series feature names.
 
-        excluded_fields = ['validityStart', 'validityEnd', 'Periodic', 'max', 'min',
-                           'Science', 'Percentile', 'Max', 'Min', 'science', 'LowzGal',
-                           'MAD', 'Skew', 'Intercept', 'Slope', 'Stetson', 'lastNonForcedSource',
-                           'nDiaSources', 'ExtObj', 'isDipole', 'bboxSize', 'Time', 'time_']
+        # exclude fields used only for updates after PP runs
+        excluded_fields = ['validityEnd', 'time_withdrawn', 'ssObjectReassocTime']
         exclude = False
         for excluded_field in excluded_fields:
             if excluded_field in column['name']:
@@ -89,36 +86,30 @@ def populate_fields(apdb_table):
             else:
                 column['datatype'] = str(column['datatype'])
 
+            doc = ''
+            if 'description' in column:
+                doc = column['description']
+            if 'fits:tunit' in column:
+                unit = column['fits:tunit']
+                if unit:
+                    if doc.endswith('.'):
+                        doc = doc[:-1]
+                    doc += f" [{unit}]."
+
             # Check if a column is nullable. If it is, it needs a default.
             if 'nullable' in column:
                 if column['nullable'] is False:
-                    # Check if a column has a description, if so, include "doc"
-                    if 'description' in column:
-                        field = {'name': column['name'],
-                                 'type': column['datatype'],
-                                 'doc': column['description']}
-                    else:
-                        field = {'name': column['name'],
-                                 'type': column['datatype'], 'doc': ''}
+                    field = {'name': column['name'],
+                             'type': column['datatype'],
+                             'doc': doc}
                 else:  # nullable == True
-                    if 'description' in column:
-                        field = {'name': column['name'],
-                                 'type': ['null', column['datatype']],
-                                 'doc': column['description'], 'default': None}
-                    else:
-                        field = {'name': column['name'],
-                                 'type': ['null', column['datatype']],
-                                 'doc': '', 'default': None}
-            else:  # nullable not in columns (nullable == True)
-                if 'description' in column:
                     field = {'name': column['name'],
                              'type': ['null', column['datatype']],
-                             'doc': column['description'], 'default': None}
-
-                else:
-                    field = {"name": column['name'],
-                             "type": ["null", column["datatype"]],
-                             "doc": "", "default": None}
+                             'doc': doc, 'default': None}
+            else:  # nullable not in columns (nullable == True)
+                field = {'name': column['name'],
+                         'type': ['null', column['datatype']],
+                         'doc': doc, 'default': None}
 
             field_dictionary_array.append(field)
 
@@ -142,7 +133,8 @@ def create_schema(name, field_dictionary_list, version):
     version: 'string'
         The version number of the schema.
     """
-    name = name[0:2].lower() + name[2:]
+    if name != 'MPCORB':
+        name = name[0:2].lower() + name[2:]
     schema = fastavro.parse_schema({
         "name": name,
         "type": "record",
@@ -191,7 +183,7 @@ def generate_schema(apdb_filepath, schema_path, schema_version):
 
     version_name = schema_version.split(".")[0] + "_" + schema_version.split(".")[1]
 
-    table_names = ['DiaForcedSource', 'DiaObject', 'DiaSource', 'SSObject']
+    table_names = ['DiaForcedSource', 'DiaObject', 'DiaSource', 'SSSource', 'MPCORB']
     for name in table_names:
 
         for table in apdb['tables']:
