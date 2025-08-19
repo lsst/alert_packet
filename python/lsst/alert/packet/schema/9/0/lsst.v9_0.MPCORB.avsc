@@ -1,0 +1,115 @@
+{
+  "type": "record",
+  "namespace": "lsst.v9_0",
+  "name": "MPCORB",
+  "fields": [
+    {
+      "doc": "Number or provisional designation (in packed form).",
+      "default": null,
+      "name": "mpcDesignation",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "doc": "LSST unique identifier (if observed by LSST).",
+      "default": null,
+      "name": "ssObjectId",
+      "type": [
+        "null",
+        "long"
+      ]
+    },
+    {
+      "doc": "Absolute magnitude, H [mag].",
+      "default": null,
+      "name": "mpcH",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "doc": "Epoch (in MJD, .0 TT) [d].",
+      "default": null,
+      "name": "epoch",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "doc": "Mean anomaly at the epoch [deg].",
+      "default": null,
+      "name": "M",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "doc": "Argument of perihelion, J2000.0 [deg].",
+      "default": null,
+      "name": "peri",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "doc": "Longitude of the ascending node, J2000.0 [deg].",
+      "default": null,
+      "name": "node",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "doc": "Inclination to the ecliptic, J2000.0 [deg].",
+      "default": null,
+      "name": "incl",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "doc": "Orbital eccentricity.",
+      "default": null,
+      "name": "e",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "doc": "Semimajor axis [AU].",
+      "default": null,
+      "name": "a",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "doc": "Perihelion distance [AU].",
+      "default": null,
+      "name": "q",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "doc": "MJD of pericentric passage [d].",
+      "default": null,
+      "name": "t_p",
+      "type": [
+        "null",
+        "double"
+      ]
+    }
+  ]
+}
