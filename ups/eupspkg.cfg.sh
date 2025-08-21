@@ -16,7 +16,12 @@ install() {
     cp -a ./ "$PREFIX"
     rm -rf "$PREFIX/ups"
     msg "Copied the product into '$PREFIX'"
-
+    
+    reldir="."
+        if [[ "$TAP_USE_BUILD_DIR" == 1 ]]; then
+            reldir=".."
+            cd "$BUILD_DIR"
+        fi
     cd "$reldir"
 
     install_ups
