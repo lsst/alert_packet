@@ -1,0 +1,24 @@
+{
+	"namespace": "lsst.v9_0",
+	"type": "record",
+	"name": "alert",
+	"doc": "Rubin Avro alert schema v9.0",
+	"fields": [
+		{"name": "diaSourceId", "type": "long", "doc": "Identifier of the triggering DiaSource"},
+		{"name": "observation_reason", "type": ["null", "string"], "doc": "Scheduler reason for the image containing this diaSource (RTN-097).", "default": null},
+		{"name": "target_name", "type": ["null", "string"], "doc": "Scheduler target for the image containing this diaSource (RTN-097).", "default": null},
+		{"name": "diaSource", "type": "lsst.v9_0.diaSource"},
+		{"name": "prvDiaSources", "type": ["null", {
+				"type": "array",
+				"items": "lsst.v9_0.diaSource"}], "default": null},
+		{"name": "prvDiaForcedSources", "type": ["null", {
+				"type": "array",
+				"items": "lsst.v9_0.diaForcedSource"}], "default": null},
+		{"name": "diaObject", "type": ["null", "lsst.v9_0.diaObject"], "default": null},
+		{"name": "ssSource", "type": ["null", "lsst.v9_0.ssSource"], "default": null},
+		{"name": "MPCORB", "type": ["null", "lsst.v9_0.MPCORB"], "default": null},
+		{"name": "cutoutDifference", "type": ["null", "bytes"], "default": null},
+		{"name": "cutoutScience", "type": ["null", "bytes"], "default": null},
+		{"name": "cutoutTemplate", "type": ["null", "bytes"], "default": null}
+     ]
+}
