@@ -22,6 +22,31 @@
       ]
     },
     {
+      "doc": "Angular separation of predicted position to the observation (arcseconds).",
+      "default": null,
+      "name": "ephOffset",
+      "type": [
+        "double"
+      ]
+    },
+    {
+      "doc": "The rank of this diaSource, in terms of its closeness to the prediced SSO position.",
+      "default": null,
+      "name": "diaSourceDistanceRank",
+      "type": [
+        "double"
+      ]
+    },
+    {
+      "doc": "Unique identifier of the observation.",
+      "default": null,
+      "name": "diaSourceId",
+      "type": [
+        "null",
+        "long"
+      ]
+    },
+    {
       "doc": "Ecliptic longitude [deg].",
       "default": null,
       "name": "eclipticLambda",
