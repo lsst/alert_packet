@@ -34,7 +34,7 @@
       "default": null,
       "name": "diaSourceDistanceRank",
       "type": [
-        "double"
+        "long"
       ]
     },
     {
