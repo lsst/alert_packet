@@ -1,0 +1,325 @@
+{
+  "type": "record",
+  "namespace": "lsst.v10_0",
+  "name": "ssSource",
+  "fields": [
+    {
+      "doc": "Unique identifier of the observation (matching DiaSource.diaSourceId).",
+      "name": "diaSourceId",
+      "type": "long"
+    },
+    {
+      "doc": "Unique LSST identifier of the Solar System object.",
+      "name": "ssObjectId",
+      "type": "long"
+    },
+    {
+      "default": null,
+      "doc": "The unpacked primary provisional designation for this object.",
+      "name": "designation",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "doc": "Ecliptic longitude, converted from the observed coordinates.",
+      "name": "eclLambda",
+      "type": "double"
+    },
+    {
+      "doc": "Ecliptic latitude, converted from the observed coordinates.",
+      "name": "eclBeta",
+      "type": "double"
+    },
+    {
+      "doc": "Galactic longitude, converted from the observed coordinates.",
+      "name": "galLon",
+      "type": "double"
+    },
+    {
+      "doc": "Galactic latitude, converted from the observed coordinates.",
+      "name": "galLat",
+      "type": "double"
+    },
+    {
+      "default": null,
+      "doc": "Solar elongation of the object at the time of observation.",
+      "name": "elongation",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Phase angle between the Sun, object, and observer.",
+      "name": "phaseAngle",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Topocentric distance (delta) at light-emission time.",
+      "name": "topoRange",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Topocentric radial (line-of-sight) velocity (deldot); positive values indicate motion away from the observer.",
+      "name": "topoRangeRate",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Heliocentric distance (r) at light-emission time.",
+      "name": "helioRange",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Heliocentric radial velocity (rdot); positive values indicate motion away from the Sun.",
+      "name": "helioRangeRate",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Predicted ICRS right ascension from the orbit in mpc_orbits.",
+      "name": "ephRa",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Predicted ICRS declination from the orbit in mpc_orbits.",
+      "name": "ephDec",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Predicted magnitude in V band, computed from mpc_orbits data including the mpc_orbits-provided (H, G) estimates\n",
+      "name": "ephVmag",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Total predicted on-sky angular rate of motion.",
+      "name": "ephRate",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Predicted on-sky angular rate in the R.A. direction (includes the cos(dec) factor).",
+      "name": "ephRateRa",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Predicted on-sky angular rate in the declination direction.",
+      "name": "ephRateDec",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Total observed versus predicted angular separation on the sky.",
+      "name": "ephOffset",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Offset between observed and predicted position in the R.A. direction (includes cos(dec) term).",
+      "name": "ephOffsetRa",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Offset between observed and predicted position in declination.",
+      "name": "ephOffsetDec",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Offset between observed and predicted position in the along-track direction on the sky.",
+      "name": "ephOffsetAlongTrack",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Offset between observed and predicted position in the cross-track direction on the sky.",
+      "name": "ephOffsetCrossTrack",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian heliocentric X coordinate at light-emission time (ICRS).",
+      "name": "helio_x",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian heliocentric Y coordinate at light-emission time (ICRS).",
+      "name": "helio_y",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian heliocentric Z coordinate at light-emission time (ICRS).",
+      "name": "helio_z",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian heliocentric X velocity at light-emission time (ICRS).",
+      "name": "helio_vx",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian heliocentric Y velocity at light-emission time (ICRS).",
+      "name": "helio_vy",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian heliocentric Z velocity at light-emission time (ICRS).",
+      "name": "helio_vz",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "The magnitude of the heliocentric velocity vector, sqrt(vx*vx + vy*vy + vz*vz).",
+      "name": "helio_vtot",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian topocentric X coordinate at light-emission time (ICRS).",
+      "name": "topo_x",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian topocentric Y coordinate at light-emission time (ICRS).",
+      "name": "topo_y",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian topocentric Z coordinate at light-emission time (ICRS).",
+      "name": "topo_z",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian topocentric X velocity at light-emission time (ICRS).",
+      "name": "topo_vx",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian topocentric Y velocity at light-emission time (ICRS).",
+      "name": "topo_vy",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Cartesian topocentric Z velocity at light-emission time (ICRS).",
+      "name": "topo_vz",
+      "type": [
+        "null",
+        "float"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "The magnitude of the topocentric velocity vector, sqrt(vx*vx + vy*vy + vz*vz).",
+      "name": "topo_vtot",
+      "type": [
+        "null",
+        "float"
+      ]
+    }
+  ]
+}

@@ -134,17 +134,17 @@ The ``lsst.alert.packet`` Python package provides a suite of routines for workin
 Command Line
 ------------
 
-``validateAvroRoundTrip.py`` demonstrates round-tripping a simple alert through the Avro system.
+``validateAvroRoundTrip`` demonstrates round-tripping a simple alert through the Avro system.
 Sample data is provided in the ``schema/latest/sample_data/alert.json`` file, or an alternative may be provided on the command line.
 Optionally, the path to binary data files to be included in the packet as “postage stamp” images may be provided.
 If the ``--print`` flag is given, the alert contents are printed to screen for sanity checking.
 
-``simulateAlerts.py`` writes simulated alert packets to disk in Avro format.
+``simulateAlerts`` writes simulated alert packets to disk in Avro format.
 The resultant data is schema compliant, but the simulations are not intended to be realistic: packets are populated with pseudorandom numbers.
 The number of visits per year (equivalent to the number of previous DIASources observed for each alert) and the number of alerts to simulate may be specified on the command line.
 Thus::
 
-   $ simulateAlerts.py --visits-per-year=100 --num-alerts=10 ./output_file.avro
+   $ simulateAlerts --visits-per-year=100 --num-alerts=10 ./output_file.avro
 
 .. _fastavro: https://fastavro.readthedocs.io/en/latest/
 .. _NumPy: http://www.numpy.org

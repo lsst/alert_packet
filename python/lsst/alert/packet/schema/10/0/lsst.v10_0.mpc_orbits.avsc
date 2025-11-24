@@ -1,0 +1,477 @@
+{
+  "type": "record",
+  "namespace": "lsst.v10_0",
+  "name": "mpc_orbits",
+  "fields": [
+    {
+      "doc": "Internal ID (generally not seen/used by the user)",
+      "name": "id",
+      "type": "int"
+    },
+    {
+      "doc": "The primary provisional designation in unpacked form (e.g. 2008 AB).",
+      "name": "designation",
+      "type": "string"
+    },
+    {
+      "doc": "The primary provisional designation in packed form (e.g. K08A00B)",
+      "name": "packed_primary_provisional_designation",
+      "type": "string"
+    },
+    {
+      "doc": "The primary provisional designation in unpacked form (e.g. 2008 AB)",
+      "name": "unpacked_primary_provisional_designation",
+      "type": "string"
+    },
+    {
+      "default": null,
+      "doc": "Details of the orbit solution in JSON form",
+      "name": "mpc_orb_jsonb",
+      "type": [
+        "null",
+        "string"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "When this row was created",
+      "name": "created_at",
+      "type": [
+        "null",
+        {
+          "logicalType": "timestamp-micros",
+          "type": "long"
+        }
+      ]
+    },
+    {
+      "default": null,
+      "doc": "When this row was updated",
+      "name": "updated_at",
+      "type": [
+        "null",
+        {
+          "logicalType": "timestamp-micros",
+          "type": "long"
+        }
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Orbit Type (Integer)",
+      "name": "orbit_type_int",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "U parameter",
+      "name": "u_param",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "number of oppositions",
+      "name": "nopp",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Arc length over total observations [days]",
+      "name": "arc_length_total",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Arc length over total observations *selected* [days]",
+      "name": "arc_length_sel",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Total number of all observations (optical + radar) available",
+      "name": "nobs_total",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Total number of all observations (optical + radar) selected for use in orbit fitting",
+      "name": "nobs_total_sel",
+      "type": [
+        "null",
+        "int"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Semi Major Axis [au]",
+      "name": "a",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Pericenter Distance [au]",
+      "name": "q",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Eccentricity",
+      "name": "e",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Inclination [degrees]",
+      "name": "i",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Longitude of Ascending Node [degrees]",
+      "name": "node",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Argument of Pericenter [degrees]",
+      "name": "argperi",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Time from Pericenter Passage [days]",
+      "name": "peri_time",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Yarkovsky Component [10^(-10)*au/day^2]",
+      "name": "yarkovsky",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Solar-Radiation Pressure Component [m^2/ton]",
+      "name": "srp",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "A1 non-grav components [m^2/ton]",
+      "name": "a1",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "A2 non-grav components [m^2/ton]",
+      "name": "a2",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "A3 non-grav components [m^2/ton]",
+      "name": "a3",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "DT non-grav component",
+      "name": "dt",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Mean Anomaly [degrees]",
+      "name": "mean_anomaly",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Orbital Period [days]",
+      "name": "period",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Orbital Mean Motion [degrees per day]",
+      "name": "mean_motion",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty on Semi Major Axis [au]",
+      "name": "a_unc",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty on Pericenter Distance [au]",
+      "name": "q_unc",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty on Eccentricity",
+      "name": "e_unc",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty on Inclination [degrees]",
+      "name": "i_unc",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty on Longitude of Ascending Node [degrees]",
+      "name": "node_unc",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty on Argument of Pericenter [degrees]",
+      "name": "argperi_unc",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty on Time from Pericenter Passage [days]",
+      "name": "peri_time_unc",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty on Yarkovsky Component [10^(-10)*au/day^2]",
+      "name": "yarkovsky_unc",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty on Solar-Radiation Pressure Component [m^2/ton]",
+      "name": "srp_unc",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty on A1 non-grav components [m^2/ton]",
+      "name": "a1_unc",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty on A2 non-grav components [m^2/ton]",
+      "name": "a2_unc",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty on A3 non-grav components [m^2/ton]",
+      "name": "a3_unc",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty on DT non-grav component",
+      "name": "dt_unc",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty on Mean Anomaly [degrees]",
+      "name": "mean_anomaly_unc",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty on Orbital Period [days]",
+      "name": "period_unc",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Uncertainty on Orbital Mean Motion [degrees per day]",
+      "name": "mean_motion_unc",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Epoch of the Orbfit-Solution in MJD",
+      "name": "epoch_mjd",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "H-Magnitude",
+      "name": "h",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "G-Slope Parameter",
+      "name": "g",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "unnormalized rms of the fit [arcsec]",
+      "name": "not_normalized_rms",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "rms of the fit [unitless]",
+      "name": "normalized_rms",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Minimum Orbit Intersection Distance [au] with respect to the Earths Orbit",
+      "name": "earth_moid",
+      "type": [
+        "null",
+        "double"
+      ]
+    },
+    {
+      "default": null,
+      "doc": "Date of the last orbit fit",
+      "name": "fitting_datetime",
+      "type": [
+        "null",
+        {
+          "logicalType": "timestamp-micros",
+          "type": "long"
+        }
+      ]
+    }
+  ]
+}

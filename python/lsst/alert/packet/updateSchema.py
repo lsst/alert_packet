@@ -30,6 +30,7 @@ __all__ = ['generate_schema']
 
 DEFAULT_ALERT_TABLES = ['DiaForcedSource', 'DiaObject', 'DiaSource', 'SSSource', 'SSObject', 'mpc_orbits']
 
+
 def write_schema(schema, path):
 
     if not os.path.exists(path):
@@ -152,6 +153,7 @@ def create_schema(name, field_dictionary_list, version):
 
     return schema
 
+
 def generate_schema(apdb_filepath, schema_path, schema_version, table_names=DEFAULT_ALERT_TABLES):
     """Generate avro schemas using an apdb.yaml file.
 
@@ -183,7 +185,7 @@ def generate_schema(apdb_filepath, schema_path, schema_version, table_names=DEFA
 
     version_name = schema_version.split(".")[0] + "_" + schema_version.split(".")[1]
 
-    apdb_map = { table['name']:table for table in apdb['tables'] }
+    apdb_map = {table['name']: table for table in apdb['tables']}
     for name in table_names:
         table = apdb_map[name]
         field_dictionary = populate_fields(table)

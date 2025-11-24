@@ -64,6 +64,7 @@ class SchemaValidityTestCase(unittest.TestCase):
             path = path_to_sample_data(get_schema_root(), version,
                                        "fakeAlert.avro")
             schema = self.registry.get_by_version(version)
+            print("XXX", get_schema_root(), version, path)
 
             if version in no_data:
                 self.assertFalse(os.path.exists(path))
