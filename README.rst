@@ -107,6 +107,11 @@ The name of the package is `lsst-alert-packet`::
 
   $ pip install lsst-alert-packet
 
+IMPORTANT: Since pip 24.1 it is not possibe to pip-install together with the
+development version of the LSST stack, as LSST stack versions don't follow
+the PEP 440 standard which pip now enfirces. See below for how to use it
+with EUPS.
+
 Using EUPS
 ^^^^^^^^^^
 
@@ -115,6 +120,9 @@ Assuming EUPS is available on your system, simply::
 
   $ git clone https://github.com/lsst/alert_packet.git
   $ setup -r alert_packet
+
+The CLI utilities should work without any installing, as they've been linked
+into the bi/ directory.
 
 .. _EUPS: https://github.com/RobertLuptonTheGood/eups/
 
