@@ -7,7 +7,7 @@ name = "lsst-alert-packet"
 version = "0.3.0"
 description = "Code for interacting with Vera C. Rubin Observatory alert packets"
 authors = [
-  { name = "Spencer Nelson", email = "swnelson@uw.edu" },
+  { name = "Brianna Smart", email = "drbsmart@uw.edu" },
 ]
 license = { text = "GPLv3" }
 urls = { "Homepage" = "https://github.com/lsst/alert_packet" }

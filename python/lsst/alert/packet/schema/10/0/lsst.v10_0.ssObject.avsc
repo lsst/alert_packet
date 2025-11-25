@@ -9,8 +9,8 @@
       "type": "long"
     },
     {
-      "default": null,
       "doc": "The unpacked primary provisional designation for this object.",
+      "default": null,
       "name": "designation",
       "type": [
         "null",
@@ -28,8 +28,8 @@
       "type": "float"
     },
     {
-      "default": null,
       "doc": "The time of the first LSST observation of this object (could be precovered), TAI.",
+      "default": null,
       "name": "firstObservationMjdTai",
       "type": [
         "null",
@@ -37,8 +37,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Minimum orbit intersection distance to Earth.",
+      "default": null,
       "name": "MOIDEarth",
       "type": [
         "null",
@@ -46,8 +46,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "DeltaV at the MOID point.",
+      "default": null,
       "name": "MOIDEarthDeltaV",
       "type": [
         "null",
@@ -55,8 +55,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Ecliptic longitude of the MOID point (Earth's orbit).",
+      "default": null,
       "name": "MOIDEarthEclipticLongitude",
       "type": [
         "null",
@@ -64,8 +64,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "True anomaly of the MOID point on Earth's orbit.",
+      "default": null,
       "name": "MOIDEarthTrueAnomaly",
       "type": [
         "null",
@@ -73,8 +73,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "True anomaly of the MOID point on the object's orbit.",
+      "default": null,
       "name": "MOIDEarthTrueAnomalyObject",
       "type": [
         "null",
@@ -82,8 +82,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Tisserand parameter with respect to Jupiter (T_J).",
+      "default": null,
       "name": "tisserand_J",
       "type": [
         "null",
@@ -91,8 +91,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Maximum `extendedness` value from the DiaSource.",
+      "default": null,
       "name": "extendednessMax",
       "type": [
         "null",
@@ -100,8 +100,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Median `extendedness` value from the DiaSource.",
+      "default": null,
       "name": "extendednessMedian",
       "type": [
         "null",
@@ -109,8 +109,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Minimum `extendedness` value from the DiaSource.",
+      "default": null,
       "name": "extendednessMin",
       "type": [
         "null",
@@ -118,8 +118,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Total number of data points (u band).",
+      "default": null,
       "name": "u_nObs",
       "type": [
         "null",
@@ -127,8 +127,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Best fit absolute magnitude (u band).",
+      "default": null,
       "name": "u_H",
       "type": [
         "null",
@@ -136,8 +136,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Error in the estimate of H (u band).",
+      "default": null,
       "name": "u_HErr",
       "type": [
         "null",
@@ -145,8 +145,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Best fit G12 slope parameter (u band).",
+      "default": null,
       "name": "u_G12",
       "type": [
         "null",
@@ -154,8 +154,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Error in the estimate of G12 (u band).",
+      "default": null,
       "name": "u_G12Err",
       "type": [
         "null",
@@ -163,8 +163,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "H\u2013G12 covariance (u band).",
+      "default": null,
       "name": "u_H_u_G12_Cov",
       "type": [
         "null",
@@ -172,8 +172,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "The number of data points used to fit the phase curve (u band).",
+      "default": null,
       "name": "u_nObsUsed",
       "type": [
         "null",
@@ -181,8 +181,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Chi^2 statistic of the phase curve fit (u band).",
+      "default": null,
       "name": "u_Chi2",
       "type": [
         "null",
@@ -190,8 +190,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Minimum phase angle observed (u band).",
+      "default": null,
       "name": "u_phaseAngleMin",
       "type": [
         "null",
@@ -199,8 +199,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Maximum phase angle observed (u band).",
+      "default": null,
       "name": "u_phaseAngleMax",
       "type": [
         "null",
@@ -208,8 +208,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "G12 fit failed in u band. G12 contains a fiducial value used to fit H.",
+      "default": null,
       "name": "u_slope_fit_failed",
       "type": [
         "null",
@@ -217,8 +217,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Total number of data points (g band).",
+      "default": null,
       "name": "g_nObs",
       "type": [
         "null",
@@ -226,8 +226,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Best fit absolute magnitude (g band).",
+      "default": null,
       "name": "g_H",
       "type": [
         "null",
@@ -235,8 +235,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Error in the estimate of H (g band).",
+      "default": null,
       "name": "g_HErr",
       "type": [
         "null",
@@ -244,8 +244,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Best fit G12 slope parameter (g band).",
+      "default": null,
       "name": "g_G12",
       "type": [
         "null",
@@ -253,8 +253,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Error in the estimate of G12 (g band).",
+      "default": null,
       "name": "g_G12Err",
       "type": [
         "null",
@@ -262,8 +262,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "H\u2013G12 covariance (g band).",
+      "default": null,
       "name": "g_H_g_G12_Cov",
       "type": [
         "null",
@@ -271,8 +271,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "The number of data points used to fit the phase curve (g band).",
+      "default": null,
       "name": "g_nObsUsed",
       "type": [
         "null",
@@ -280,8 +280,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Chi^2 statistic of the phase curve fit (g band).",
+      "default": null,
       "name": "g_Chi2",
       "type": [
         "null",
@@ -289,8 +289,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Minimum phase angle observed (g band).",
+      "default": null,
       "name": "g_phaseAngleMin",
       "type": [
         "null",
@@ -298,8 +298,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Maximum phase angle observed (g band).",
+      "default": null,
       "name": "g_phaseAngleMax",
       "type": [
         "null",
@@ -307,8 +307,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "G12 fit failed in g band. G12 contains a fiducial value used to fit H.",
+      "default": null,
       "name": "g_slope_fit_failed",
       "type": [
         "null",
@@ -316,8 +316,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Total number of data points (r band).",
+      "default": null,
       "name": "r_nObs",
       "type": [
         "null",
@@ -325,8 +325,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Best fit absolute magnitude (r band).",
+      "default": null,
       "name": "r_H",
       "type": [
         "null",
@@ -334,8 +334,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Error in the estimate of H (r band).",
+      "default": null,
       "name": "r_HErr",
       "type": [
         "null",
@@ -343,8 +343,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Best fit G12 slope parameter (r band).",
+      "default": null,
       "name": "r_G12",
       "type": [
         "null",
@@ -352,8 +352,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Error in the estimate of G12 (r band).",
+      "default": null,
       "name": "r_G12Err",
       "type": [
         "null",
@@ -361,8 +361,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "H\u2013G12 covariance (r band).",
+      "default": null,
       "name": "r_H_r_G12_Cov",
       "type": [
         "null",
@@ -370,8 +370,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "The number of data points used to fit the phase curve (r band).",
+      "default": null,
       "name": "r_nObsUsed",
       "type": [
         "null",
@@ -379,8 +379,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Chi^2 statistic of the phase curve fit (r band).",
+      "default": null,
       "name": "r_Chi2",
       "type": [
         "null",
@@ -388,8 +388,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Minimum phase angle observed (r band).",
+      "default": null,
       "name": "r_phaseAngleMin",
       "type": [
         "null",
@@ -397,8 +397,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Maximum phase angle observed (r band).",
+      "default": null,
       "name": "r_phaseAngleMax",
       "type": [
         "null",
@@ -406,8 +406,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "G12 fit failed in r band. G12 contains a fiducial value used to fit H.",
+      "default": null,
       "name": "r_slope_fit_failed",
       "type": [
         "null",
@@ -415,8 +415,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Total number of data points (i band).",
+      "default": null,
       "name": "i_nObs",
       "type": [
         "null",
@@ -424,8 +424,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Best fit absolute magnitude (i band).",
+      "default": null,
       "name": "i_H",
       "type": [
         "null",
@@ -433,8 +433,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Error in the estimate of H (i band).",
+      "default": null,
       "name": "i_HErr",
       "type": [
         "null",
@@ -442,8 +442,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Best fit G12 slope parameter (i band).",
+      "default": null,
       "name": "i_G12",
       "type": [
         "null",
@@ -451,8 +451,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Error in the estimate of G12 (i band).",
+      "default": null,
       "name": "i_G12Err",
       "type": [
         "null",
@@ -460,8 +460,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "H\u2013G12 covariance (i band).",
+      "default": null,
       "name": "i_H_i_G12_Cov",
       "type": [
         "null",
@@ -469,8 +469,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "The number of data points used to fit the phase curve (i band).",
+      "default": null,
       "name": "i_nObsUsed",
       "type": [
         "null",
@@ -478,8 +478,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Chi^2 statistic of the phase curve fit (i band).",
+      "default": null,
       "name": "i_Chi2",
       "type": [
         "null",
@@ -487,8 +487,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Minimum phase angle observed (i band).",
+      "default": null,
       "name": "i_phaseAngleMin",
       "type": [
         "null",
@@ -496,8 +496,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Maximum phase angle observed (i band).",
+      "default": null,
       "name": "i_phaseAngleMax",
       "type": [
         "null",
@@ -505,8 +505,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "G12 fit failed in i band. G12 contains a fiducial value used to fit H.",
+      "default": null,
       "name": "i_slope_fit_failed",
       "type": [
         "null",
@@ -514,8 +514,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Total number of data points (z band).",
+      "default": null,
       "name": "z_nObs",
       "type": [
         "null",
@@ -523,8 +523,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Best fit absolute magnitude (z band).",
+      "default": null,
       "name": "z_H",
       "type": [
         "null",
@@ -532,8 +532,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Error in the estimate of H (z band).",
+      "default": null,
       "name": "z_HErr",
       "type": [
         "null",
@@ -541,8 +541,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Best fit G12 slope parameter (z band).",
+      "default": null,
       "name": "z_G12",
       "type": [
         "null",
@@ -550,8 +550,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Error in the estimate of G12 (z band).",
+      "default": null,
       "name": "z_G12Err",
       "type": [
         "null",
@@ -559,8 +559,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "H\u2013G12 covariance (z band).",
+      "default": null,
       "name": "z_H_z_G12_Cov",
       "type": [
         "null",
@@ -568,8 +568,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "The number of data points used to fit the phase curve (z band).",
+      "default": null,
       "name": "z_nObsUsed",
       "type": [
         "null",
@@ -577,8 +577,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Chi^2 statistic of the phase curve fit (z band).",
+      "default": null,
       "name": "z_Chi2",
       "type": [
         "null",
@@ -586,8 +586,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Minimum phase angle observed (z band).",
+      "default": null,
       "name": "z_phaseAngleMin",
       "type": [
         "null",
@@ -595,8 +595,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Maximum phase angle observed (z band).",
+      "default": null,
       "name": "z_phaseAngleMax",
       "type": [
         "null",
@@ -604,8 +604,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "G12 fit failed in z band. G12 contains a fiducial value used to fit H.",
+      "default": null,
       "name": "z_slope_fit_failed",
       "type": [
         "null",
@@ -613,8 +613,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Total number of data points (y band).",
+      "default": null,
       "name": "y_nObs",
       "type": [
         "null",
@@ -622,8 +622,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Best fit absolute magnitude (y band).",
+      "default": null,
       "name": "y_H",
       "type": [
         "null",
@@ -631,8 +631,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Error in the estimate of H (y band).",
+      "default": null,
       "name": "y_HErr",
       "type": [
         "null",
@@ -640,8 +640,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Best fit G12 slope parameter (y band).",
+      "default": null,
       "name": "y_G12",
       "type": [
         "null",
@@ -649,8 +649,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Error in the estimate of G12 (y band).",
+      "default": null,
       "name": "y_G12Err",
       "type": [
         "null",
@@ -658,8 +658,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "H\u2013G12 covariance (y band).",
+      "default": null,
       "name": "y_H_y_G12_Cov",
       "type": [
         "null",
@@ -667,8 +667,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "The number of data points used to fit the phase curve (y band).",
+      "default": null,
       "name": "y_nObsUsed",
       "type": [
         "null",
@@ -676,8 +676,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Chi^2 statistic of the phase curve fit (y band).",
+      "default": null,
       "name": "y_Chi2",
       "type": [
         "null",
@@ -685,8 +685,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Minimum phase angle observed (y band).",
+      "default": null,
       "name": "y_phaseAngleMin",
       "type": [
         "null",
@@ -694,8 +694,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "Maximum phase angle observed (y band).",
+      "default": null,
       "name": "y_phaseAngleMax",
       "type": [
         "null",
@@ -703,8 +703,8 @@
       ]
     },
     {
-      "default": null,
       "doc": "G12 fit failed in y band. G12 contains a fiducial value used to fit H.",
+      "default": null,
       "name": "y_slope_fit_failed",
       "type": [
         "null",
