@@ -28,6 +28,8 @@ import json
 
 __all__ = ['generate_schema']
 
+DEFAULT_ALERT_TABLES = ['DiaForcedSource', 'DiaObject', 'DiaSource', 'SSSource', 'SSObject', 'mpc_orbits']
+
 
 def write_schema(schema, path):
 
@@ -75,7 +77,8 @@ def populate_fields(apdb_table):
                 exclude = True
 
         if not exclude:
-            if 'char' in column['datatype']:
+            if 'char' in column['datatype'] or \
+               'text' in column['datatype']:
                 column['datatype'] = 'string'
 
             if 'short' in column['datatype']:
@@ -133,8 +136,7 @@ def create_schema(name, field_dictionary_list, version):
     version: 'string'
         The version number of the schema.
     """
-    if name != 'MPCORB':
-        name = name[0:2].lower() + name[2:]
+    name = name[0:2].lower() + name[2:]
     schema = fastavro.parse_schema({
         "name": name,
         "type": "record",
@@ -152,7 +154,7 @@ def create_schema(name, field_dictionary_list, version):
     return schema
 
 
-def generate_schema(apdb_filepath, schema_path, schema_version):
+def generate_schema(apdb_filepath, schema_path, schema_version, table_names=DEFAULT_ALERT_TABLES):
     """Generate avro schemas using an apdb.yaml file.
 
     Using a provided path to the apdb.yaml file and schema folder,
@@ -183,14 +185,12 @@ def generate_schema(apdb_filepath, schema_path, schema_version):
 
     version_name = schema_version.split(".")[0] + "_" + schema_version.split(".")[1]
 
-    table_names = ['DiaForcedSource', 'DiaObject', 'DiaSource', 'SSSource', 'MPCORB']
+    apdb_map = {table['name']: table for table in apdb['tables']}
     for name in table_names:
-
-        for table in apdb['tables']:
-            if table['name'] == name:
-                field_dictionary = populate_fields(table)
-                schema = create_schema(name, field_dictionary, version_name)
-                write_schema(schema, path)
+        table = apdb_map[name]
+        field_dictionary = populate_fields(table)
+        schema = create_schema(name, field_dictionary, version_name)
+        write_schema(schema, path)
 
 
 if __name__ == '__main__':

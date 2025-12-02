@@ -107,6 +107,11 @@ The name of the package is `lsst-alert-packet`::
 
   $ pip install lsst-alert-packet
 
+IMPORTANT: Since pip 24.1 it is not possibe to pip-install together with the
+development version of the LSST stack, as LSST stack versions don't follow
+the PEP 440 standard which pip now enfirces. See below for how to use it
+with EUPS.
+
 Using EUPS
 ^^^^^^^^^^
 
@@ -115,6 +120,9 @@ Assuming EUPS is available on your system, simply::
 
   $ git clone https://github.com/lsst/alert_packet.git
   $ setup -r alert_packet
+
+The CLI utilities should work without any installing, as they've been linked
+into the bi/ directory.
 
 .. _EUPS: https://github.com/RobertLuptonTheGood/eups/
 
@@ -126,17 +134,17 @@ The ``lsst.alert.packet`` Python package provides a suite of routines for workin
 Command Line
 ------------
 
-``validateAvroRoundTrip.py`` demonstrates round-tripping a simple alert through the Avro system.
+``validateAvroRoundTrip`` demonstrates round-tripping a simple alert through the Avro system.
 Sample data is provided in the ``schema/latest/sample_data/alert.json`` file, or an alternative may be provided on the command line.
 Optionally, the path to binary data files to be included in the packet as “postage stamp” images may be provided.
 If the ``--print`` flag is given, the alert contents are printed to screen for sanity checking.
 
-``simulateAlerts.py`` writes simulated alert packets to disk in Avro format.
+``simulateAlerts`` writes simulated alert packets to disk in Avro format.
 The resultant data is schema compliant, but the simulations are not intended to be realistic: packets are populated with pseudorandom numbers.
 The number of visits per year (equivalent to the number of previous DIASources observed for each alert) and the number of alerts to simulate may be specified on the command line.
 Thus::
 
-   $ simulateAlerts.py --visits-per-year=100 --num-alerts=10 ./output_file.avro
+   $ simulateAlerts --visits-per-year=100 --num-alerts=10 ./output_file.avro
 
 .. _fastavro: https://fastavro.readthedocs.io/en/latest/
 .. _NumPy: http://www.numpy.org

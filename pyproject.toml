@@ -1,0 +1,87 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lsst-alert-packet"
+version = "0.3.0"
+description = "Code for interacting with Vera C. Rubin Observatory alert packets"
+authors = [
+  { name = "Brianna Smart", email = "drbsmart@uw.edu" },
+]
+license = { text = "GPLv3" }
+urls = { "Homepage" = "https://github.com/lsst/alert_packet" }
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Development Status :: 3 - Alpha",
+]
+
+dependencies = [
+  "fastavro",
+  "numpy",
+  "requests",
+  "lsst-resources",
+]
+
+[project.scripts]
+validateAvroRoundTrip = "lsst.alert.packet.bin.validateAvroRoundTrip:main"
+simulateAlerts = "lsst.alert.packet.bin.simulateAlerts:main"
+syncAllSchemasToRegistry = "lsst.alert.packet.bin.syncAllSchemasToRegistry:main"
+
+[tool.setuptools]
+# This corresponds to:
+#   package_dir =
+#       =python
+package-dir = { "" = "python" }
+
+# Explicitly list packages as in setup.cfg's `packages = ...`
+packages = [
+  "lsst.alert.packet",
+  "lsst.alert.packet.bin",
+]
+
+[tool.setuptools.package-data]
+# This corresponds to [options.package_data]
+"lsst.alert.packet" = [
+  "schema",
+  "schema/*",
+  "schema*/*",
+  "schema/*/*/*",
+  "schema/*/*/sample_data/*",
+]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+exclude = [
+    "__init__.py",
+    "analysis",
+]
+
+[tool.ruff.lint]
+ignore = [
+    "N802",
+    "N803",
+    "N806",
+    "N812",
+    "N813",
+    "N815",
+    "N816",
+    "N999",
+]
+select = [
+    "E",  # pycodestyle
+    "F",  # pyflakes
+    "N",  # pep8-naming
+    "W",  # pycodestyle
+]
+extend-select = [
+    "RUF100", # Warn about unused noqa
+]
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 79
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
