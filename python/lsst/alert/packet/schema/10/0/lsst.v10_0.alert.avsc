@@ -15,6 +15,7 @@
 				"type": "array",
 				"items": "lsst.v10_0.diaForcedSource"}], "default": null},
 		{"name": "diaObject", "type": ["null", "lsst.v10_0.diaObject"], "default": null},
+		{"name": "ssObject", "type": ["null", "lsst.v10_0.ssObject"], "default": null},
 		{"name": "ssSource", "type": ["null", "lsst.v10_0.ssSource"], "default": null},
 		{"name": "mpc_orbits", "type": ["null", "lsst.v10_0.mpc_orbits"], "default": null},
 		{"name": "cutoutDifference", "type": ["null", "bytes"], "default": null},
