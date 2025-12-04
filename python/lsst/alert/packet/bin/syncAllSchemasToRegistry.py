@@ -64,22 +64,62 @@ def upload_schemas(registry_url, subject, schema_registry):
         print(f"done, status={response.status_code}")
         print(f"response text={response.text}")
 
+        # Register in the TopicNameStrategy-compatible subject, needs to be in
+        # 0.0 format.
+        version = next(key for key, value in schema_registry._version_to_id.items() if
+            value == schema_id)
+
+        # Topic for TopicNameStrategy-compatible schema
+        topic_subject = f"lsst-alerts-v{version}-value"
+        url = f"{registry_url}/subjects/{topic_subject}/versions"
+        print(f"uploading schema to {url}")
+        print(f"Confluent Version is  {str(schema_id)}")
+
+        # Since the schema is identical, the registry should reuse the ID automatically.
+        payload_with_metadata = {
+            "schema": normalized_schema,
+            "metadata": {
+                "properties": {
+                    "confluent:version": str(schema_id)
+                }
+            },
+        }
+        try:
+            json.dumps(payload_with_metadata)
+            print("JSON encoding OK")
+        except Exception as e:
+            print("JSON encoding FAILED:", e)
+
+        mode_resp = requests.get(f"{registry_url}/mode")
+        print("Registry mode:", mode_resp.text)
+
+        config_resp = requests.get(f"{registry_url}/config")
+        print("Compatibility:", config_resp.text)
+
+        response = requests.post(url=url, json=payload_with_metadata, headers=headers)
+        if not response.ok:
+            print("ERROR: Registry rejected request")
+
 
 def clear_schema_registry_for_import(registry_url, subject):
     """Delete schemas in the registry and then remake it in import mode"""
     # Define the URLs
     url_mode = f"{registry_url}/mode/{subject}"
-    url_schemas = f"{registry_url}/subjects/{subject}"
-    url_schema_versions = f"{registry_url}/subjects/{subject}/versions"
-    response = requests.get(url_schema_versions)
 
-    # Schema registry must be empty to put it in import mode. If it exists,
-    # remove it and remake the schema. If not, continue.
+    # Get all subjects
+    url_subjects = f"{registry_url}/subjects"
+    response = requests.get(url_subjects)
+
     if response.status_code == 200:
-        print('The schema will be deleted and remade in import mode.')
-        response = requests.delete(url_schemas)
-        print('Status Code:', response.status_code)
-        print('Response Text:', response.text)
+        print('All schemas will be deleted to prepare for import mode.')
+        for subj in response.json():
+            print(f'Deleting schema subject: {subj}')
+            url_subj = f"{registry_url}/subjects/{subj}"
+            # Ignore 404s if already deleted
+            requests.delete(url_subj)
+            # Hard delete to ensure it's gone for IMPORT mode otherwise
+            # it can error
+            requests.delete(url_subj, params={"permanent": "true"})
     else:
         print('The schema does not exist. Creating in import mode.')
 
@@ -120,6 +160,28 @@ def close_schema_registry(registry_url, subject):
     print(f'Response Text: {response.text}')
 
 
+def check_metadata(registry_url, subject, version):
+    """Check if the metadata is correctly stored in the schema registry."""
+    topic_subject = f"lsst-alerts-v{version}-value"
+    # Check latest version, there should only be one.
+    url = f"{registry_url}/subjects/{topic_subject}/versions/latest"
+    
+    print(f"Checking metadata at {url}")
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        data = response.json()
+        print(json.dumps(data.get('metadata'), indent=2))
+        
+        metadata = data.get('metadata')
+        if metadata and 'properties' in metadata and 'confluent:version' in metadata['properties']:
+             print(f"SUCCESS: Found confluent:version = {metadata['properties']['confluent:version']}")
+        else:
+             print("FAILURE: Metadata or confluent:version not found.")
+    else:
+        print(f"Failed to fetch schema: {response.status_code} {response.text}")
+
+
 def main():
     args = parse_args()
     clear_schema_registry_for_import(args.schema_registry_url, args.subject)
@@ -130,6 +192,13 @@ def main():
         schema_registry=schema_registry
     )
     close_schema_registry(args.schema_registry_url, args.subject)
+
+    # Pick one version to check, e.g., the last one processed or a known one.
+    # For simplicity, let's check one if we have any schemas.
+    if schema_registry.known_versions:
+        # Just pick an arbitrary version to check
+        test_version = list(schema_registry.known_versions)[0] 
+        check_metadata(args.schema_registry_url, args.subject, test_version)
 
 
 if __name__ == "__main__":
