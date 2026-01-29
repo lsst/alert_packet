@@ -144,6 +144,9 @@ def create_schema(name, field_dictionary_list, version):
     })
 
     schema['namespace'] = 'lsst.v' + version
+    major, minor = version.split('_')
+    schema['confluent:version'] = int(major + minor.zfill(2))
+
     fastavro_keys = list(schema.keys())
     for key in fastavro_keys:
         if '__' in key and '__len__' not in key:
