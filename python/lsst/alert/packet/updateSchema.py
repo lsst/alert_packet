@@ -22,8 +22,9 @@
 import argparse
 import os
 import fastavro
-import yaml
 import json
+
+from lsst.pipe.tasks.schemaUtils import readSdmSchemaFile
 
 
 __all__ = ['generate_schema']
@@ -183,14 +184,11 @@ def generate_schema(apdb_filepath, schema_path, schema_version, table_names=DEFA
 
     path = os.path.join(schema_path, *schema_version.split("."))
 
-    with open(apdb_filepath, 'r') as file:
-        apdb = yaml.safe_load(file)
-
     version_name = schema_version.split(".")[0] + "_" + schema_version.split(".")[1]
 
-    apdb_map = {table['name']: table for table in apdb['tables']}
     for name in table_names:
-        table = apdb_map[name]
+        schemaFile = os.path.join(apdb_filepath, name)
+        table = readSdmSchemaFile(schemaFile)
         field_dictionary = populate_fields(table)
         schema = create_schema(name, field_dictionary, version_name)
         write_schema(schema, path)
