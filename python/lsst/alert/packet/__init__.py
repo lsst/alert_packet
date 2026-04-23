@@ -23,4 +23,12 @@ from .io import *
 from .schema import *
 from .schemaRegistry import *
 from .simulate import *
-from .updateSchema import *
+
+# updateSchema.py is optional and only needed for updating the schema version
+# independently.
+try:
+    from .updateSchema import *
+except ModuleNotFoundError:
+    # During github testing lsst.pipe is not installed, so updateSchema
+    # needs to be optional.
+    pass
