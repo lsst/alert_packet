@@ -32,6 +32,37 @@ __all__ = ['generate_schema']
 DEFAULT_ALERT_TABLES = ['DiaForcedSource', 'DiaObject', 'DiaSource', 'SSSource', 'SSObject', 'mpc_orbits']
 
 
+def _felis_column_to_dict(col):
+    """Convert a felis.datamodel.Column to the dict shape expected by populate_fields()."""
+    d = {}
+
+    d["name"] = getattr(col, "name")
+
+    d["datatype"] = str(getattr(col, "datatype"))
+
+    # Check for optional keys
+    if hasattr(col, "nullable"):
+        d["nullable"] = getattr(col, "nullable")
+    if hasattr(col, "description") and getattr(col, "description") is not None:
+        d["description"] = getattr(col, "description")
+
+    if hasattr(col, "fits_tunit"):
+        d["fits:tunit"] = getattr(col, "fits_tunit")
+    elif hasattr(col, "fits") and getattr(col, "fits") is not None and hasattr(getattr(col, "fits"), "tunit"):
+        d["fits:tunit"] = getattr(getattr(col, "fits"), "tunit")
+
+    return d
+
+
+def _felis_table_to_dict(table):
+    """Convert a felis.datamodel.Table to the dict shape expected by populate_fields()."""
+    cols = getattr(table, "columns", None)
+    if cols is None:
+        raise TypeError(f"{type(table).__name__} has no columns. Can't convert to dict format.")
+
+    return {"columns": [_felis_column_to_dict(c) for c in cols]}
+
+
 def write_schema(schema, path):
 
     if not os.path.exists(path):
@@ -68,6 +99,7 @@ def populate_fields(apdb_table):
     """
 
     field_dictionary_array = []
+
     for column in apdb_table['columns']:
 
         # exclude fields used only for updates after PP runs
@@ -183,13 +215,14 @@ def generate_schema(apdb_filepath, schema_path, schema_version, table_names=DEFA
     """
 
     path = os.path.join(schema_path, *schema_version.split("."))
-
     version_name = schema_version.split(".")[0] + "_" + schema_version.split(".")[1]
 
+    apdb_map = readSdmSchemaFile(apdb_filepath)
+
     for name in table_names:
-        schemaFile = os.path.join(apdb_filepath, name)
-        table = readSdmSchemaFile(schemaFile)
-        field_dictionary = populate_fields(table)
+        table = apdb_map[name]
+        table_dict = _felis_table_to_dict(table)
+        field_dictionary = populate_fields(table_dict)
         schema = create_schema(name, field_dictionary, version_name)
         write_schema(schema, path)
 
