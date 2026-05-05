@@ -53,7 +53,7 @@ packages = [
 
 [tool.ruff]
 line-length = 110
-target-version = "py311"
+target-version = "py312"
 exclude = [
     "__init__.py",
     "analysis",
