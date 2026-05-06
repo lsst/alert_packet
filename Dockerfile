@@ -8,11 +8,10 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 # Put the latest pip and setuptools in the virtualenv
 RUN pip install --upgrade --no-cache-dir pip setuptools wheel
 
-COPY . /app
-WORKDIR /app
+COPY dist/ /dist/
 
-# Install package
-RUN pip install --no-cache-dir .
+# Install pre-built wheel (avoids needing git at build time)
+RUN pip install --no-cache-dir /dist/*.whl
 
 ENTRYPOINT ["sh", "-c"]
 CMD "syncAllSchemasToRegistry.py --help"
