@@ -27,6 +27,8 @@ import numpy
 
 __all__ = ["simulate_alert"]
 
+global _schemas # schema cache for use during alert simulation
+_schemas = {}
 
 def randomNull():
     """Provide a random value of the Avro `null` type.
@@ -132,6 +134,11 @@ def simulate_alert(schema, keepNull=None, arrayCount=None):
 
     if arrayCount is None:
         arrayCount = {}
+    else:
+        # cache the schemas we need to satisfy the arrayCount argument
+        if schema["name"].endswith("alert"):
+            # we are at the top level of the schema and not in a recursive call
+            _schemas['diaSource'] = schema['fields'][3]
 
     if type(schema['type']) is list:
         # potentially nullable
@@ -151,9 +158,14 @@ def simulate_alert(schema, keepNull=None, arrayCount=None):
         if schema['type']['type'] == 'array':
             if schema['name'] in arrayCount:
                 output_array = []
+                # infer the schema name (e.g. map prvDiaSources -> diaSource, etc.)
+                arr_schema = schema['name'].split('prv')[1][0].lower() + schema['name'].split('prv')[1][1:-1]
                 for i in range(arrayCount[schema['name']]):
-                    output_array.append(simulate_alert(
-                        schema['type']['items'], keepNull=keepNull, arrayCount=arrayCount))
+                    output_array.append(
+                        simulate_alert(
+                            _schemas[arr_schema], keepNull=keepNull, arrayCount=arrayCount
+                        )
+                    )
                 return {schema['name']: output_array}
             else:
                 return {schema['name']: None}
@@ -163,8 +175,9 @@ def simulate_alert(schema, keepNull=None, arrayCount=None):
             return output
         else:
             # a nested type
-            output.update({schema['name']: simulate_alert(
-                schema['type'], keepNull=keepNull, arrayCount=arrayCount)})
+            output.update({
+                schema["name"]: simulate_alert(schema["type"], keepNull=keepNull, arrayCount=arrayCount)
+            })
             return output
 
     if schema['type'] == 'record':
