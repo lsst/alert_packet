@@ -27,6 +27,8 @@ import numpy
 
 __all__ = ["simulate_alert"]
 
+global _schemas # schema cache for use during alert simulation
+_schemas = {}
 
 def randomNull():
     """Provide a random value of the Avro `null` type.
@@ -73,12 +75,12 @@ def randomString():
                    for _ in range(random.randint(0, 10)))
 
 
-def randomBytes(max_bytes=1000):
+def randomBytes(min_bytes=1000, max_bytes=32000):
     """Provide a random value of the Avro `bytes` type.
 
     Up to `max_bytes` bytes are returned.
     """
-    return numpy.random.bytes(random.randint(0, max_bytes))
+    return numpy.random.bytes(random.randint(min_bytes, max_bytes))
 
 
 randomizerFunctionsByType = {
@@ -132,24 +134,38 @@ def simulate_alert(schema, keepNull=None, arrayCount=None):
 
     if arrayCount is None:
         arrayCount = {}
+    else:
+        # cache the schemas we need to satisfy the arrayCount argument
+        if schema["name"].endswith("alert"):
+            # we are at the top level of the schema and not in a recursive call
+            _schemas['diaSource'] = schema['fields'][3]
 
     if type(schema['type']) is list:
         # potentially nullable
         if ('null' in schema['type']) and (schema['name'] in keepNull):
             return {schema['name']: None}
         else:
-            # inferring the type like this this is not general but works
-            # for our application
-            schema['type'] = schema['type'][0]
+            if 'null' not in schema['type']:
+                schema['type'] = schema['type'][0]
+            elif 'null' in schema['type']: # pick the non-null type by default
+                idxs = list(range(0, len(schema['type'])))
+                idxs.pop(schema['type'].index('null'))
+                schema['type'] = schema['type'][idxs[0]]
+
 
     if type(schema['type']) is dict:
         # either an array, a record, or a nested type
         if schema['type']['type'] == 'array':
             if schema['name'] in arrayCount:
                 output_array = []
+                # infer the schema name (e.g. map prvDiaSources -> diaSource, etc.)
+                arr_schema = schema['name'].split('prv')[1][0].lower() + schema['name'].split('prv')[1][1:-1]
                 for i in range(arrayCount[schema['name']]):
-                    output_array.append(simulate_alert(
-                        schema['type']['items'], keepNull=keepNull, arrayCount=arrayCount))
+                    output_array.append(
+                        simulate_alert(
+                            _schemas[arr_schema], keepNull=keepNull, arrayCount=arrayCount
+                        )
+                    )
                 return {schema['name']: output_array}
             else:
                 return {schema['name']: None}
@@ -159,8 +175,9 @@ def simulate_alert(schema, keepNull=None, arrayCount=None):
             return output
         else:
             # a nested type
-            output.update({schema['name']: simulate_alert(
-                schema['type'], keepNull=keepNull, arrayCount=arrayCount)})
+            output.update({
+                schema["name"]: simulate_alert(schema["type"], keepNull=keepNull, arrayCount=arrayCount)
+            })
             return output
 
     if schema['type'] == 'record':
