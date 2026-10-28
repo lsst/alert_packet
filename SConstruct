@@ -1,3 +1,3 @@
 # -*- python -*-
 from lsst.sconsUtils import scripts
-scripts.BasicSConstruct("alert_packet", disableCc=True)
+scripts.BasicSConstruct("alert_packet", disableCc=True, noCfgFile=True)
