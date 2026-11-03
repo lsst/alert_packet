@@ -201,7 +201,7 @@
       ]
     },
     {
-      "doc": "A1 non-grav components [m^2/ton]",
+      "doc": "A1 non-grav components [10^(-10)*au/day^2]",
       "default": null,
       "name": "a1",
       "type": [
@@ -210,7 +210,7 @@
       ]
     },
     {
-      "doc": "A2 non-grav components [m^2/ton]",
+      "doc": "A2 non-grav components [10^(-10)*au/day^2]",
       "default": null,
       "name": "a2",
       "type": [
@@ -219,7 +219,7 @@
       ]
     },
     {
-      "doc": "A3 non-grav components [m^2/ton]",
+      "doc": "A3 non-grav components [10^(-10)*au/day^2]",
       "default": null,
       "name": "a3",
       "type": [
@@ -345,7 +345,7 @@
       ]
     },
     {
-      "doc": "Uncertainty on A1 non-grav components [m^2/ton]",
+      "doc": "Uncertainty on A1 non-grav components [10^(-10)*au/day^2]",
       "default": null,
       "name": "a1_unc",
       "type": [
@@ -354,7 +354,7 @@
       ]
     },
     {
-      "doc": "Uncertainty on A2 non-grav components [m^2/ton]",
+      "doc": "Uncertainty on A2 non-grav components [10^(-10)*au/day^2]",
       "default": null,
       "name": "a2_unc",
       "type": [
@@ -363,7 +363,7 @@
       ]
     },
     {
-      "doc": "Uncertainty on A3 non-grav components [m^2/ton]",
+      "doc": "Uncertainty on A3 non-grav components [10^(-10)*au/day^2]",
       "default": null,
       "name": "a3_unc",
       "type": [
