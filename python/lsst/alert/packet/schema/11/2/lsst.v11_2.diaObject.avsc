@@ -693,7 +693,7 @@
       ]
     },
     {
-      "doc": "Total number of DiaSources associated with this DiaObject.",
+      "doc": "Number of DiaSources associated with this DiaObject within the last 12 months.",
       "name": "nDiaSources",
       "type": "int"
     }
