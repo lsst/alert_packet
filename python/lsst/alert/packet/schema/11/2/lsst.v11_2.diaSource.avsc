@@ -906,31 +906,19 @@
       ]
     },
     {
-      "default": null,
       "doc": "Name of the instrument whose observations were coadded to make the template, or UNKNOWN if it is not known.",
       "name": "templateInstrument",
-      "type": [
-        "null",
-        "string"
-      ]
+      "type": "string"
     },
     {
-      "default": null,
       "doc": "Version of the template. It is 1 if the template is from a different instrument than the diaSource, and 0 otherwise.",
       "name": "templateVersion",
-      "type": [
-        "null",
-        "int"
-      ]
+      "type": "int"
     },
     {
-      "default": null,
       "doc": "Set if the template instrument is known and differs from the instrument that observed the diaSource.",
       "name": "mixedInstruments",
-      "type": [
-        "null",
-        "boolean"
-      ]
+      "type": "boolean"
     }
   ],
   "confluent:version": 1102

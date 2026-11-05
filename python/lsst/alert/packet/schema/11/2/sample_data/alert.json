@@ -63,7 +63,10 @@
 		"psfFluxErr": 12.0,
         "psfNdata": 25,
         "dipoleNdata": 43,
-        "bboxSize": 50
+        "bboxSize": 50,
+        "templateInstrument": "LSSTComCam",
+        "templateVersion": 1,
+        "mixedInstruments": true
 	},
 	{
 		"diaSourceId": 281323062375219199,
@@ -91,7 +94,10 @@
 		"psfFluxErr": 12.0,
         "psfNdata": 25,
         "dipoleNdata": 43,
-        "bboxSize": 50
+        "bboxSize": 50,
+        "templateInstrument": "LSSTComCam",
+        "templateVersion": 1,
+        "mixedInstruments": true
 	}
 	],
 	"diaObject": {
