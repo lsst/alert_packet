@@ -75,10 +75,14 @@ the alert stream. The new docker image is present at `lsstdm/lsst_alert_packet <
 The image will appear with the same tag as the ticket branch you created to update ``alert_packet``.
 
     * Go to ``alert-stream-schema-registry`` in the ``alert-stream-broker`` charts folder in the ``phalanx`` github repository.
-    * In the `values.yaml <https://github.com/lsst-sqre/phalanx/blob/main/applications/alert-stream-broker/charts/alert-stream-schema-registry/values.yaml>`_ file,
-      update the `tag` in `schemaSync` to match the docker image tag. If the image is not updating in argo, use the image digest to force an update.
+    * In the `values-usdfdev-prompt-processing.yaml <https://github.com/lsst-sqre/phalanx/blob/main/applications/sasquatch/values-usdfdev-prompt-processing.yaml#L125>`_ file,
+      update the `tag` in `schemaSync` to match the docker image tag. If the image is not updating in argo, use the image digest to force an update. The image digest is the exact, immutable identifier for a specific image and is under the Tag label on the Docker site.
     * If you have access to ``argocd``, click ``sync`` at the top. A full sync is needed to load the registry with the schemas. If the application will not sync, a full restart may be required of the `alert-stream` application.
     * If you do not have access, alert whoever is in charge of the ``alert-stream`` so that they can sync the registry.
+    * Once the sync job is complete, confirm the new schema is present in the registry. This can be done by viewing the schema
+      registry through the `dev Kafbat Schema Registry <https://usdfdev-prompt-processing.slac.stanford.edu/kafbat/ui/clusters/sasquatch/schemas?fts=false>`_.
+    * One you have confirmed the schema loaded successfully go and change the tag in the `values-usdfprod-prompt-processing.yaml <https://github.com/lsst-sqre/phalanx/blob/main/applications/sasquatch/values-usdfprod-prompt-processing.yaml#L118>`_ file
+      and repeat the previous steps. Check that the schema has loaded in successfully on the `prod Kafbat Schema Registry <https://usdfprod-prompt-processing.slac.stanford.edu/kafbat/ui/clusters/sasquatch/schemas?fts=false>`_.
 
 More thorough instructions for updating the schema registry can be found in `DMTN-214 <https://dmtn-214.lsst.io/#updating-the-alert-schema>`
 
